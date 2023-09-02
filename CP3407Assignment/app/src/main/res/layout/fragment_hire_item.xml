@@ -113,8 +113,8 @@
             android:id="@+id/images_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/images"
             android:layout_marginTop="20dp"
+            android:text="@string/images"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phone_checkbox" />
@@ -126,6 +126,29 @@
             android:text="@string/image_upload_description"
             app:layout_constraintStart_toStartOf="@+id/phone_checkbox"
             app:layout_constraintTop_toTopOf="@+id/images_label" />
+
+        <ImageView
+            android:id="@+id/image_one"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="@+id/images_rule_label"
+            app:layout_constraintTop_toBottomOf="@+id/images_label" />
+
+        <ImageView
+            android:id="@+id/image_two"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toEndOf="@+id/image_one"
+            app:layout_constraintTop_toTopOf="@+id/image_one" />
+
+        <ImageView
+            android:id="@+id/image_three"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toEndOf="@+id/images_rule_label"
+            app:layout_constraintStart_toEndOf="@+id/image_two"
+            app:layout_constraintTop_toTopOf="@+id/image_two" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
