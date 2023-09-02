@@ -1,13 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.HireItem">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <data>
 
-</FrameLayout>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/list_to_hire_constraint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        tools:context=".ui.HireItem">
+
+        <TextView
+            android:id="@+id/label_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/item_name"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:autofillHints="Name"
+            android:hint="@string/name"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/label_name"
+            app:layout_constraintTop_toTopOf="@+id/label_name" />
+
+        <TextView
+            android:id="@+id/label_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/description"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name" />
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:autofillHints="Name"
+            android:hint="@string/description_hint"
+            android:inputType="text"
+            android:maxLength="200"
+            app:layout_constraintStart_toStartOf="@+id/name"
+            app:layout_constraintTop_toTopOf="@+id/label_description" />
+
+        <TextView
+            android:id="@+id/dates_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/hire_dates"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description" />
+
+        <Button
+            android:id="@+id/start_date_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start_date"
+            app:layout_constraintStart_toStartOf="@+id/description"
+            app:layout_constraintTop_toTopOf="@+id/dates_label" />
+
+        <Button
+            android:id="@+id/end_date_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/end_date"
+            app:layout_constraintEnd_toEndOf="@+id/description"
+            app:layout_constraintTop_toTopOf="@+id/start_date_button" />
+
+        <TextView
+            android:id="@+id/contact_options"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/contact_type"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/start_date_button" />
+
+        <CheckBox
+            android:id="@+id/phone_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/phone"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/start_date_button"
+            app:layout_constraintTop_toTopOf="@+id/contact_options" />
+
+        <CheckBox
+            android:id="@+id/email_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/email"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/description"
+            app:layout_constraintTop_toTopOf="@+id/phone_checkbox" />
+
+        <TextView
+            android:id="@+id/images_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/images"
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phone_checkbox" />
+
+        <TextView
+            android:id="@+id/images_rule_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/image_upload_description"
+            app:layout_constraintStart_toStartOf="@+id/phone_checkbox"
+            app:layout_constraintTop_toTopOf="@+id/images_label" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
