@@ -15,13 +15,23 @@
         tools:context=".ui.HireItem">
 
         <TextView
+            android:id="@+id/list_item_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/list_item_title"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/label_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="@string/item_name"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/list_item_label" />
 
         <EditText
             android:id="@+id/name"
@@ -124,30 +134,56 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/image_upload_description"
+            app:layout_constraintBottom_toBottomOf="@+id/images_label"
             app:layout_constraintStart_toStartOf="@+id/phone_checkbox"
             app:layout_constraintTop_toTopOf="@+id/images_label" />
+
+        <Button
+            android:id="@+id/upload_image_button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/upload"
+            app:layout_constraintEnd_toEndOf="@+id/images_rule_label"
+            app:layout_constraintStart_toStartOf="@+id/images_rule_label"
+            app:layout_constraintTop_toBottomOf="@+id/images_rule_label" />
 
         <ImageView
             android:id="@+id/image_one"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            app:layout_constraintStart_toStartOf="@+id/images_rule_label"
-            app:layout_constraintTop_toBottomOf="@+id/images_label" />
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/image_one"
+            app:layout_constraintStart_toStartOf="@+id/upload_image_button"
+            app:layout_constraintTop_toBottomOf="@+id/upload_image_button" />
 
         <ImageView
             android:id="@+id/image_two"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:contentDescription="@string/image_two"
+            app:layout_constraintEnd_toStartOf="@+id/image_three"
             app:layout_constraintStart_toEndOf="@+id/image_one"
             app:layout_constraintTop_toTopOf="@+id/image_one" />
+
 
         <ImageView
             android:id="@+id/image_three"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            app:layout_constraintEnd_toEndOf="@+id/images_rule_label"
-            app:layout_constraintStart_toEndOf="@+id/image_two"
-            app:layout_constraintTop_toTopOf="@+id/image_two" />
+            android:contentDescription="@string/image_three"
+            app:layout_constraintEnd_toEndOf="@+id/upload_image_button"
+            app:layout_constraintTop_toTopOf="@+id/image_one" />
+
+        <Button
+            android:id="@+id/list_item_button"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/list_item_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_one" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

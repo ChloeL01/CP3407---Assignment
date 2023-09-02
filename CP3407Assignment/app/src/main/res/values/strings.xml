@@ -15,4 +15,10 @@
     <string name="email">Email</string>
     <string name="images">Images</string>
     <string name="image_upload_description">Upload up to 3 images of item.</string>
+    <string name="image_one">image_one</string>
+    <string name="image_two">image_two</string>
+    <string name="image_three">image_three</string>
+    <string name="list_item_button">List item</string>
+    <string name="upload">Upload</string>
+    <string name="list_item_title">List Item</string>
 </resources>
