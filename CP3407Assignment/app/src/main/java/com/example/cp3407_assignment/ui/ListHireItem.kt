@@ -1,6 +1,5 @@
 package com.example.cp3407_assignment.ui
 
-import android.app.DatePickerDialog
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.view.KeyEvent
@@ -16,9 +15,8 @@ import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentHireItemBinding
 import kotlinx.coroutines.launch
 
-class HireItem : Fragment() {
+class ListHireItem : Fragment() {
 
-    private val viewModel: HireItemViewModel by viewModels()
     private lateinit var binding: FragmentHireItemBinding
 
 
@@ -48,14 +46,29 @@ class HireItem : Fragment() {
         binding.description.setOnKeyListener { view, keyCode, _ ->
             handleKeyEvent(view, keyCode)
         }
+
+//        binding.startDate.setOnClickListener {
+//            // Create instance of DatePickerFragment
+//            val datePickerFragment = DatePickerFragment()
+//            val supportFragmentManager = requireActivity().supportFragmentManager
+//
+//             Move to Actual Hire of doggo
+//            supportFragmentManager.setFragmentResultListener(
+//                "REQUEST_KEY",
+//                viewLifecycleOwner
+//            ) { resultKey, bundle ->
+//                if (resultKey == "REQUEST_KEY") {
+//                    val date = bundle.getString("SELECTED_DATE")
+//                }
+//            }
+//        }
+
         binding.listDogButton.setOnClickListener {
             lifecycleScope.launch {
                 val dogName = binding.name.toString()
                 val dogDesc = binding.description.toString()
 
                 // TODO
-                // Save start date
-                // Save end date
                 // Contact check boxes
                 // Save images ??
 
