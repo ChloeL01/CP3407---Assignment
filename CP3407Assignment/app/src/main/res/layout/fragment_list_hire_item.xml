@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="listItemViewModel"
+            type="com.example.cp3407_assignment.ui.list_hire_item.ListHireItemViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,26 +14,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="20dp"
-        tools:context=".ui.ListHireItem">
+        tools:context=".ui.list_hire_item.ListHireItem">
 
-        <TextView
-            android:id="@+id/list_item_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/list_item_title"
-            android:textSize="30sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/label_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:text="@string/item_name"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/list_item_label" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/name"
@@ -140,7 +133,6 @@
             app:layout_constraintStart_toEndOf="@+id/image_one"
             app:layout_constraintTop_toTopOf="@+id/image_one" />
 
-
         <ImageView
             android:id="@+id/image_three"
             android:layout_width="50dp"
@@ -160,5 +152,4 @@
             app:layout_constraintTop_toBottomOf="@+id/image_one" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

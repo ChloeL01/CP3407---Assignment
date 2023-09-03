@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -33,6 +35,14 @@ class HomeFragment : Fragment() {
             textView.text = it
         }
         return root
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        _binding?.testButton?.setOnClickListener {view: View ->
+            view.findNavController().navigate(R.id.action_navigation_home_to_listHireItem)
+        }
     }
 
     override fun onDestroyView() {
