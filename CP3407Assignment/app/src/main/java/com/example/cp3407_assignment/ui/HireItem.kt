@@ -1,5 +1,6 @@
 package com.example.cp3407_assignment.ui
 
+import android.app.DatePickerDialog
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.view.KeyEvent
@@ -10,11 +11,10 @@ import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.lifecycle.lifecycleScope
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentHireItemBinding
+import kotlinx.coroutines.launch
 
 class HireItem : Fragment() {
 
@@ -42,13 +42,25 @@ class HireItem : Fragment() {
         super.onResume()
         binding.lifecycleOwner = this
 
-        binding.name.setOnKeyListener{view, keyCode, _ ->
+        binding.name.setOnKeyListener { view, keyCode, _ ->
             handleKeyEvent(view, keyCode)
         }
-        binding.description.setOnKeyListener{view, keyCode, _ ->
+        binding.description.setOnKeyListener { view, keyCode, _ ->
             handleKeyEvent(view, keyCode)
         }
+        binding.listDogButton.setOnClickListener {
+            lifecycleScope.launch {
+                val dogName = binding.name.toString()
+                val dogDesc = binding.description.toString()
 
+                // TODO
+                // Save start date
+                // Save end date
+                // Contact check boxes
+                // Save images ??
+
+            }
+        }
     }
 
     private fun handleKeyEvent(view: View, keyCode: Int): Boolean {

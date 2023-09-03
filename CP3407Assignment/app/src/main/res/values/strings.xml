@@ -21,4 +21,6 @@
     <string name="list_item_button">List Dog</string>
     <string name="upload">Upload</string>
     <string name="list_item_title">List Dog</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
