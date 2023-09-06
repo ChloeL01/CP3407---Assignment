@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
         return root
     }
 
-
+    // For testing purposes
     override fun onResume() {
         super.onResume()
         _binding?.testButton?.setOnClickListener {view: View ->

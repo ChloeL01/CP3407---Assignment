@@ -1,7 +1,6 @@
 package com.example.cp3407_assignment.ui.list_hire_item
 
 import android.Manifest
-import android.app.DownloadManager.Request
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -20,16 +19,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.cp3407_assignment.R
-import com.example.cp3407_assignment.databinding.FragmentListHireItemBinding
-import com.google.android.material.snackbar.Snackbar
+import com.example.cp3407_assignment.databinding.FragmentHireOutDogBinding
 
-class ListHireItem : Fragment() {
+class HireOutDog : Fragment() {
 
     private lateinit var layout: View
-    private lateinit var binding: FragmentListHireItemBinding
+    private lateinit var binding: FragmentHireOutDogBinding
     private lateinit var requestPermission: ActivityResultLauncher<String>
-    private val listItemViewModel: ListHireItemViewModel by viewModels()
-
+    private val listItemViewModel: HireOutDogViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,9 +34,9 @@ class ListHireItem : Fragment() {
     ): View {
         //Inflate layout for fragment
         binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_list_hire_item, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.fragment_hire_out_dog, container, false)
 
-        binding.listItemViewModel = listItemViewModel
+//        binding.= = listItemViewModel
         layout = binding.listToHireConstraint
 
 //        Register permission callback which handles user's response to
@@ -52,7 +49,6 @@ class ListHireItem : Fragment() {
                     Log.i("Permission: ", "Denied")
                 }
             }
-
         return binding.root
     }
 

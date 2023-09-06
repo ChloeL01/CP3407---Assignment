@@ -3,8 +3,7 @@ package com.example.cp3407_assignment.ui.list_hire_item
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-
-class ListHireItemViewModel : ViewModel() {
+class HireOutDogViewModel : ViewModel() {
     private val _userName = MutableLiveData<String>()
     val userName: MutableLiveData<String>
         get() = _userName
@@ -16,4 +15,5 @@ class ListHireItemViewModel : ViewModel() {
     private val _description = MutableLiveData<String>()
     val description: MutableLiveData<String>
         get() = _description
+
 }

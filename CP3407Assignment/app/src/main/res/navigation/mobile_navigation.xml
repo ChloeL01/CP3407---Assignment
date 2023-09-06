@@ -28,6 +28,6 @@
         tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/listHireItem"
-        android:name="com.example.cp3407_assignment.ui.list_hire_item.ListHireItem"
+        android:name="com.example.cp3407_assignment.ui.list_hire_item.HireOutDog"
         android:label="Tell us more about your pooch!" />
 </navigation>

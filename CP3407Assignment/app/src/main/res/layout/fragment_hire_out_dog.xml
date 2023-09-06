@@ -6,7 +6,7 @@
     <data>
         <variable
             name="listItemViewModel"
-            type="com.example.cp3407_assignment.ui.list_hire_item.ListHireItemViewModel" />
+            type="com.example.cp3407_assignment.ui.list_hire_item.HireOutDogViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="20dp"
-        tools:context=".ui.list_hire_item.ListHireItem">
-
+        tools:context=".ui.list_hire_item.HireOutDog">
 
         <TextView
             android:id="@+id/label_name"
