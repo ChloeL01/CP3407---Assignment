@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "860397579667",
+    "project_id": "cp3407-assignment",
+    "storage_bucket": "cp3407-assignment.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:860397579667:android:70743ab32a6ace48620c66",
+        "android_client_info": {
+          "package_name": "com.example.cp3407_assignment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "860397579667-f9qcvobee9tstg9pv63lna07emo35062.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAax0RM1S2-FcnkCEzXUmHwyCN76xgugLY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "860397579667-f9qcvobee9tstg9pv63lna07emo35062.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
