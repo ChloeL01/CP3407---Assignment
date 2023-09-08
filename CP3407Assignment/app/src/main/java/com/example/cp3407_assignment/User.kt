@@ -7,7 +7,7 @@ data class User(
     val dogs: MutableList<String> = mutableListOf()
 
 ) { // need an empty constructor for firestore to work
-    constructor() : this("","", mutableListOf())
+    constructor() : this("", "", mutableListOf())
 }
 
 
