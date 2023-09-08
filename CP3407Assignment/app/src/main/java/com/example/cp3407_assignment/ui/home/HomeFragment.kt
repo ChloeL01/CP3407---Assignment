@@ -9,10 +9,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.cp3407_assignment.User
 import com.example.cp3407_assignment.databinding.FragmentHomeBinding
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 
@@ -27,6 +29,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var analytics: FirebaseAnalytics
     private val db = Firebase.firestore
+    private val myRef = db.document("Users/My First User")
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -57,6 +60,31 @@ class HomeFragment : Fragment() {
         return root
     }
 
+    override fun onStart() {
+        super.onStart()
+        // automatically updates
+        myRef.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Toast.makeText(context, "Error while loading!", Toast.LENGTH_SHORT).show();
+                Log.w(TAG, "Listen failed.", e)
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null && snapshot.exists()) {
+                val user = snapshot.toObject<User>()
+                val username = user?.username
+                val password = user?.password
+
+                binding.textHome.text = "Title: $username\nDescription: $password"
+                Log.d(TAG, "Current data: ${snapshot.data}")
+
+            } else {
+                binding.textHome.text = ""
+                Log.d(TAG, "Current data: null")
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         analytics = Firebase.analytics
@@ -71,9 +99,9 @@ class HomeFragment : Fragment() {
     private fun saveUser() {
         val username: String = binding.editTextUser.text.toString()
         val password: String = binding.editTextPassword.text.toString()
-        val user: MutableMap<String, Any> = HashMap()
-        user[KEY_USER] = username
-        user[KEY_PASSWORD] = password
+
+        val user = User(username, password)
+
         db.collection("Users").document("My First User").set(user)
             .addOnSuccessListener {
                 Toast.makeText(
@@ -92,8 +120,9 @@ class HomeFragment : Fragment() {
         db.collection("Users").document("My First User").get()
             .addOnSuccessListener { documentSnapshot ->
                 if (documentSnapshot.exists()) {
-                    val username = documentSnapshot.getString(KEY_USER)
-                    val password = documentSnapshot.getString(KEY_PASSWORD)
+                    val user = documentSnapshot.toObject<User>()
+                    val username = user?.username
+                    val password = user?.password
 
                     binding.textHome.text = "Title: $username\nDescription: $password"
                 } else {
@@ -105,5 +134,14 @@ class HomeFragment : Fragment() {
                 Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
                 Log.d(TAG, e.toString())
             }
+    }
+
+    private fun updateUser() {
+        val password = binding.editTextPassword.text.toString()
+        myRef.update(KEY_PASSWORD, password)
+    }
+
+    private fun deleteUser() {
+        myRef.delete()
     }
 }
