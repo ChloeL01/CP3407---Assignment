@@ -16,4 +16,8 @@ class HireOutDogViewModel : ViewModel() {
     val description: MutableLiveData<String>
         get() = _description
 
+    private val _cost = MutableLiveData<Double>()
+    val cost: MutableLiveData<Double>
+        get() = _cost
+
 }

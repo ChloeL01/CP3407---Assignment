@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -17,11 +18,14 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavAction
+import androidx.navigation.NavController
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentHireOutDogBinding
 
@@ -37,6 +41,7 @@ class HireOutDog : Fragment() {
     private var selectedBreed: String? = null
     private val uris: MutableList<Uri> = mutableListOf()
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,6 +52,8 @@ class HireOutDog : Fragment() {
 
         binding.dogHireViewModel = listDogViewModel
         layout = binding.listToHireConstraint
+
+
 
         // Register permission callback which handles user's response to system permission dialog. Saves the return value.
         requestPermission =
@@ -82,6 +89,7 @@ class HireOutDog : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @Override
     override fun onResume() {
         super.onResume()
@@ -98,7 +106,6 @@ class HireOutDog : Fragment() {
         binding.uploadImageButton.setOnClickListener {
             onClickRequestPermission()
             pickMultipleVisualMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-
         }
 
         // Save listing information
@@ -110,6 +117,7 @@ class HireOutDog : Fragment() {
     /**
      * Permissions to access camera and/or gallery
      */
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun onClickRequestPermission() {
         when {
             ContextCompat.checkSelfPermission(
@@ -136,10 +144,9 @@ class HireOutDog : Fragment() {
             }
             else -> {
                 requestPermission.launch(
-                    Manifest.permission.CAMERA
+                    Manifest.permission.READ_MEDIA_IMAGES
                 )
             }
-
         }
     }
 
@@ -147,15 +154,12 @@ class HireOutDog : Fragment() {
      * Save the changes that will be sent to the database to list a dog to be available for hire
      */
     private fun onSubmitListing() {
-        // TODO Just code items for now
-        // Save images ??
-        // Save to database
-        // Need to track current user who is logged in
+        if (listDogViewModel.dogName.value == null || listDogViewModel.description.value == null || listDogViewModel.cost.value == 0.0){
+           Toast.makeText(context, "Fields cannot be blank", Toast.LENGTH_LONG).show() // This can be implemented better when with Material components. Later job :)
+        }
 
         listDogViewModel.dogName.value = binding.name.toString()
-
         listDogViewModel.description.value = binding.description.toString()
-
         selectedBreed = binding.breedSpinner.onItemSelectedListener.toString()
 
         // Checking contact type selected
@@ -171,11 +175,13 @@ class HireOutDog : Fragment() {
         }
 
         //TODO: Need to implement into database
-//        User name
-//        Description
-//        Contact type
-//        Images
+//        TODO: User name
+//        TODO: Description
+//        TODO: Contact type
+//        TODO: Images - no clue on how to do that yet....
     }
+
+
 
     private fun handleKeyEvent(view: View, keyCode: Int): Boolean {
         if (keyCode == KeyEvent.KEYCODE_ENTER) {
@@ -196,5 +202,7 @@ class HireOutDog : Fragment() {
     @Override
     override fun onDestroy() {
         super.onDestroy()
+        requestPermission.unregister()
+        pickMultipleVisualMedia.unregister()
     }
 }
