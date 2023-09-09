@@ -3,6 +3,7 @@ package com.example.cp3407_assignment.ui.list_hire_item
 import android.Manifest
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -27,8 +29,13 @@ class HireOutDog : Fragment() {
 
     private lateinit var layout: View
     private lateinit var binding: FragmentHireOutDogBinding
-    private lateinit var requestPermission: ActivityResultLauncher<String>
     private val listDogViewModel: HireOutDogViewModel by viewModels()
+
+    private lateinit var requestPermission: ActivityResultLauncher<String>
+    private lateinit var pickMultipleVisualMedia: ActivityResultLauncher<PickVisualMediaRequest>
+
+    private var selectedBreed: String? = null
+    private val uris: MutableList<Uri> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,14 +48,23 @@ class HireOutDog : Fragment() {
         binding.dogHireViewModel = listDogViewModel
         layout = binding.listToHireConstraint
 
-        // Register permission callback which handles user's response to
-        // system permission dialog. Saves the return value.
+        // Register permission callback which handles user's response to system permission dialog. Saves the return value.
         requestPermission =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
                 if (isGranted) {
                     Log.i("Permission: ", "Granted")
                 } else {
                     Log.i("Permission: ", "Denied")
+                }
+            }
+
+        pickMultipleVisualMedia =
+            registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(3)) {
+                if (uris.isNotEmpty()) {
+                    Log.d("PhotoPicker", "Number of items selected: ${uris.size}")
+
+                } else {
+                    Log.d("PhotoPicker", "No media selected")
                 }
             }
 
@@ -81,15 +97,19 @@ class HireOutDog : Fragment() {
 
         binding.uploadImageButton.setOnClickListener {
             onClickRequestPermission()
+            pickMultipleVisualMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+
         }
 
         // Save listing information
         binding.listDogButton.setOnClickListener {
             onSubmitListing()
         }
-
     }
 
+    /**
+     * Permissions to access camera and/or gallery
+     */
     private fun onClickRequestPermission() {
         when {
             ContextCompat.checkSelfPermission(
@@ -97,7 +117,16 @@ class HireOutDog : Fragment() {
                 Manifest.permission.CAMERA
             ) == PackageManager.PERMISSION_GRANTED -> {
                 // Permission granted continue action or workflow in app.
+
             }
+
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_MEDIA_IMAGES
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                // Permission granted continue to gallery
+            }
+
 
             ActivityCompat.shouldShowRequestPermissionRationale(
                 requireActivity(),
@@ -105,7 +134,6 @@ class HireOutDog : Fragment() {
             ) -> {
 
             }
-
             else -> {
                 requestPermission.launch(
                     Manifest.permission.CAMERA
@@ -115,17 +143,22 @@ class HireOutDog : Fragment() {
         }
     }
 
+    /**
+     * Save the changes that will be sent to the database to list a dog to be available for hire
+     */
     private fun onSubmitListing() {
-        // TODO
-        // Contact check boxes
+        // TODO Just code items for now
         // Save images ??
         // Save to database
         // Need to track current user who is logged in
 
         listDogViewModel.dogName.value = binding.name.toString()
+
         listDogViewModel.description.value = binding.description.toString()
 
-//        Checking contact type selected
+        selectedBreed = binding.breedSpinner.onItemSelectedListener.toString()
+
+        // Checking contact type selected
         var contactType = ""
         if (binding.emailCheckbox.isChecked && binding.phoneCheckbox.isChecked) {
             contactType = "both"

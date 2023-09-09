@@ -16,8 +16,4 @@ class HireOutDogViewModel : ViewModel() {
     val description: MutableLiveData<String>
         get() = _description
 
-//    private var _breedList: MutableList<String> = mutableListOf()
-//    val breedList: MutableList<String>
-//        get() = _breedList
-
 }
