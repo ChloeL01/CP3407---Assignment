@@ -10,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -26,7 +28,7 @@ class HireOutDog : Fragment() {
     private lateinit var layout: View
     private lateinit var binding: FragmentHireOutDogBinding
     private lateinit var requestPermission: ActivityResultLauncher<String>
-    private val listItemViewModel: HireOutDogViewModel by viewModels()
+    private val listDogViewModel: HireOutDogViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,11 +38,11 @@ class HireOutDog : Fragment() {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_hire_out_dog, container, false)
 
-//        binding.= = listItemViewModel
+        binding.dogHireViewModel = listDogViewModel
         layout = binding.listToHireConstraint
 
-//        Register permission callback which handles user's response to
-//        system permission dialog. Saves the return value.
+        // Register permission callback which handles user's response to
+        // system permission dialog. Saves the return value.
         requestPermission =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
                 if (isGranted) {
@@ -49,6 +51,18 @@ class HireOutDog : Fragment() {
                     Log.i("Permission: ", "Denied")
                 }
             }
+
+        // Populate dog breed spinner
+        val spinner: Spinner = binding.breedSpinner
+        ArrayAdapter.createFromResource(
+            requireActivity(),
+            R.array.dogBreeds,
+            R.layout.dogbreed_spinner_dropdown_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(R.layout.dogbreed_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+
         return binding.root
     }
 
@@ -69,10 +83,11 @@ class HireOutDog : Fragment() {
             onClickRequestPermission()
         }
 
-//        Save listing information
+        // Save listing information
         binding.listDogButton.setOnClickListener {
             onSubmitListing()
         }
+
     }
 
     private fun onClickRequestPermission() {
@@ -107,8 +122,8 @@ class HireOutDog : Fragment() {
         // Save to database
         // Need to track current user who is logged in
 
-        listItemViewModel.dogName.value = binding.name.toString()
-        listItemViewModel.description.value = binding.description.toString()
+        listDogViewModel.dogName.value = binding.name.toString()
+        listDogViewModel.description.value = binding.description.toString()
 
 //        Checking contact type selected
         var contactType = ""
