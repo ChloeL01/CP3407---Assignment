@@ -4,151 +4,202 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="listItemViewModel"
             type="com.example.cp3407_assignment.ui.list_hire_item.HireOutDogViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/list_to_hire_constraint"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="20dp"
-        tools:context=".ui.list_hire_item.HireOutDog">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/label_name"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/list_to_hire_constraint"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/item_name"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:padding="20dp"
+            tools:context=".ui.list_hire_item.HireOutDog">
 
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:autofillHints="Name"
-            android:hint="@string/name"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/label_name"
-            app:layout_constraintTop_toTopOf="@+id/label_name" />
+            <TextView
+                android:id="@+id/label_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name"
+                android:textSize="25sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/label_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/description"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name" />
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:autofillHints="Name"
+                android:hint="@string/name"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/label_name"
+                app:layout_constraintTop_toTopOf="@+id/label_name" />
 
-        <EditText
-            android:id="@+id/description"
-            android:layout_width="200dp"
-            android:layout_height="100dp"
-            android:autofillHints="Name"
-            android:hint="@string/description_hint"
-            android:inputType="text"
-            android:maxLength="200"
-            app:layout_constraintStart_toStartOf="@+id/name"
-            app:layout_constraintTop_toTopOf="@+id/label_description" />
+            <TextView
+                android:id="@+id/label_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/description"
+                android:textSize="25sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/breed_spinner" />
 
-        <TextView
-            android:id="@+id/contact_options"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/contact_type"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description" />
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="5dp"
+                android:autofillHints="Name"
+                android:hint="@string/description_hint"
+                android:inputType="text"
+                android:maxLength="200"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/label_description" />
 
-        <CheckBox
-            android:id="@+id/phone_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/phone"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/description"
-            app:layout_constraintTop_toTopOf="@+id/contact_options" />
+            <TextView
+                android:id="@+id/contact_options"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/contact_type"
+                android:textSize="25sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hire_cost" />
 
-        <CheckBox
-            android:id="@+id/email_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/email"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/description"
-            app:layout_constraintTop_toTopOf="@+id/phone_checkbox" />
+            <CheckBox
+                android:id="@+id/phone_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/phone"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/hire_cost"
+                app:layout_constraintTop_toTopOf="@+id/contact_options" />
 
-        <TextView
-            android:id="@+id/images_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/images"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/phone_checkbox" />
+            <CheckBox
+                android:id="@+id/email_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/email"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/description"
+                app:layout_constraintTop_toTopOf="@+id/phone_checkbox" />
 
-        <TextView
-            android:id="@+id/images_rule_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/image_upload_description"
-            app:layout_constraintBottom_toBottomOf="@+id/images_label"
-            app:layout_constraintStart_toStartOf="@+id/phone_checkbox"
-            app:layout_constraintTop_toTopOf="@+id/images_label" />
+            <TextView
+                android:id="@+id/images_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/images"
+                android:textSize="25sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phone_checkbox" />
 
-        <Button
-            android:id="@+id/upload_image_button"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="@string/upload"
-            app:layout_constraintEnd_toEndOf="@+id/images_rule_label"
-            app:layout_constraintStart_toStartOf="@+id/images_rule_label"
-            app:layout_constraintTop_toBottomOf="@+id/images_rule_label" />
+            <TextView
+                android:id="@+id/images_rule_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/image_upload_description"
+                app:layout_constraintBottom_toBottomOf="@+id/images_label"
+                app:layout_constraintStart_toStartOf="@+id/phone_checkbox"
+                app:layout_constraintTop_toTopOf="@+id/images_label" />
 
-        <ImageView
-            android:id="@+id/image_one"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:contentDescription="@string/image_one"
-            app:layout_constraintStart_toStartOf="@+id/upload_image_button"
-            app:layout_constraintTop_toBottomOf="@+id/upload_image_button" />
+            <Button
+                android:id="@+id/upload_image_button"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/upload"
+                app:layout_constraintEnd_toEndOf="@+id/images_rule_label"
+                app:layout_constraintStart_toStartOf="@+id/images_rule_label"
+                app:layout_constraintTop_toBottomOf="@+id/images_rule_label" />
 
-        <ImageView
-            android:id="@+id/image_two"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:contentDescription="@string/image_two"
-            app:layout_constraintEnd_toStartOf="@+id/image_three"
-            app:layout_constraintStart_toEndOf="@+id/image_one"
-            app:layout_constraintTop_toTopOf="@+id/image_one" />
+            <ImageView
+                android:id="@+id/image_one"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@string/image_one"
+                app:layout_constraintStart_toStartOf="@+id/upload_image_button"
+                app:layout_constraintTop_toBottomOf="@+id/upload_image_button" />
 
-        <ImageView
-            android:id="@+id/image_three"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:contentDescription="@string/image_three"
-            app:layout_constraintEnd_toEndOf="@+id/upload_image_button"
-            app:layout_constraintTop_toTopOf="@+id/image_one" />
+            <ImageView
+                android:id="@+id/image_two"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/image_two"
+                app:layout_constraintEnd_toStartOf="@+id/image_three"
+                app:layout_constraintStart_toEndOf="@+id/image_one"
+                app:layout_constraintTop_toTopOf="@+id/image_one" />
 
-        <Button
-            android:id="@+id/list_dog_button"
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="@string/list_item_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_one" />
+            <ImageView
+                android:id="@+id/image_three"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/image_three"
+                app:layout_constraintEnd_toEndOf="@+id/upload_image_button"
+                app:layout_constraintTop_toTopOf="@+id/image_one" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/list_dog_button"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/list_item_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_one" />
+
+            <TextView
+                android:id="@+id/cost_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Cost"
+                android:textSize="25sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description" />
+
+            <EditText
+                android:id="@+id/hire_cost"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:autofillHints="$00:00"
+                android:inputType="numberDecimal"
+                android:text="$00.00"
+                app:layout_constraintEnd_toEndOf="@+id/description"
+                app:layout_constraintStart_toStartOf="@+id/description"
+                app:layout_constraintTop_toTopOf="@+id/cost_label" />
+
+            <TextView
+                android:id="@+id/breed_spinner_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Breed: "
+                android:textSize="25sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/name" />
+
+            <Spinner
+                android:id="@+id/breed_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                app:layout_constraintEnd_toEndOf="@+id/name"
+                app:layout_constraintStart_toStartOf="@+id/name"
+                app:layout_constraintTop_toTopOf="@+id/breed_spinner_label" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+
 </layout>
