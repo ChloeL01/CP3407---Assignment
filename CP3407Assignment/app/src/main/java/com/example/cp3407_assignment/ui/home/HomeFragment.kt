@@ -1,25 +1,23 @@
 package com.example.cp3407_assignment.ui.home
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cp3407_assignment.Dog
 import com.example.cp3407_assignment.R
-import com.example.cp3407_assignment.User
 import com.example.cp3407_assignment.databinding.FragmentHomeBinding
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -32,7 +30,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
 
     //private val TAG = "MainActivity"
-    private lateinit var  firebaseFirestore: FirebaseFirestore
+    private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var storageReference: StorageReference
     private var imageUri: Uri? = null
 
@@ -91,6 +89,21 @@ class HomeFragment : Fragment() {
                 }
                 val mAdapter = context?.let { ImageAdapter(it, mUploads) }
                 mRecyclerView.adapter = mAdapter
+
+                mAdapter?.setOnClickListener(object : ImageAdapter.OnClickListener {
+                    override fun onClick(position: Int, model: Dog) {
+                        val intent = Intent(context, DoggoInformation::class.java)
+                        //intent.putExtra("details_screen", model.doggo_name)
+                        //context?.startActivity(intent)
+                        findNavController().navigate(R.id.action_navigation_home_to_doggoInformation)
+                        Toast.makeText(
+                            context,
+                            model.doggo_name,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                })
             }
     }
 
@@ -118,15 +131,24 @@ class HomeFragment : Fragment() {
                             "owner contact",
                             uri.toString()
                         )
-                        firebaseFirestore.collection("Dogs").add(upload).addOnCompleteListener { firestoreTask ->
+                        firebaseFirestore.collection("Dogs").add(upload)
+                            .addOnCompleteListener { firestoreTask ->
 
-                            if (firestoreTask.isSuccessful){
-                                Toast.makeText(context, "Uploaded Successfully", Toast.LENGTH_SHORT).show()
-                            }else{
-                                Toast.makeText(context, firestoreTask.exception?.message, Toast.LENGTH_SHORT).show()
+                                if (firestoreTask.isSuccessful) {
+                                    Toast.makeText(
+                                        context,
+                                        "Uploaded Successfully",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        firestoreTask.exception?.message,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                //binding.imageView.setImageResource(R.drawable.vector) TODO replace imageview with the doggo pic
                             }
-                            //binding.imageView.setImageResource(R.drawable.vector) TODO replace imageview with the doggo pic
-                        }
                     }
                 } else {
                     Toast.makeText(context, task.exception?.message, Toast.LENGTH_SHORT).show()

@@ -9,7 +9,11 @@
         android:id="@+id/navigation_home"
         android:name="com.example.cp3407_assignment.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_doggoInformation"
+            app:destination="@id/doggoInformation" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dogs"
@@ -32,4 +36,9 @@
         android:name="com.example.cp3407_assignment.ui.profile.ProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/doggoInformation"
+        android:name="com.example.cp3407_assignment.ui.home.DoggoInformation"
+        android:label="fragment_doggo_information"
+        tools:layout="@layout/fragment_doggo_information" />
 </navigation>
