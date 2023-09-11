@@ -35,6 +35,4 @@ class HireOutDogViewModel : ViewModel() {
     private val _contactType = MutableLiveData<String>()
     val contactType: MutableLiveData<String>
         get() = _contactType
-
-
 }

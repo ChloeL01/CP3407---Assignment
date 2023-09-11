@@ -38,7 +38,7 @@ class HireOutDog : Fragment(), DatePickerDialog.OnDateSetListener {
     private val listDogViewModel: HireOutDogViewModel by viewModels()
 
     private lateinit var requestPermission: ActivityResultLauncher<String>
-    private lateinit var pickMultipleVisualMedia: ActivityResultLauncher<PickVisualMediaRequest>
+    private lateinit var pickVisualMedia: ActivityResultLauncher<PickVisualMediaRequest>
 
     private val uris: MutableList<Uri> = mutableListOf()
 
@@ -66,7 +66,7 @@ class HireOutDog : Fragment(), DatePickerDialog.OnDateSetListener {
                 }
             }
 
-        pickMultipleVisualMedia =
+        pickVisualMedia =
             registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) {
                 if (uris.isNotEmpty()) {
                     Log.d("PhotoPicker", "Number of items selected: ${uris.size}")
@@ -97,7 +97,6 @@ class HireOutDog : Fragment(), DatePickerDialog.OnDateSetListener {
             adapter.setDropDownViewResource(R.layout.contact_spinner_dropdown_item)
             contactSpinner.adapter = adapter
         }
-
         return binding.root
     }
 
@@ -117,7 +116,7 @@ class HireOutDog : Fragment(), DatePickerDialog.OnDateSetListener {
 
         binding.uploadImageButton.setOnClickListener {
             onClickRequestPermission()
-            pickMultipleVisualMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            pickVisualMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
         // Save listing information
@@ -165,7 +164,6 @@ class HireOutDog : Fragment(), DatePickerDialog.OnDateSetListener {
                 // Permission granted continue to gallery
             }
 
-
             ActivityCompat.shouldShowRequestPermissionRationale(
                 requireActivity(),
                 Manifest.permission.CAMERA
@@ -194,7 +192,8 @@ class HireOutDog : Fragment(), DatePickerDialog.OnDateSetListener {
         listDogViewModel.description.value = binding.description.toString()
 
         listDogViewModel.breed.value = binding.breedSpinner.onItemSelectedListener.toString()
-        listDogViewModel.contactType.value = binding.contactSpinner.onItemSelectedListener.toString()
+        listDogViewModel.contactType.value =
+            binding.contactSpinner.onItemSelectedListener.toString()
 
         listDogViewModel.startDate.value = binding.startDate.toString()
         listDogViewModel.endDate.value = binding.endDate.toString()
@@ -205,7 +204,6 @@ class HireOutDog : Fragment(), DatePickerDialog.OnDateSetListener {
 //        TODO: Contact type
 //        TODO: Images - no clue on how to do that yet....
     }
-
 
     private fun handleKeyEvent(view: View, keyCode: Int): Boolean {
         if (keyCode == KeyEvent.KEYCODE_ENTER) {
@@ -227,7 +225,7 @@ class HireOutDog : Fragment(), DatePickerDialog.OnDateSetListener {
     override fun onDestroy() {
         super.onDestroy()
         requestPermission.unregister()
-        pickMultipleVisualMedia.unregister()
+        pickVisualMedia.unregister()
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
@@ -236,7 +234,7 @@ class HireOutDog : Fragment(), DatePickerDialog.OnDateSetListener {
         displayFormattedDate(calender.timeInMillis)
     }
 
-    private fun displayFormattedDate(timestamp: Long){
+    private fun displayFormattedDate(timestamp: Long) {
         binding.startDate.text = dateFormatter.format(timestamp)
         binding.endDate.text = dateFormatter.format(timestamp)
     }
