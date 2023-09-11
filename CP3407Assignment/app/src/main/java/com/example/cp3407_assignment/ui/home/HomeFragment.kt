@@ -1,26 +1,30 @@
 package com.example.cp3407_assignment.ui.home
 
+import android.net.Uri
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cp3407_assignment.Dog
+import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.User
 import com.example.cp3407_assignment.databinding.FragmentHomeBinding
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 
 class HomeFragment : Fragment() {
@@ -33,10 +37,14 @@ class HomeFragment : Fragment() {
     private val KEY_PASSWORD = "password"
 
     private lateinit var analytics: FirebaseAnalytics
+    private lateinit var  firebaseFirestore: FirebaseFirestore
+    private lateinit var storageReference: StorageReference
+    private var imageUri: Uri? = null
+
     private val db = Firebase.firestore
     private val myRef = db.document("Users/My First User")
     private val dogDBRef = db.collection("Dogs")
-    private var storageRef = Firebase.storage
+    //private var storageRef = Firebase.storage
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -55,12 +63,28 @@ class HomeFragment : Fragment() {
         //_binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         val root: View = binding.root
 
+        // attempt 3
+        storageReference = FirebaseStorage.getInstance().reference.child("Storage")
+        firebaseFirestore = FirebaseFirestore.getInstance()
+        binding.buttonChooseImage.setOnClickListener {
+            resultLauncher.launch("image/*")
+        }
+        binding.buttonUploadImage.setOnClickListener {
+            uploadImage()
+        }
+
         val textView: TextView = binding.textHome
         homeViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
 
         return root
+    }
+
+    private val resultLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) {
+        imageUri = it
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -116,6 +140,35 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun uploadImage() {
+        storageReference = storageReference.child(System.currentTimeMillis().toString())
+        imageUri?.let {
+            storageReference.putFile(it).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+
+                    storageReference.downloadUrl.addOnSuccessListener { uri ->
+                        val upload = Dog(
+                            "new doggo name", //TODO replace with user input doggo name
+                            uri.toString()
+                        )
+                        firebaseFirestore.collection("Dogs").add(upload).addOnCompleteListener { firestoreTask ->
+
+                            if (firestoreTask.isSuccessful){
+                                Toast.makeText(context, "Uploaded Successfully", Toast.LENGTH_SHORT).show()
+                            }else{
+                                Toast.makeText(context, firestoreTask.exception?.message, Toast.LENGTH_SHORT).show()
+                            }
+                            //binding.imageView.setImageResource(R.drawable.vector) TODO replace imageview with the doggo pic
+                        }
+                    }
+                } else {
+                    Toast.makeText(context, task.exception?.message, Toast.LENGTH_SHORT).show()
+                    //binding.imageView.setImageResource(R.drawable.vector) TODO replace imageview with a 'fail to upload' pic
+                }
+            }
+        }
     }
 
 //    private fun saveUser() {
