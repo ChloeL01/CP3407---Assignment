@@ -87,7 +87,7 @@
                 android:autofillHints="Enter hire cost"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
-                android:text="@string/price"
+                android:hint="@string/price"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -40,7 +40,6 @@ class HireOutDog : Fragment(), DatePickerDialog.OnDateSetListener {
     private lateinit var requestPermission: ActivityResultLauncher<String>
     private lateinit var pickMultipleVisualMedia: ActivityResultLauncher<PickVisualMediaRequest>
 
-    private var selectedBreed: String? = null
     private val uris: MutableList<Uri> = mutableListOf()
 
     private val calender = Calendar.getInstance()
@@ -193,7 +192,12 @@ class HireOutDog : Fragment(), DatePickerDialog.OnDateSetListener {
 
         listDogViewModel.dogName.value = binding.name.toString()
         listDogViewModel.description.value = binding.description.toString()
-        selectedBreed = binding.breedSpinner.onItemSelectedListener.toString()
+
+        listDogViewModel.breed.value = binding.breedSpinner.onItemSelectedListener.toString()
+        listDogViewModel.contactType.value = binding.contactSpinner.onItemSelectedListener.toString()
+
+        listDogViewModel.startDate.value = binding.startDate.toString()
+        listDogViewModel.endDate.value = binding.endDate.toString()
 
         //TODO: Need to implement into database
 //        TODO: User name

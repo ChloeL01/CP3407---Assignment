@@ -20,4 +20,21 @@ class HireOutDogViewModel : ViewModel() {
     val cost: MutableLiveData<Double>
         get() = _cost
 
+    private val _startDate = MutableLiveData<String>()
+    val startDate: MutableLiveData<String>
+        get() = _startDate
+
+    private val _endDate = MutableLiveData<String>()
+    val endDate: MutableLiveData<String>
+        get() = _endDate
+
+    private val _breed = MutableLiveData<String>()
+    val breed: MutableLiveData<String>
+        get() = _breed
+
+    private val _contactType = MutableLiveData<String>()
+    val contactType: MutableLiveData<String>
+        get() = _contactType
+
+
 }
