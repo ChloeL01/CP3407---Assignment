@@ -7,9 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentHomeBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeFragment : Fragment() {
 
@@ -40,8 +43,9 @@ class HomeFragment : Fragment() {
     // For testing purposes
     override fun onResume() {
         super.onResume()
-        _binding?.testButton?.setOnClickListener {view: View ->
+        _binding?.testButton?.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_navigation_home_to_listHireItem)
+
         }
     }
 

@@ -28,6 +28,7 @@ import androidx.navigation.NavAction
 import androidx.navigation.NavController
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentHireOutDogBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HireOutDog : Fragment() {
 
@@ -52,8 +53,6 @@ class HireOutDog : Fragment() {
 
         binding.dogHireViewModel = listDogViewModel
         layout = binding.listToHireConstraint
-
-
 
         // Register permission callback which handles user's response to system permission dialog. Saves the return value.
         requestPermission =
@@ -86,6 +85,8 @@ class HireOutDog : Fragment() {
             spinner.adapter = adapter
         }
 
+        // Hide navigation bar for just this page
+
         return binding.root
     }
 
@@ -112,6 +113,8 @@ class HireOutDog : Fragment() {
         binding.listDogButton.setOnClickListener {
             onSubmitListing()
         }
+
+
     }
 
     /**
@@ -154,6 +157,9 @@ class HireOutDog : Fragment() {
      * Save the changes that will be sent to the database to list a dog to be available for hire
      */
     private fun onSubmitListing() {
+
+        val errors = true
+
         if (listDogViewModel.dogName.value == null || listDogViewModel.description.value == null || listDogViewModel.cost.value == 0.0){
            Toast.makeText(context, "Fields cannot be blank", Toast.LENGTH_LONG).show() // This can be implemented better when with Material components. Later job :)
         }
