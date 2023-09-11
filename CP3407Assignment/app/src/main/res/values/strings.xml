@@ -4,29 +4,21 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="name">Name</string>
-    <string name="description">Description</string>
     <string name="description_hint">Describe your dog</string>
     <string name="hire_dates">Hire Dates</string>
     <string name="start_date">Start</string>
     <string name="end_date">End</string>
     <string name="contact_type">Contact</string>
-    <string name="phone">Phone</string>
-    <string name="email">Email</string>
-    <string name="images">Images</string>
-    <string name="image_upload_description">Upload up to 3 images of your dog.</string>
-    <string name="image_one">image_one</string>
-    <string name="image_two">image_two</string>
-    <string name="image_three">image_three</string>
-    <string name="list_item_button">List Dog</string>
-    <string name="upload">Upload</string>
-    <string name="list_dog_title">List Dog</string>
+    <string name="image_upload_description">Upload an image of your dog.</string>
+    <string name="list_item_button">Publish</string>
+    <string name="upload">Upload dog pictures</string>
 
     <string name="permission_required">Camera access is required to display the camera preview.</string>
     <string name="permission_granted">Permission is granted. You would use the camera now.</string>
     <string name="okay">OK</string>
     <string name="breed">Breed</string>
     <string name="dog_breed_selection">Dog breed selection</string>
-    <string name="cost">Cost</string>
-    <string name="_00_00">$00.00</string>
     <string name="enter_dog_name">Enter dog name</string>
+    <string name="price">Price</string>
+    <string name="choose_breed">Choose a breed</string>
 </resources>

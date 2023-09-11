@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="dogBreeds">
+        <item>Choose a breed</item>
         <item>"Labrador Retriever"</item>
         <item>"Golden Retriever"</item>
         <item>"French Bulldog"</item>

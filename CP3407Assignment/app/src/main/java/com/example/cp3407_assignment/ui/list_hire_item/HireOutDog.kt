@@ -1,6 +1,7 @@
 package com.example.cp3407_assignment.ui.list_hire_item
 
 import android.Manifest
+import android.app.DatePickerDialog
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -13,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import android.widget.DatePicker
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -24,13 +26,12 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavAction
-import androidx.navigation.NavController
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentHireOutDogBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.text.SimpleDateFormat
+import java.util.*
 
-class HireOutDog : Fragment() {
+class HireOutDog : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private lateinit var layout: View
     private lateinit var binding: FragmentHireOutDogBinding
@@ -42,6 +43,8 @@ class HireOutDog : Fragment() {
     private var selectedBreed: String? = null
     private val uris: MutableList<Uri> = mutableListOf()
 
+    private val calender = Calendar.getInstance()
+    private val dateFormatter = SimpleDateFormat("MMM. dd, yyyy", Locale.US)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,7 +68,7 @@ class HireOutDog : Fragment() {
             }
 
         pickMultipleVisualMedia =
-            registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(3)) {
+            registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) {
                 if (uris.isNotEmpty()) {
                     Log.d("PhotoPicker", "Number of items selected: ${uris.size}")
 
@@ -75,17 +78,26 @@ class HireOutDog : Fragment() {
             }
 
         // Populate dog breed spinner
-        val spinner: Spinner = binding.breedSpinner
+        val breedSpinner: Spinner = binding.breedSpinner
         ArrayAdapter.createFromResource(
             requireActivity(),
             R.array.dogBreeds,
             R.layout.dogbreed_spinner_dropdown_item
         ).also { adapter ->
             adapter.setDropDownViewResource(R.layout.dogbreed_spinner_dropdown_item)
-            spinner.adapter = adapter
+            breedSpinner.adapter = adapter
         }
 
-        // Hide navigation bar for just this page
+        // Populate contact spinner
+        val contactSpinner: Spinner = binding.contactSpinner
+        ArrayAdapter.createFromResource(
+            requireActivity(),
+            R.array.contactTypes,
+            R.layout.contact_spinner_dropdown_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(R.layout.contact_spinner_dropdown_item)
+            contactSpinner.adapter = adapter
+        }
 
         return binding.root
     }
@@ -114,7 +126,23 @@ class HireOutDog : Fragment() {
             onSubmitListing()
         }
 
+        binding.startDate.setOnClickListener {
+            displayCalendar()
+        }
 
+        binding.endDate.setOnClickListener {
+            displayCalendar()
+        }
+    }
+
+    private fun displayCalendar() {
+        DatePickerDialog(
+            requireContext(),
+            this,
+            calender.get(Calendar.YEAR),
+            calender.get(Calendar.MONTH),
+            calender.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
 
     /**
@@ -158,27 +186,14 @@ class HireOutDog : Fragment() {
      */
     private fun onSubmitListing() {
 
-        val errors = true
-
-        if (listDogViewModel.dogName.value == null || listDogViewModel.description.value == null || listDogViewModel.cost.value == 0.0){
-           Toast.makeText(context, "Fields cannot be blank", Toast.LENGTH_LONG).show() // This can be implemented better when with Material components. Later job :)
+        if (listDogViewModel.dogName.value == null || listDogViewModel.description.value == null || listDogViewModel.cost.value == 0.0) {
+            Toast.makeText(context, "Fields cannot be blank", Toast.LENGTH_LONG)
+                .show() // This can be implemented better when with Material components. Later job :)
         }
 
         listDogViewModel.dogName.value = binding.name.toString()
         listDogViewModel.description.value = binding.description.toString()
         selectedBreed = binding.breedSpinner.onItemSelectedListener.toString()
-
-        // Checking contact type selected
-        var contactType = ""
-        if (binding.emailCheckbox.isChecked && binding.phoneCheckbox.isChecked) {
-            contactType = "both"
-        } else if (binding.emailCheckbox.isChecked) {
-            contactType = "email"
-        } else if (binding.phoneCheckbox.isChecked) {
-            contactType = "phone"
-        } else {
-            Toast.makeText(context, "Please select a contact type", Toast.LENGTH_SHORT).show()
-        }
 
         //TODO: Need to implement into database
 //        TODO: User name
@@ -186,7 +201,6 @@ class HireOutDog : Fragment() {
 //        TODO: Contact type
 //        TODO: Images - no clue on how to do that yet....
     }
-
 
 
     private fun handleKeyEvent(view: View, keyCode: Int): Boolean {
@@ -210,5 +224,16 @@ class HireOutDog : Fragment() {
         super.onDestroy()
         requestPermission.unregister()
         pickMultipleVisualMedia.unregister()
+    }
+
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+        Log.e("Calendar", "$year--$month--$dayOfMonth")
+        calender.set(year, month, dayOfMonth)
+        displayFormattedDate(calender.timeInMillis)
+    }
+
+    private fun displayFormattedDate(timestamp: Long){
+        binding.startDate.text = dateFormatter.format(timestamp)
+        binding.endDate.text = dateFormatter.format(timestamp)
     }
 }
