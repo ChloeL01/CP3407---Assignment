@@ -56,12 +56,12 @@ class HomeFragment : Fragment() {
         storageReference = FirebaseStorage.getInstance().reference.child("Storage")
         firebaseFirestore = FirebaseFirestore.getInstance()
 
-        binding.buttonChooseImage.setOnClickListener {
-            resultLauncher.launch("image/*")
-        }
-        binding.buttonUploadImage.setOnClickListener {
-            uploadImage()
-        }
+//        binding.buttonChooseImage.setOnClickListener {
+//            resultLauncher.launch("image/*")
+//        }
+//        binding.buttonUploadImage.setOnClickListener {
+//            uploadImage()
+//        }
 
         return root
     }
