@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cp3407_assignment.Dog
 import com.squareup.picasso.Picasso
-
+import org.w3c.dom.Text
 
 
 class ImageAdapter(private val mContext: Context, dogs: List<Dog>) :
@@ -31,6 +31,8 @@ class ImageAdapter(private val mContext: Context, dogs: List<Dog>) :
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         val uploadCurrent: Dog = mDogs[position]
         holder.textViewName.text = uploadCurrent.doggo_name
+        holder.textViewDate.text = uploadCurrent.hire_start_date + " - " + uploadCurrent.hire_end_date
+        holder.textViewCost.text = uploadCurrent.cost
         Picasso.with(mContext)
             .load(uploadCurrent.imageUrl)
             .fit()
@@ -44,10 +46,14 @@ class ImageAdapter(private val mContext: Context, dogs: List<Dog>) :
 
     inner class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var textViewName: TextView
+        var textViewDate: TextView
+        var textViewCost: TextView
         var imageView: ImageView
 
         init {
             textViewName = itemView.findViewById(R.id.text_view_name)
+            textViewDate = itemView.findViewById(R.id.text_view_start_date)
+            textViewCost = itemView.findViewById(R.id.text_view_cost)
             imageView = itemView.findViewById(R.id.image_view_upload)
         }
     }
