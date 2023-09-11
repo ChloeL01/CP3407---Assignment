@@ -31,23 +31,14 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
 
-    private val TAG = "MainActivity"
-
-    private val KEY_USER = "user"
-    private val KEY_PASSWORD = "password"
-
-    private lateinit var analytics: FirebaseAnalytics
+    //private val TAG = "MainActivity"
     private lateinit var  firebaseFirestore: FirebaseFirestore
     private lateinit var storageReference: StorageReference
     private var imageUri: Uri? = null
 
     private val db = Firebase.firestore
-    private val myRef = db.document("Users/My First User")
     private val dogDBRef = db.collection("Dogs")
-    //private var storageRef = Firebase.storage
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
 
@@ -60,22 +51,16 @@ class HomeFragment : Fragment() {
             ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        //_binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         val root: View = binding.root
 
-        // attempt 3
         storageReference = FirebaseStorage.getInstance().reference.child("Storage")
         firebaseFirestore = FirebaseFirestore.getInstance()
+
         binding.buttonChooseImage.setOnClickListener {
             resultLauncher.launch("image/*")
         }
         binding.buttonUploadImage.setOnClickListener {
             uploadImage()
-        }
-
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
         }
 
         return root
@@ -97,13 +82,11 @@ class HomeFragment : Fragment() {
 
         val mUploads = ArrayList<Dog>()
 
+        // update the recyclerview
         dogDBRef.get()
             .addOnSuccessListener { queryDocumentSnapshots ->
                 for (documentSnapshot in queryDocumentSnapshots) {
                     val dog = documentSnapshot.toObject<Dog>()
-                    //dog.setDocumentId(documentSnapshot.id)
-                    val name: String? = dog.doggo_name
-                    val imageUrl: String? = dog.imageUrl
                     mUploads.add(dog)
                 }
                 val mAdapter = context?.let { ImageAdapter(it, mUploads) }
@@ -111,46 +94,28 @@ class HomeFragment : Fragment() {
             }
     }
 
-    override fun onStart() {
-        super.onStart()
-        // automatically updates
-        myRef.addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                Toast.makeText(context, "Error while loading!", Toast.LENGTH_SHORT).show();
-                Log.w(TAG, "Listen failed.", e)
-                return@addSnapshotListener
-            }
-
-            if (snapshot != null && snapshot.exists()) {
-                val user = snapshot.toObject<User>()
-                val username = user?.username
-                val password = user?.password
-
-                binding.textHome.text = "Title: $username\nDescription: $password"
-                Log.d(TAG, "Current data: ${snapshot.data}")
-
-            } else {
-                binding.textHome.text = ""
-                Log.d(TAG, "Current data: null")
-            }
-        }
-    }
-
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
     private fun uploadImage() {
+        // call this to upload the doggo to the server
         storageReference = storageReference.child(System.currentTimeMillis().toString())
         imageUri?.let {
             storageReference.putFile(it).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-
                     storageReference.downloadUrl.addOnSuccessListener { uri ->
-                        val upload = Dog(
-                            "new doggo name", //TODO replace with user input doggo name
+                        val upload = Dog( //TODO replace with user input
+                            "new doggo name",
+                            "new doggo breed",
+                            "new doggo description goes here",
+                            "new doggo hire date start",
+                            "new doggo hire date end",
+                            "new doggo cost",
+                            "new doggo good boi points",
+                            "owner id",
+                            "owner contact",
                             uri.toString()
                         )
                         firebaseFirestore.collection("Dogs").add(upload).addOnCompleteListener { firestoreTask ->
@@ -170,53 +135,4 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
-//    private fun saveUser() {
-//        val username: String = binding.editTextUser.text.toString()
-//        val password: String = binding.editTextPassword.text.toString()
-//
-//        val user = User(username, password)
-//
-//        db.collection("Users").document("My First User").set(user)
-//            .addOnSuccessListener {
-//                Toast.makeText(
-//                    context,
-//                    "User saved",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//            .addOnFailureListener { e ->
-//                Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
-//                Log.d(TAG, e.toString())
-//            }
-//    }
-//
-//    private fun loadUser() {
-//        db.collection("Users").document("My First User").get()
-//            .addOnSuccessListener { documentSnapshot ->
-//                if (documentSnapshot.exists()) {
-//                    val user = documentSnapshot.toObject<User>()
-//                    val username = user?.username
-//                    val password = user?.password
-//
-//                    binding.textHome.text = "Title: $username\nDescription: $password"
-//                } else {
-//                    Toast.makeText(context, "Document does not exist", Toast.LENGTH_SHORT)
-//                        .show()
-//                }
-//            }
-//            .addOnFailureListener { e ->
-//                Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
-//                Log.d(TAG, e.toString())
-//            }
-//    }
-//
-//    private fun updateUser() {
-//        val password = binding.editTextPassword.text.toString()
-//        myRef.update(KEY_PASSWORD, password)
-//    }
-//
-//    private fun deleteUser() {
-//        myRef.delete()
-//    }
 }
