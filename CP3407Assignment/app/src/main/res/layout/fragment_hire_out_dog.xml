@@ -37,13 +37,13 @@
                 android:id="@+id/description"
                 android:layout_width="380dp"
                 android:layout_height="100dp"
-                android:textAlignment="center"
-                android:autofillHints="Name"
                 android:layout_marginTop="10dp"
+                android:autofillHints="Name"
                 android:hint="@string/description_hint"
                 android:inputType="text"
                 android:maxLength="200"
                 android:maxLines="3"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/breed_spinner" />
@@ -60,13 +60,13 @@
 
             <Button
                 android:id="@+id/upload_image_button"
-                android:layout_height="wrap_content"
-                android:text="@string/upload"
                 android:layout_width="380dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:text="@string/upload"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/start_date" />
+                app:layout_constraintTop_toBottomOf="@+id/date_range" />
 
 
             <Button
@@ -85,9 +85,9 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:autofillHints="Enter hire cost"
+                android:hint="@string/price"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
-                android:hint="@string/price"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -111,30 +111,33 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/hire_cost" />
+                app:layout_constraintTop_toBottomOf="@+id/location" />
 
             <TextView
-                android:id="@+id/start_date"
-                android:layout_width="185dp"
+                android:id="@+id/date_range"
+                android:layout_width="380dp"
                 android:layout_height="50dp"
-                android:text="@string/start_date"
-                android:textAlignment="center"
                 android:layout_marginTop="10dp"
+                android:text="@string/date"
+                android:textAlignment="center"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/contact_spinner" />
 
-            <TextView
-                android:id="@+id/end_date"
-                android:layout_width="185dp"
-                android:layout_height="50dp"
-                android:text="@string/end_date"
+
+            <EditText
+                android:id="@+id/location"
+                android:layout_width="380dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:autofillHints="Enter location of drop-off/pick-up"
+                android:hint="@string/enter_location"
+                android:inputType="text"
+                android:maxLines="1"
                 android:textAlignment="center"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="@+id/hire_cost"
-                app:layout_constraintTop_toBottomOf="@+id/contact_spinner" />
-
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hire_cost" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

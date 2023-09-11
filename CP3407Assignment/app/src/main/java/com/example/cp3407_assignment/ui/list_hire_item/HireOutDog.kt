@@ -28,10 +28,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentHireOutDogBinding
+import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HireOutDog : Fragment(), DatePickerDialog.OnDateSetListener {
+class HireOutDog : Fragment() {
 
     private lateinit var layout: View
     private lateinit var binding: FragmentHireOutDogBinding
@@ -41,9 +42,6 @@ class HireOutDog : Fragment(), DatePickerDialog.OnDateSetListener {
     private lateinit var pickVisualMedia: ActivityResultLauncher<PickVisualMediaRequest>
 
     private val uris: MutableList<Uri> = mutableListOf()
-
-    private val calender = Calendar.getInstance()
-    private val dateFormatter = SimpleDateFormat("MMM. dd, yyyy", Locale.US)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -124,23 +122,26 @@ class HireOutDog : Fragment(), DatePickerDialog.OnDateSetListener {
             onSubmitListing()
         }
 
-        binding.startDate.setOnClickListener {
-            displayCalendar()
+        binding.dateRange.setOnClickListener {
+//            val picker = MaterialDatePicker.Builder.dateRangePicker()
+//                .setTitleText("Select availability range")
+//                .build()
+//            picker.show(this.childFragmentManager, "TAG")
+//            picker.addOnPositiveButtonClickListener {
+//                binding.dateRange.setText("${convertTimeToDate(it.first)} -  ${convertTimeToDate(it.second)}")
+//            }
+//            picker.addOnNegativeButtonClickListener {
+//                picker.dismiss()
+//            }
+//
+//        }
         }
 
-        binding.endDate.setOnClickListener {
-            displayCalendar()
-        }
-    }
-
-    private fun displayCalendar() {
-        DatePickerDialog(
-            requireContext(),
-            this,
-            calender.get(Calendar.YEAR),
-            calender.get(Calendar.MONTH),
-            calender.get(Calendar.DAY_OF_MONTH)
-        ).show()
+//    private fun convertTimeToDate(time: Long): String{
+//        val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+//        utc.timeInMillis = time
+//        val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+//        return formattedDate.format(utc.time)
     }
 
     /**
@@ -183,20 +184,21 @@ class HireOutDog : Fragment(), DatePickerDialog.OnDateSetListener {
      */
     private fun onSubmitListing() {
 
-        if (listDogViewModel.dogName.value == null || listDogViewModel.description.value == null || listDogViewModel.cost.value == 0.0) {
+        if (listDogViewModel.dogName.value == null || listDogViewModel.description.value == null || listDogViewModel.location.value == null || listDogViewModel.cost.value == 0.0) {
             Toast.makeText(context, "Fields cannot be blank", Toast.LENGTH_LONG)
                 .show() // This can be implemented better when with Material components. Later job :)
         }
 
         listDogViewModel.dogName.value = binding.name.toString()
         listDogViewModel.description.value = binding.description.toString()
+        listDogViewModel.location.value = binding.location.toString()
 
         listDogViewModel.breed.value = binding.breedSpinner.onItemSelectedListener.toString()
         listDogViewModel.contactType.value =
             binding.contactSpinner.onItemSelectedListener.toString()
 
-        listDogViewModel.startDate.value = binding.startDate.toString()
-        listDogViewModel.endDate.value = binding.endDate.toString()
+//        listDogViewModel.startDate.value = binding.startDate.toString()
+//        listDogViewModel.endDate.value = binding.endDate.toString()
 
         //TODO: Need to implement into database
 //        TODO: User name
@@ -226,16 +228,5 @@ class HireOutDog : Fragment(), DatePickerDialog.OnDateSetListener {
         super.onDestroy()
         requestPermission.unregister()
         pickVisualMedia.unregister()
-    }
-
-    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        Log.e("Calendar", "$year--$month--$dayOfMonth")
-        calender.set(year, month, dayOfMonth)
-        displayFormattedDate(calender.timeInMillis)
-    }
-
-    private fun displayFormattedDate(timestamp: Long) {
-        binding.startDate.text = dateFormatter.format(timestamp)
-        binding.endDate.text = dateFormatter.format(timestamp)
     }
 }
