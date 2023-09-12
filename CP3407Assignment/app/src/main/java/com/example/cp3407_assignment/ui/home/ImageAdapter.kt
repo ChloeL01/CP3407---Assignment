@@ -34,13 +34,11 @@ class ImageAdapter(private val mContext: Context, dogs: List<Dog>) :
         val uploadCurrent: Dog = mDogs[position]
         holder.textViewName.text = uploadCurrent.doggo_name
         holder.textViewDate.text = uploadCurrent.hire_start_date + " - " + uploadCurrent.hire_end_date
-        holder.textViewCost.text = uploadCurrent.cost
+        holder.textViewCost.text = "$" + uploadCurrent.cost
 
         holder.itemView.setOnClickListener {
             if (onClickListener != null) {
                 onClickListener!!.onClick(position, uploadCurrent )
-                println("did the thing")
-
             }
         }
 
@@ -49,7 +47,6 @@ class ImageAdapter(private val mContext: Context, dogs: List<Dog>) :
             .fit()
             .centerCrop()
             .into(holder.imageView)
-
     }
 
     override fun getItemCount(): Int {

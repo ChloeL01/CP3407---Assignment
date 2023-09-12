@@ -8,15 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cp3407_assignment.Dog
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentHomeBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -53,6 +56,8 @@ class HomeFragment : Fragment() {
 
         storageReference = FirebaseStorage.getInstance().reference.child("Storage")
         firebaseFirestore = FirebaseFirestore.getInstance()
+
+
 
 //        binding.buttonChooseImage.setOnClickListener {
 //            resultLauncher.launch("image/*")
@@ -92,15 +97,19 @@ class HomeFragment : Fragment() {
 
                 mAdapter?.setOnClickListener(object : ImageAdapter.OnClickListener {
                     override fun onClick(position: Int, model: Dog) {
-                        val intent = Intent(context, DoggoInformation::class.java)
-                        //intent.putExtra("details_screen", model.doggo_name)
-                        //context?.startActivity(intent)
-                        findNavController().navigate(R.id.action_navigation_home_to_doggoInformation)
-                        Toast.makeText(
-                            context,
-                            model.doggo_name,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        val bundle =
+                            bundleOf(
+                                "doggo_name" to model.doggo_name,
+                                "imageUrl" to model.imageUrl,
+                                "description" to model.description,
+                                "reviews" to model.doggo_review,
+                                "start_date" to model.hire_start_date,
+                                "end_date" to model.hire_end_date
+                            )
+                        findNavController().navigate(
+                            R.id.action_navigation_home_to_doggoInformation,
+                            bundle
+                        )
                     }
 
                 })

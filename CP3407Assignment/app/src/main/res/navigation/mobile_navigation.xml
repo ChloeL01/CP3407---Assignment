@@ -40,5 +40,25 @@
         android:id="@+id/doggoInformation"
         android:name="com.example.cp3407_assignment.ui.home.DoggoInformation"
         android:label="fragment_doggo_information"
-        tools:layout="@layout/fragment_doggo_information" />
+        tools:layout="@layout/fragment_doggo_information" >
+        <argument
+            android:name="doggo_name"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string"
+            android:defaultValue="Description goes here" />
+        <argument
+            android:name="reviews"
+            app:argType="string"
+            android:defaultValue="reviews" />
+        <argument
+            android:name="start_date"
+            app:argType="string"
+            android:defaultValue="start_date" />
+        <argument
+            android:name="end_date"
+            app:argType="string"
+            android:defaultValue="end date" />
+    </fragment>
 </navigation>
