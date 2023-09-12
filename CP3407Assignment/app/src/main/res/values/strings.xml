@@ -6,7 +6,7 @@
     <string name="name">Name</string>
     <string name="description_hint">Describe your dog</string>
     <string name="hire_dates">Hire Dates</string>
-    <string name="date">Date</string>
+    <string name="date">Availability dates</string>
     <string name="end_date">End</string>
     <string name="contact_type">Contact</string>
     <string name="image_upload_description">Upload an image of your dog.</string>

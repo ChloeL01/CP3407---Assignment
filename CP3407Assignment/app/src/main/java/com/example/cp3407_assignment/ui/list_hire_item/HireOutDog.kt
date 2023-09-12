@@ -1,7 +1,6 @@
 package com.example.cp3407_assignment.ui.list_hire_item
 
 import android.Manifest
-import android.app.DatePickerDialog
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -14,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
-import android.widget.DatePicker
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -29,6 +27,7 @@ import androidx.fragment.app.viewModels
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentHireOutDogBinding
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -38,8 +37,8 @@ class HireOutDog : Fragment() {
     private lateinit var binding: FragmentHireOutDogBinding
     private val listDogViewModel: HireOutDogViewModel by viewModels()
 
-    private lateinit var requestPermission: ActivityResultLauncher<String>
-    private lateinit var pickVisualMedia: ActivityResultLauncher<PickVisualMediaRequest>
+    private lateinit var pickVisualMediaLauncher: ActivityResultLauncher<PickVisualMediaRequest>
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
     private val uris: MutableList<Uri> = mutableListOf()
 
@@ -52,25 +51,28 @@ class HireOutDog : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_hire_out_dog, container, false)
 
         binding.dogHireViewModel = listDogViewModel
-        layout = binding.listToHireConstraint
+        layout = binding.listToHireScroll
 
-        // Register permission callback which handles user's response to system permission dialog. Saves the return value.
-        requestPermission =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-                if (isGranted) {
-                    Log.i("Permission: ", "Granted")
+        pickVisualMediaLauncher =
+            registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { selectedUris ->
+                if (selectedUris.isNotEmpty()) {
+                    Log.d("PhotoPicker", "Number of items selected: ${uris.size}")
+                    uris.clear()
+                    uris.addAll(selectedUris)
                 } else {
-                    Log.i("Permission: ", "Denied")
+                    Log.d("PhotoPicker", "No media selected")
                 }
             }
 
-        pickVisualMedia =
-            registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) {
-                if (uris.isNotEmpty()) {
-                    Log.d("PhotoPicker", "Number of items selected: ${uris.size}")
+        requestPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+                if (isGranted) {
+                    // Permission granted. Continue the action or workflow in your app
+                    Log.i("Permission: ", "Granted")
+                    pickVisualMediaLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
 
                 } else {
-                    Log.d("PhotoPicker", "No media selected")
+                    Log.i("Permission: ", "Denied")
                 }
             }
 
@@ -112,70 +114,57 @@ class HireOutDog : Fragment() {
             handleKeyEvent(view, keyCode)
         }
 
-        binding.uploadImageButton.setOnClickListener {
-            onClickRequestPermission()
-            pickVisualMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-        }
-
         // Save listing information
         binding.listDogButton.setOnClickListener {
             onSubmitListing()
         }
 
         binding.dateRange.setOnClickListener {
-//            val picker = MaterialDatePicker.Builder.dateRangePicker()
-//                .setTitleText("Select availability range")
-//                .build()
-//            picker.show(this.childFragmentManager, "TAG")
-//            picker.addOnPositiveButtonClickListener {
-//                binding.dateRange.setText("${convertTimeToDate(it.first)} -  ${convertTimeToDate(it.second)}")
-//            }
-//            picker.addOnNegativeButtonClickListener {
-//                picker.dismiss()
-//            }
-//
-//        }
+            getDateRange()
         }
 
-//    private fun convertTimeToDate(time: Long): String{
-//        val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-//        utc.timeInMillis = time
-//        val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-//        return formattedDate.format(utc.time)
+        binding.uploadImageButton.setOnClickListener {
+            onClickRequestPermission()
+        }
     }
 
-    /**
-     * Permissions to access camera and/or gallery
-     */
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun onClickRequestPermission() {
         when {
             ContextCompat.checkSelfPermission(
                 requireContext(),
-                Manifest.permission.CAMERA
+                Manifest.permission.READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED -> {
-                // Permission granted continue action or workflow in app.
-
+                pickVisualMediaLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             }
 
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_MEDIA_IMAGES
-            ) == PackageManager.PERMISSION_GRANTED -> {
-                // Permission granted continue to gallery
-            }
-
-            ActivityCompat.shouldShowRequestPermissionRationale(
+            ActivityCompat. shouldShowRequestPermissionRationale(
                 requireActivity(),
-                Manifest.permission.CAMERA
-            ) -> {
-
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )  -> {
+                Snackbar.make(layout, R.string.permission_required, Snackbar.LENGTH_INDEFINITE).show()
             }
             else -> {
-                requestPermission.launch(
-                    Manifest.permission.READ_MEDIA_IMAGES
-                )
+                requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             }
+        }
+    }
+
+    private fun getDateRange() {
+        val datePicker =
+            MaterialDatePicker.Builder.dateRangePicker().setTitleText("Select dog availability")
+                .build()
+        datePicker.show(childFragmentManager, "DatePicker")
+        datePicker.addOnPositiveButtonClickListener { selection ->
+            val startDate = selection.first
+            val endDate = selection.second
+
+            val formatDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            listDogViewModel.startDate.value = formatDate.format(Date(startDate))
+            listDogViewModel.endDate.value = formatDate.format(Date(endDate))
+
+            val selectedDateRange =
+                "${listDogViewModel.startDate.value} - ${listDogViewModel.endDate.value}"
+            binding.dateRange.text = selectedDateRange
         }
     }
 
@@ -226,7 +215,6 @@ class HireOutDog : Fragment() {
     @Override
     override fun onDestroy() {
         super.onDestroy()
-        requestPermission.unregister()
-        pickVisualMedia.unregister()
+        pickVisualMediaLauncher.unregister()
     }
 }

@@ -113,7 +113,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/location" />
 
-            <TextView
+            <Button
                 android:id="@+id/date_range"
                 android:layout_width="380dp"
                 android:layout_height="50dp"
