@@ -58,17 +58,15 @@ class HomeFragment : Fragment() {
         firebaseFirestore = FirebaseFirestore.getInstance()
 
 
-
+// TODO use this code to open the photos on the device
 //        binding.buttonChooseImage.setOnClickListener {
 //            resultLauncher.launch("image/*")
-//        }
-//        binding.buttonUploadImage.setOnClickListener {
-//            uploadImage()
 //        }
 
         return root
     }
 
+    // TODO use this code to open the photos on the device
     private val resultLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) {
@@ -121,7 +119,7 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun uploadImage() {
+    private fun uploadImage() { //TODO use this to upload a doggo to the database
         // call this to upload the doggo to the server
         storageReference = storageReference.child(System.currentTimeMillis().toString())
         imageUri?.let {
