@@ -27,7 +27,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
-
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
