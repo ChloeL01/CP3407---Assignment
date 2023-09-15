@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="Login"
+        android:text="@string/login"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="100dp"
-        android:text="Username:"
+        android:text="@string/username"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginHeading" />
@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         android:layout_marginTop="50dp"
-        android:text="Password:"
+        android:text="@string/password"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userText" />
@@ -66,16 +66,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:text="Login"
+        android:text="@string/login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passWordText" />
 
     <Button
-        android:id="@+id/ReturntoSigninButton"
+        android:id="@+id/Return_to_Sign_in_Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New user? Sign up now"
+        android:text="@string/new_user_sign_up_now"
         android:textColor="#070707"
         app:backgroundTint="#05FFFFFF"
         app:iconTint="#0B0A0A"
