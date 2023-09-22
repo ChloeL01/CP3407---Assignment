@@ -91,8 +91,4 @@ dependencies {
     implementation("com.google.firebase:firebase-storage-ktx")
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
-
-    // Add the dependencies for any other desired Firebase products
-    // https://firebase.google.com/docs/android/setup#available-libraries
-
 }

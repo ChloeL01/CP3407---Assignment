@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class HireOutDogViewModel : ViewModel() {
+
     private val _userName = MutableLiveData<String>()
     val userName: MutableLiveData<String>
         get() = _userName
