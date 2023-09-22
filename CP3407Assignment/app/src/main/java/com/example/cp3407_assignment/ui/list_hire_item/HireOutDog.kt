@@ -30,7 +30,6 @@ import com.example.cp3407_assignment.databinding.FragmentHireOutDogBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
@@ -52,7 +51,6 @@ class HireOutDog : Fragment() {
     // Firebase database
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var storageReference: StorageReference
-    private val db = Firebase.firestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,12 +65,12 @@ class HireOutDog : Fragment() {
 
         pickVisualMediaLauncher =
             registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { selectedUris ->
-                if (selectedUris.isNotEmpty()) {
+                imageUri = if (selectedUris.isNotEmpty()) {
                     Log.d("PhotoPicker", "Number of items selected: ${uris.size}")
-                    imageUri = selectedUris[0]
+                    selectedUris[0]
                 } else {
                     Log.d("PhotoPicker", "No media selected")
-                    imageUri = null
+                    null
                 }
             }
 
