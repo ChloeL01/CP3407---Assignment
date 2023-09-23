@@ -3,13 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/login">
 
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.cp3407_assignment.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_doggoInformation"
+            app:destination="@id/doggoInformation" />
     </fragment>
 
     <fragment
@@ -63,5 +66,27 @@
             android:name="end_date"
             app:argType="string"
             android:defaultValue="end date" />
+    </fragment>
+    <fragment
+        android:id="@+id/login"
+        android:name="com.example.cp3407_assignment.ui.Login.Login"
+        android:label="Login" >
+        <action
+            android:id="@+id/action_login_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_login_to_signup"
+            app:destination="@id/signup" />
+    </fragment>
+    <fragment
+        android:id="@+id/signup"
+        android:name="com.example.cp3407_assignment.ui.Signup.Signup"
+        android:label="Signup" >
+        <action
+            android:id="@+id/action_signup_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_signup_to_login"
+            app:destination="@id/login" />
     </fragment>
 </navigation>
