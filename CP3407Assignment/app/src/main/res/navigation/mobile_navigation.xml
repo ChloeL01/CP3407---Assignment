@@ -9,17 +9,59 @@
         android:id="@+id/navigation_home"
         android:name="com.example.cp3407_assignment.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.cp3407_assignment.ui.dashboard.DashboardFragment"
+        android:id="@+id/navigation_dogs"
+        android:name="com.example.cp3407_assignment.ui.dogs.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dogs" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.cp3407_assignment.ui.notifications.NotificationsFragment"
+        android:id="@+id/navigation_messages"
+        android:name="com.example.cp3407_assignment.ui.messages.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/listHireItem"
+        android:name="com.example.cp3407_assignment.ui.list_hire_item.HireOutDog"
+        android:label="Tell us more about your pooch!" />
+
+        tools:layout="@layout/fragment_messages" />
+    <fragment
+        android:id="@+id/navigation_cart"
+        android:name="com.example.cp3407_assignment.ui.cart.CartFragment"
+        android:label="@string/cart"
+        tools:layout="@layout/fragment_cart" />
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.cp3407_assignment.ui.profile.ProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/doggoInformation"
+        android:name="com.example.cp3407_assignment.ui.home.DoggoInformation"
+        android:label="fragment_doggo_information"
+        tools:layout="@layout/fragment_doggo_information" >
+        <argument
+            android:name="doggo_name"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string"
+            android:defaultValue="Description goes here" />
+        <argument
+            android:name="reviews"
+            app:argType="string"
+            android:defaultValue="reviews" />
+        <argument
+            android:name="start_date"
+            app:argType="string"
+            android:defaultValue="start_date" />
+        <argument
+            android:name="end_date"
+            app:argType="string"
+            android:defaultValue="end date" />
+    </fragment>
 </navigation>

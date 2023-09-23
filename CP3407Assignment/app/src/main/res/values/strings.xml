@@ -15,4 +15,30 @@
     <string name="enter_email_address">Enter Email Address</string>
     <string name="login">Login</string>
     <string name="new_user_sign_up_now">New user? Sign up now</string>
+    <string name="name">Name</string>
+    <string name="description_hint">Describe your dog</string>
+    <string name="hire_dates">Hire Dates</string>
+    <string name="date">Availability dates</string>
+    <string name="end_date">End</string>
+    <string name="contact_type">Contact</string>
+    <string name="image_upload_description">Upload an image of your dog.</string>
+    <string name="list_item_button">Publish</string>
+    <string name="upload">Upload dog picture</string>
+    <string name="permission_required">Camera access is required to display the camera preview.</string>
+    <string name="permission_granted">Permission is granted. You would use the camera now.</string>
+    <string name="okay">OK</string>
+    <string name="breed">Breed</string>
+    <string name="dog_breed_selection">Dog breed selection</string>
+    <string name="enter_dog_name">Enter dog name</string>
+    <string name="price">Price</string>
+    <string name="choose_breed">Choose a breed</string>
+    <string name="enter_location">Enter location</string>
+    <string name="dogs">Dogs</string>
+    <string name="messages">Messages</string>
+    <string name="cart">Cart</string>
+    <string name="profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dog_picture">Dog picture</string>
+    <string name="_20_22_nov"><u>20 – 22 Nov</u></string>
 </resources>
