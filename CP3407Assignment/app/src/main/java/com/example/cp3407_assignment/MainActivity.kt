@@ -37,10 +37,12 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-        
+
         // Hides bottom navigation when user is on ListHireItem page
         navController.addOnDestinationChangedListener { _, destination: NavDestination, _ ->
-            if (destination.id == R.id.listHireItem) {
+            if (destination.id == R.id.listHireItem || destination.id == R.id.doggoInformation
+                || destination.id == R.id.login || destination.id == R.id.signup
+            ) {
                 navView.visibility = View.INVISIBLE
             } else {
                 navView.visibility = View.VISIBLE
