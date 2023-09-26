@@ -1,19 +1,16 @@
 package com.example.cp3407_assignment.ui.home
 
 
-
-import com.example.cp3407_assignment.R
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cp3407_assignment.Dog
+import com.example.cp3407_assignment.R
 import com.squareup.picasso.Picasso
-
 
 
 class ImageAdapter(private val mContext: Context, dogs: List<Dog>) :
@@ -33,12 +30,13 @@ class ImageAdapter(private val mContext: Context, dogs: List<Dog>) :
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         val uploadCurrent: Dog = mDogs[position]
         holder.textViewName.text = uploadCurrent.doggo_name
-        holder.textViewDate.text = uploadCurrent.hire_start_date + " - " + uploadCurrent.hire_end_date
+        holder.textViewDate.text =
+            uploadCurrent.hire_start_date + " - " + uploadCurrent.hire_end_date
         holder.textViewCost.text = "$" + uploadCurrent.cost
 
         holder.itemView.setOnClickListener {
             if (onClickListener != null) {
-                onClickListener!!.onClick(position, uploadCurrent )
+                onClickListener!!.onClick(position, uploadCurrent)
             }
         }
 
