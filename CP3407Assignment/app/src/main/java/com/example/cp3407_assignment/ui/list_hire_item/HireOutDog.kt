@@ -24,10 +24,15 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.cp3407_assignment.Dog
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentHireOutDogBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,6 +46,11 @@ class HireOutDog : Fragment() {
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
     private val uris: MutableList<Uri> = mutableListOf()
+    private var imageUri: Uri? = null
+
+    // Firebase database
+    private lateinit var firebaseFirestore: FirebaseFirestore
+    private lateinit var storageReference: StorageReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,14 +65,16 @@ class HireOutDog : Fragment() {
 
         pickVisualMediaLauncher =
             registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { selectedUris ->
-                if (selectedUris.isNotEmpty()) {
+                imageUri = if (selectedUris.isNotEmpty()) {
                     Log.d("PhotoPicker", "Number of items selected: ${uris.size}")
-                    uris.clear()
-                    uris.addAll(selectedUris)
+                    selectedUris[0]
                 } else {
                     Log.d("PhotoPicker", "No media selected")
+                    null
                 }
             }
+
+
 
         requestPermissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -97,6 +109,8 @@ class HireOutDog : Fragment() {
             adapter.setDropDownViewResource(R.layout.contact_spinner_dropdown_item)
             contactSpinner.adapter = adapter
         }
+
+        storageReference = Firebase.storage.reference.child("Storage")
         return binding.root
     }
 
@@ -116,7 +130,7 @@ class HireOutDog : Fragment() {
 
         // Save listing information
         binding.listDogButton.setOnClickListener {
-            onSubmitListing()
+            onSubmitDoggo()
         }
 
         binding.dateRange.setOnClickListener {
@@ -137,11 +151,12 @@ class HireOutDog : Fragment() {
                 pickVisualMediaLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             }
 
-            ActivityCompat. shouldShowRequestPermissionRationale(
+            ActivityCompat.shouldShowRequestPermissionRationale(
                 requireActivity(),
                 Manifest.permission.READ_EXTERNAL_STORAGE
-            )  -> {
-                Snackbar.make(layout, R.string.permission_required, Snackbar.LENGTH_INDEFINITE).show()
+            ) -> {
+                Snackbar.make(layout, R.string.permission_required, Snackbar.LENGTH_INDEFINITE)
+                    .show()
             }
             else -> {
                 requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -171,29 +186,61 @@ class HireOutDog : Fragment() {
     /**
      * Save the changes that will be sent to the database to list a dog to be available for hire
      */
-    private fun onSubmitListing() {
+    private fun onSubmitDoggo() {
 
         if (listDogViewModel.dogName.value == null || listDogViewModel.description.value == null || listDogViewModel.location.value == null || listDogViewModel.cost.value == 0.0) {
             Toast.makeText(context, "Fields cannot be blank", Toast.LENGTH_LONG)
                 .show() // This can be implemented better when with Material components. Later job :)
         }
 
-        listDogViewModel.dogName.value = binding.name.toString()
-        listDogViewModel.description.value = binding.description.toString()
-        listDogViewModel.location.value = binding.location.toString()
+        val review = ""
 
+        listDogViewModel.dogName.value = binding.name.toString()
         listDogViewModel.breed.value = binding.breedSpinner.onItemSelectedListener.toString()
+        listDogViewModel.description.value = binding.description.toString()
+
+        listDogViewModel.location.value = binding.location.toString()
         listDogViewModel.contactType.value =
             binding.contactSpinner.onItemSelectedListener.toString()
 
-//        listDogViewModel.startDate.value = binding.startDate.toString()
-//        listDogViewModel.endDate.value = binding.endDate.toString()
-
-        //TODO: Need to implement into database
-//        TODO: User name
-//        TODO: Description
-//        TODO: Contact type
-//        TODO: Images - no clue on how to do that yet....
+        storageReference = storageReference.child(System.currentTimeMillis().toString())
+        imageUri?.let {
+            storageReference.putFile(it).addOnSuccessListener { uri ->
+                val upload = Dog(
+                    listDogViewModel.dogName.value!!,
+                    listDogViewModel.breed.value!!,
+                    listDogViewModel.description.value!!,
+                    listDogViewModel.startDate.value!!,
+                    listDogViewModel.endDate.value!!,
+                    listDogViewModel.cost.value.toString(),
+                    review,
+                    "owner id",
+                    listDogViewModel.contactType.value!!,
+                    uri.toString()
+                )
+                firebaseFirestore.collection("Dogs").add(upload).addOnCompleteListener { fsTask ->
+                    if (fsTask.isSuccessful) {
+                        Toast.makeText(
+                            context,
+                            "Uploaded Successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            context,
+                            fsTask.exception?.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }.addOnFailureListener { exception ->
+                    Toast.makeText(
+                        context,
+                        "Image upload failed: ${exception.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
 
     private fun handleKeyEvent(view: View, keyCode: Int): Boolean {
