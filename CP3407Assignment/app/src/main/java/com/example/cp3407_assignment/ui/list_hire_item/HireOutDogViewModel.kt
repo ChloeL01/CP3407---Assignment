@@ -1,12 +1,16 @@
 package com.example.cp3407_assignment.ui.list_hire_item
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.cp3407_assignment.Dog
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 
 class HireOutDogViewModel : ViewModel() {
+
     private val _userName = MutableLiveData<String>()
-    val userName: MutableLiveData<String>
-        get() = _userName
 
     private val _dogName = MutableLiveData<String>()
     val dogName: MutableLiveData<String>
@@ -39,4 +43,41 @@ class HireOutDogViewModel : ViewModel() {
     private val _location = MutableLiveData<String>()
     val location: MutableLiveData<String>
         get() = _location
+
+    // Firebase database
+    private val firebaseFirestore = FirebaseFirestore.getInstance()
+    private var storageReference = Firebase.storage.reference.child("Storage")
+
+    var imageUri: Uri? = null
+
+    private var isSuccessful: Boolean = false
+
+
+    fun saveDogListing() {
+        storageReference = storageReference.child(System.currentTimeMillis().toString())
+        imageUri?.let {
+            storageReference.putFile(it).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    storageReference.downloadUrl.addOnSuccessListener { uri ->
+                        val upload = Dog(
+                            _dogName.value ?: "",
+                            _breed.value ?: "",
+                            _description.value ?: "",
+                            _startDate.value ?: "",
+                            _endDate.value ?: "",
+                            _cost.value.toString(),
+                            "new doggo good boi points",
+                            _userName.value.toString(),
+                            _contactType.value.toString(),
+                            uri.toString()
+                        )
+                        firebaseFirestore.collection("Dogs").add(upload)
+                            .addOnCompleteListener { firestoreTask ->
+                                isSuccessful = firestoreTask.isSuccessful
+                            }
+                    }
+                }
+            }
+        }
+    }
 }

@@ -24,12 +24,12 @@
     <fragment
         android:id="@+id/navigation_messages"
         android:name="com.example.cp3407_assignment.ui.messages.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:label="@string/title_notifications"/>
+<!--        tools:layout="@layout/fragment_notifications" />-->
     <fragment
         android:id="@+id/listHireItem"
         android:name="com.example.cp3407_assignment.ui.list_hire_item.HireOutDog"
-        android:label="Tell us more about your pooch!" />
+        android:label="Tell us more about your pooch!"
 
         tools:layout="@layout/fragment_messages" />
     <fragment
@@ -41,7 +41,11 @@
         android:id="@+id/navigation_profile"
         android:name="com.example.cp3407_assignment.ui.profile.ProfileFragment"
         android:label="@string/profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_profile_to_listHireItem"
+            app:destination="@id/listHireItem" />
+    </fragment>
     <fragment
         android:id="@+id/doggoInformation"
         android:name="com.example.cp3407_assignment.ui.home.DoggoInformation"
