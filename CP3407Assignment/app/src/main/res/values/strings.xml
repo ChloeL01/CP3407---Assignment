@@ -24,7 +24,7 @@
     <string name="image_upload_description">Upload an image of your dog.</string>
     <string name="list_item_button">Publish</string>
     <string name="upload">Upload dog picture</string>
-    <string name="permission_required">Camera access is required to display the camera preview.</string>
+    <string name="permission_required">Image gallery access is required to choose an image of your dog.</string>
     <string name="permission_granted">Permission is granted. You would use the camera now.</string>
     <string name="okay">OK</string>
     <string name="breed">Breed</string>

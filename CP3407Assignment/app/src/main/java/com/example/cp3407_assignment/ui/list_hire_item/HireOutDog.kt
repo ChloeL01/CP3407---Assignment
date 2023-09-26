@@ -3,18 +3,19 @@ package com.example.cp3407_assignment.ui.list_hire_item
 import android.Manifest
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,15 +25,10 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.cp3407_assignment.Dog
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentHireOutDogBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.ktx.storage
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -45,12 +41,11 @@ class HireOutDog : Fragment() {
     private lateinit var pickVisualMediaLauncher: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
-    private val uris: MutableList<Uri> = mutableListOf()
-    private var imageUri: Uri? = null
-
-    // Firebase database
-    private lateinit var firebaseFirestore: FirebaseFirestore
-    private lateinit var storageReference: StorageReference
+    private val resultLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) {
+        listDogViewModel.imageUri = it
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,19 +57,6 @@ class HireOutDog : Fragment() {
 
         binding.dogHireViewModel = listDogViewModel
         layout = binding.listToHireScroll
-
-        pickVisualMediaLauncher =
-            registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { selectedUris ->
-                imageUri = if (selectedUris.isNotEmpty()) {
-                    Log.d("PhotoPicker", "Number of items selected: ${uris.size}")
-                    selectedUris[0]
-                } else {
-                    Log.d("PhotoPicker", "No media selected")
-                    null
-                }
-            }
-
-
 
         requestPermissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -109,8 +91,6 @@ class HireOutDog : Fragment() {
             adapter.setDropDownViewResource(R.layout.contact_spinner_dropdown_item)
             contactSpinner.adapter = adapter
         }
-
-        storageReference = Firebase.storage.reference.child("Storage")
         return binding.root
     }
 
@@ -128,9 +108,8 @@ class HireOutDog : Fragment() {
             handleKeyEvent(view, keyCode)
         }
 
-        // Save listing information
         binding.listDogButton.setOnClickListener {
-            onSubmitDoggo()
+            listDogViewModel.saveDogListing()
         }
 
         binding.dateRange.setOnClickListener {
@@ -140,6 +119,116 @@ class HireOutDog : Fragment() {
         binding.uploadImageButton.setOnClickListener {
             onClickRequestPermission()
         }
+
+        binding.name.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not required
+            }
+
+            override fun onTextChanged(
+                sequence: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+                listDogViewModel.dogName.value = sequence.toString()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Not required
+            }
+        })
+
+        binding.description.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not required
+            }
+
+            override fun onTextChanged(
+                sequence: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+                listDogViewModel.description.value = sequence.toString()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Not required
+            }
+        })
+
+        binding.location.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not required
+            }
+
+            override fun onTextChanged(
+                sequence: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+                listDogViewModel.location.value = sequence.toString()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Not required
+            }
+        })
+
+        binding.hireCost.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not required
+            }
+
+            override fun onTextChanged(
+                sequence: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+                listDogViewModel.cost.value = sequence?.toString()?.toDoubleOrNull() ?: 0.0
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Not required
+            }
+        })
+
+        binding.breedSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedBreed = parent?.getItemAtPosition(position).toString()
+                listDogViewModel.breed.value = selectedBreed
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // TODO: Implement error checking if nothing selected
+            }
+        }
+
+        binding.contactSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    // Not required
+                    val selectedContact = parent?.getItemAtPosition(position).toString()
+                    listDogViewModel.contactType.value = selectedContact
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    // TODO: Implement error checking if nothing selected
+                }
+            }
     }
 
     private fun onClickRequestPermission() {
@@ -148,7 +237,7 @@ class HireOutDog : Fragment() {
                 requireContext(),
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED -> {
-                pickVisualMediaLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                resultLauncher.launch("image/*")
             }
 
             ActivityCompat.shouldShowRequestPermissionRationale(
@@ -183,66 +272,6 @@ class HireOutDog : Fragment() {
         }
     }
 
-    /**
-     * Save the changes that will be sent to the database to list a dog to be available for hire
-     */
-    private fun onSubmitDoggo() {
-
-        if (listDogViewModel.dogName.value == null || listDogViewModel.description.value == null || listDogViewModel.location.value == null || listDogViewModel.cost.value == 0.0) {
-            Toast.makeText(context, "Fields cannot be blank", Toast.LENGTH_LONG)
-                .show() // This can be implemented better when with Material components. Later job :)
-        }
-
-        val review = ""
-
-        listDogViewModel.dogName.value = binding.name.toString()
-        listDogViewModel.breed.value = binding.breedSpinner.onItemSelectedListener.toString()
-        listDogViewModel.description.value = binding.description.toString()
-
-        listDogViewModel.location.value = binding.location.toString()
-        listDogViewModel.contactType.value =
-            binding.contactSpinner.onItemSelectedListener.toString()
-
-        storageReference = storageReference.child(System.currentTimeMillis().toString())
-        imageUri?.let {
-            storageReference.putFile(it).addOnSuccessListener { uri ->
-                val upload = Dog(
-                    listDogViewModel.dogName.value!!,
-                    listDogViewModel.breed.value!!,
-                    listDogViewModel.description.value!!,
-                    listDogViewModel.startDate.value!!,
-                    listDogViewModel.endDate.value!!,
-                    listDogViewModel.cost.value.toString(),
-                    review,
-                    "owner id",
-                    listDogViewModel.contactType.value!!,
-                    uri.toString()
-                )
-                firebaseFirestore.collection("Dogs").add(upload).addOnCompleteListener { fsTask ->
-                    if (fsTask.isSuccessful) {
-                        Toast.makeText(
-                            context,
-                            "Uploaded Successfully",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
-                        Toast.makeText(
-                            context,
-                            fsTask.exception?.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }.addOnFailureListener { exception ->
-                    Toast.makeText(
-                        context,
-                        "Image upload failed: ${exception.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        }
-    }
-
     private fun handleKeyEvent(view: View, keyCode: Int): Boolean {
         if (keyCode == KeyEvent.KEYCODE_ENTER) {
             // Hide keyboard
@@ -252,16 +281,5 @@ class HireOutDog : Fragment() {
             return true
         }
         return false
-    }
-
-    @Override
-    override fun onPause() {
-        super.onPause()
-    }
-
-    @Override
-    override fun onDestroy() {
-        super.onDestroy()
-        pickVisualMediaLauncher.unregister()
     }
 }
