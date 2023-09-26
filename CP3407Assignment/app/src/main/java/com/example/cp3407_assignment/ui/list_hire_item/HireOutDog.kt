@@ -229,8 +229,6 @@ class HireOutDog : Fragment() {
                     // TODO: Implement error checking if nothing selected
                 }
             }
-
-
     }
 
     private fun onClickRequestPermission() {
@@ -239,7 +237,6 @@ class HireOutDog : Fragment() {
                 requireContext(),
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED -> {
-//                pickVisualMediaLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                 resultLauncher.launch("image/*")
             }
 
