@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.cp3407_assignment.R
@@ -18,6 +19,8 @@ import com.example.cp3407_assignment.databinding.FragmentChangePasswordBinding
 class ChangePassword : Fragment() {
 
     private lateinit var binding: FragmentChangePasswordBinding
+
+    private var newPassword: String = ""
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -69,6 +72,23 @@ class ChangePassword : Fragment() {
         binding.currentPassword.addTextChangedListener(textWatcher)
         binding.newPassword.addTextChangedListener(textWatcher)
         binding.confirmNewPassword.addTextChangedListener(textWatcher)
+
+        binding.confirmNewPasswordBtn.setOnClickListener {
+            // TODO connect to User database and get current instance of user
+            // TODO need to check that the password on the database is the same as what the entered
+            // If not current then provide error message
+            // If current update password and update Firebase
+           validatePassword()
+        }
+    }
+
+    private fun validatePassword() {
+        // TODO need to check if user has followed password rules
+        if (binding.newPassword.toString() == binding.confirmNewPassword.toString()){
+            newPassword = binding.newPassword.toString()
+        } else {
+            Toast.makeText(requireContext(), "Passwords don't match", Toast.LENGTH_SHORT).show()
+        }
     }
 
 
