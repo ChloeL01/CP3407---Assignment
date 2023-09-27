@@ -27,13 +27,12 @@ class ProfileFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        // Testing - Jess
-//        binding.testButton.setOnClickListener { view: View? ->
-//            view?.findNavController()?.navigate(R.id.action_navigation_profile_to_listHireItem)
-//        }
-
         binding.contactBtn.setOnClickListener {view: View? ->
             view?.findNavController()?.navigate(R.id.action_navigation_profile_to_userContactDetails)
+        }
+
+        binding.changePasswordBtn.setOnClickListener {view: View? ->
+            view?.findNavController()?.navigate(R.id.action_navigation_profile_to_changePassword)
         }
     }
 }

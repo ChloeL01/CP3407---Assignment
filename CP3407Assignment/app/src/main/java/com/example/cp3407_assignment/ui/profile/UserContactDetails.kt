@@ -25,4 +25,19 @@ class UserContactDetails : Fragment() {
     }
 
 
+    override fun onResume() {
+        super.onResume()
+
+        binding.emailAddress.setOnClickListener { changeEmailAddress() }
+        binding.phoneNumber.setOnClickListener { changePhoneNumber() }
+    }
+
+    private fun changePhoneNumber() {
+        TODO("Not yet implemented")
+    }
+
+    private fun changeEmailAddress() {
+        TODO("Not yet implemented")
+    }
+
 }

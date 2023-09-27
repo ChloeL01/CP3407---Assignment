@@ -48,6 +48,9 @@
         <action
             android:id="@+id/action_navigation_profile_to_userContactDetails"
             app:destination="@id/userContactDetails" />
+        <action
+            android:id="@+id/action_navigation_profile_to_changePassword"
+            app:destination="@id/changePassword" />
     </fragment>
     <fragment
         android:id="@+id/doggoInformation"
@@ -100,4 +103,8 @@
         android:id="@+id/userContactDetails"
         android:name="com.example.cp3407_assignment.ui.profile.UserContactDetails"
         android:label="UserContactDetails" />
+    <fragment
+        android:id="@+id/changePassword"
+        android:name="com.example.cp3407_assignment.ui.profile.ChangePassword"
+        android:label="ChangePassword" />
 </navigation>

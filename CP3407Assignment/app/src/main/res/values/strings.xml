@@ -59,4 +59,8 @@
     <string name="contact_details">Contact Details</string>
     <string name="email_address_icon">email address icon</string>
     <string name="phone_number_icon">phone number icon</string>
+    <string name="password_rules">Your password must be at least six characters and should include a combination of numbers, letter and special characters (!$@%).</string>
+    <string name="current_password">Current password</string>
+    <string name="new_password">New password</string>
+    <string name="retype_new_password">Retype new password</string>
 </resources>
