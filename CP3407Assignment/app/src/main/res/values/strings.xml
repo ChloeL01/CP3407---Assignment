@@ -52,8 +52,9 @@
     <string name="login_failed">"Login failed"</string>
     <string name="user_name">User name placeholder</string>
     <string name="settings">Settings</string>
-    <string name="user_contact">User contact</string>
+    <string name="user_contact">Contact details</string>
     <string name="change_password">Change password</string>
     <string name="log_out">Log out</string>
     <string name="dark_mode">Dark mode</string>
+    <string name="contact_details">Contact Details</string>
 </resources>

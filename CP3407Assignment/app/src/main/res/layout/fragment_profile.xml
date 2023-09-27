@@ -7,7 +7,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/profile_linear"
+        android:id="@+id/profile_constraint"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -36,22 +36,20 @@
             android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
             android:layout_marginTop="12dp"
             android:text="@string/user_name"
             android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/contact_btn"
             app:layout_constraintTop_toBottomOf="@+id/profile_title" />
 
         <TextView
             android:id="@+id/settings_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
             android:layout_marginTop="20dp"
             android:text="@string/settings"
             android:textSize="48sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/profile_title"
             app:layout_constraintTop_toBottomOf="@+id/user_name" />
 
         <com.google.android.material.divider.MaterialDivider
@@ -65,73 +63,58 @@
 
         <Button
             android:id="@+id/contact_btn"
-            android:layout_width="match_parent"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="18dp"
             android:gravity="start"
             android:padding="12dp"
             android:text="@string/user_contact"
             android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/settings_divider" />
 
         <Button
             android:id="@+id/change_password_btn"
-            android:layout_width="match_parent"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="18dp"
             android:gravity="start"
             android:padding="12dp"
             android:text="@string/change_password"
             android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/contact_btn" />
 
         <Button
             android:id="@+id/logout_btn"
-            android:layout_width="match_parent"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="18dp"
             android:layout_marginBottom="18dp"
             android:padding="12dp"
             android:text="@string/log_out"
             android:textSize="22sp"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/dark_mode_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
             android:layout_marginTop="12dp"
             android:text="@string/dark_mode"
             android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/change_password_btn"
             app:layout_constraintTop_toBottomOf="@+id/change_password_btn" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="18dp"
+            app:layout_constraintEnd_toEndOf="@+id/change_password_btn"
             app:layout_constraintTop_toTopOf="@+id/dark_mode_title" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!--    <FrameLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        tools:context=".ui.profile.ProfileFragment">-->
-    <!--&lt;!&ndash;        Testing (Jess) - Needed a way to get to the page&ndash;&gt;-->
-    <!--&lt;!&ndash;        <Button&ndash;&gt;-->
-    <!--&lt;!&ndash;            android:id="@+id/testButton"&ndash;&gt;-->
-    <!--&lt;!&ndash;            android:text="Test"&ndash;&gt;-->
-    <!--&lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
-    <!--&lt;!&ndash;            android:layout_height="wrap_content" />&ndash;&gt;-->
-
-    <!--    </FrameLayout>-->
 </layout>

@@ -30,6 +30,5 @@ class ProfileFragment : Fragment() {
 //        binding.testButton.setOnClickListener { view: View? ->
 //            view?.findNavController()?.navigate(R.id.action_navigation_profile_to_listHireItem)
 //        }
-
     }
 }
