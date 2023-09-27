@@ -6,10 +6,11 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/user_details_constraint"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/contact_title"
@@ -32,17 +33,17 @@
 
         <Button
             android:id="@+id/email_address"
-            android:layout_width="match_parent"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
-            android:typeface="normal"
             android:gravity="start"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:backgroundTint="@color/white"
             android:text="Email address\nexample@email.com"
+            android:drawableLeft="@drawable/ic_email_24"
+            android:textAllCaps="false"
             android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="@+id/contact_title"
+            android:typeface="normal"
+            app:layout_constraintStart_toEndOf="@+id/email_icon"
             app:layout_constraintTop_toBottomOf="@+id/contact_title_divider" />
 
         <com.google.android.material.divider.MaterialDivider
@@ -55,20 +56,18 @@
 
         <Button
             android:id="@+id/phone_number"
-            android:layout_width="match_parent"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:gravity="start"
-            android:textColor="@color/black"
             android:text="Phone number\n0123456789"
-            android:typeface="normal"
+            android:drawableLeft="@drawable/ic_phone"
             android:textAllCaps="false"
-            android:backgroundTint="@color/white"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/contact_title"
+            android:typeface="normal"
+            app:layout_constraintStart_toEndOf="@+id/phone_icon"
             app:layout_constraintTop_toBottomOf="@+id/email_divider" />
-
 
 
         <com.google.android.material.divider.MaterialDivider
@@ -79,5 +78,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phone_number" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

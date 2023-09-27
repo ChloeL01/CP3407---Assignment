@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_navigation_profile_to_listHireItem"
             app:destination="@id/listHireItem" />
+        <action
+            android:id="@+id/action_navigation_profile_to_userContactDetails"
+            app:destination="@id/userContactDetails" />
     </fragment>
     <fragment
         android:id="@+id/doggoInformation"
@@ -93,4 +96,8 @@
             android:id="@+id/action_signup_to_login"
             app:destination="@id/login" />
     </fragment>
+    <fragment
+        android:id="@+id/userContactDetails"
+        android:name="com.example.cp3407_assignment.ui.profile.UserContactDetails"
+        android:label="UserContactDetails" />
 </navigation>

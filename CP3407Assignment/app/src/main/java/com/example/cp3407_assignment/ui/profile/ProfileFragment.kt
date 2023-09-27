@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentProfileBinding
 
@@ -30,5 +31,9 @@ class ProfileFragment : Fragment() {
 //        binding.testButton.setOnClickListener { view: View? ->
 //            view?.findNavController()?.navigate(R.id.action_navigation_profile_to_listHireItem)
 //        }
+
+        binding.contactBtn.setOnClickListener {view: View? ->
+            view?.findNavController()?.navigate(R.id.action_navigation_profile_to_userContactDetails)
+        }
     }
 }
