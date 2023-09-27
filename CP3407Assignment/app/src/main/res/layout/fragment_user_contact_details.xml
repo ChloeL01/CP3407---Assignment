@@ -6,7 +6,7 @@
 
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/user_details_constraint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,15 +35,14 @@
             android:id="@+id/email_address"
             android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
+            android:layout_marginStart="10dp"
             android:gravity="start"
             android:text="Email address\nexample@email.com"
-            android:drawableLeft="@drawable/ic_email_24"
             android:textAllCaps="false"
             android:textSize="22sp"
             android:typeface="normal"
-            app:layout_constraintStart_toEndOf="@+id/email_icon"
+            app:layout_constraintStart_toEndOf="@+id/email_ic"
             app:layout_constraintTop_toBottomOf="@+id/contact_title_divider" />
 
         <com.google.android.material.divider.MaterialDivider
@@ -58,15 +57,14 @@
             android:id="@+id/phone_number"
             android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:gravity="start"
             android:text="Phone number\n0123456789"
-            android:drawableLeft="@drawable/ic_phone"
+            android:layout_marginStart="10dp"
             android:textAllCaps="false"
             android:textSize="20sp"
             android:typeface="normal"
-            app:layout_constraintStart_toEndOf="@+id/phone_icon"
+            app:layout_constraintStart_toEndOf="@+id/phone_ic"
             app:layout_constraintTop_toBottomOf="@+id/email_divider" />
 
 
@@ -78,5 +76,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phone_number" />
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/email_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintBottom_toBottomOf="@+id/email_address"
+            app:layout_constraintStart_toStartOf="@+id/contact_title"
+            app:layout_constraintTop_toTopOf="@+id/email_address"
+            app:srcCompat="@drawable/ic_email_24" />
+
+        <ImageView
+            android:id="@+id/phone_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/phone_number"
+            app:layout_constraintStart_toStartOf="@+id/email_ic"
+            app:layout_constraintTop_toTopOf="@+id/phone_number"
+            app:srcCompat="@drawable/ic_phone" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
