@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -18,19 +17,17 @@ import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentChangePasswordBinding
 
 
-
 class ChangePassword : Fragment() {
 
     private lateinit var binding: FragmentChangePasswordBinding
 
-    private var specialChar = "!$@%"
     private val passwordLength = 6
     private var newPassword = ""
-    private var message = ""
+    private var errors = true
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            // Not needed in this case
+            // Not required
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -39,8 +36,7 @@ class ChangePassword : Fragment() {
         }
 
         override fun afterTextChanged(s: Editable?) {
-            // Not needed in this case
-            // if empty again disable
+            // If any are empty again disable button
             if (binding.currentPassword.text.isEmpty() || binding.newPassword.text.isEmpty() || binding.confirmNewPassword.text.isEmpty()) {
                 binding.confirmNewPasswordButton.isEnabled = false
             }
@@ -90,7 +86,12 @@ class ChangePassword : Fragment() {
 //            validateCurrentPassword()
             validateNewPassword()
 
-            view?.findNavController()?.navigate(R.id.action_changePassword_to_navigation_profile)
+            // If everything went okidoki then go back to profile page
+            if (!errors) {
+                view?.findNavController()
+                    ?.navigate(R.id.action_changePassword_to_navigation_profile)
+            }
+
         }
     }
 
@@ -103,8 +104,6 @@ class ChangePassword : Fragment() {
     }
 
     private fun validateNewPassword() {
-        var errors = true
-
         while (errors) {
             val newPasswordString = binding.newPassword.text.toString()
             val confirmPasswordString = binding.confirmNewPassword.text.toString()
@@ -112,24 +111,34 @@ class ChangePassword : Fragment() {
             // Password rules
             val hasLetter = newPasswordString.any { it.isLetter() }
             val hasNumber = newPasswordString.any { it.isDigit() }
-            val hasSpecialChar = newPasswordString.contains(specialChar)
+            val hasSpecialChar = findSpecialCharacter(newPasswordString)
 
             if (newPasswordString == confirmPasswordString) {
                 if (newPasswordString.length >= passwordLength && hasLetter && hasNumber && hasSpecialChar) {
                     newPassword = newPasswordString
                     errors = false
                 } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "Password does not satisfy requirements",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    binding.currentPassword.text.clear()
+                    binding.newPassword.text.clear()
+                    binding.confirmNewPassword.text.clear()
+//                    Toast.makeText(
+//                        requireContext(),
+//                        "Password does not satisfy requirements",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
                 }
             }
         }
+    }
 
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-
+    private fun findSpecialCharacter(input: String): Boolean {
+        val specialChar = "!$@%"
+        for (char in specialChar){
+            if (input.contains(char)){
+                return true
+            }
+        }
+        return false
     }
 
 
