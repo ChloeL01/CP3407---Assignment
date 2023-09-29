@@ -37,8 +37,7 @@
     <string name="messages">Messages</string>
     <string name="cart">Cart</string>
     <string name="profile">Profile</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="dog_picture">Dog picture</string>
     <string name="_20_22_nov"><u>20 – 22 Nov</u></string>
     <!-- Strings related to login -->
@@ -48,7 +47,7 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome!"</string>
     <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="invalid_password">Password must be >6 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="user_name">User name placeholder</string>
     <string name="settings">Settings</string>
@@ -63,4 +62,6 @@
     <string name="current_password">Current password</string>
     <string name="new_password">New password</string>
     <string name="retype_new_password">Retype new password</string>
+    <string name="create_dog_listing">Create dog listing</string>
+    <string name="create_doggo_listing_icon">Create doggo listing icon</string>
 </resources>

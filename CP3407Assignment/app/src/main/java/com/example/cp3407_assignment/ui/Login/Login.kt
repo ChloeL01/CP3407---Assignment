@@ -1,9 +1,12 @@
 package com.example.cp3407_assignment.ui.Login
 
+import android.content.Context
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -35,7 +38,6 @@ class Login : Fragment() {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         //setContentView(binding.root)
         val root: View = binding.root
-
 
         binding.LoginButton.setOnClickListener {
             if (binding.UsernameLogin.text.toString() == "user" && binding.PasswordLogin.text.toString() == "1234") {
@@ -71,5 +73,4 @@ class Login : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

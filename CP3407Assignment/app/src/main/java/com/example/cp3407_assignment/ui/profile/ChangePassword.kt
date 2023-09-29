@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -12,17 +13,20 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentChangePasswordBinding
+
 
 
 class ChangePassword : Fragment() {
 
     private lateinit var binding: FragmentChangePasswordBinding
+
     private var specialChar = "!$@%"
     private val passwordLength = 6
-
-    private var newPassword: String = ""
+    private var newPassword = ""
+    private var message = ""
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -31,11 +35,15 @@ class ChangePassword : Fragment() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             // Check if all EditText fields have input
-            binding.confirmNewPasswordBtn.isEnabled = checkAllEditTextsNotEmpty()
+            binding.confirmNewPasswordButton.isEnabled = checkAllEditTextsNotEmpty()
         }
 
         override fun afterTextChanged(s: Editable?) {
             // Not needed in this case
+            // if empty again disable
+            if (binding.currentPassword.text.isEmpty() || binding.newPassword.text.isEmpty() || binding.confirmNewPassword.text.isEmpty()) {
+                binding.confirmNewPasswordButton.isEnabled = false
+            }
         }
     }
 
@@ -49,7 +57,6 @@ class ChangePassword : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
 
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_change_password, container, false)
@@ -75,32 +82,54 @@ class ChangePassword : Fragment() {
         binding.newPassword.addTextChangedListener(textWatcher)
         binding.confirmNewPassword.addTextChangedListener(textWatcher)
 
-        binding.confirmNewPasswordBtn.setOnClickListener {
-            // TODO connect to User database and get current instance of user
-            // TODO need to check that the password on the database is the same as what the entered
+        binding.confirmNewPasswordButton.setOnClickListener {
+            // Connect to User database and get current instance of user
+            // Need to check that the password on the database is the same as what the entered
             // If not current then provide error message
             // If current update password and update Firebase
-            validatePassword()
+//            validateCurrentPassword()
+            validateNewPassword()
+
+            view?.findNavController()?.navigate(R.id.action_changePassword_to_navigation_profile)
         }
     }
 
-    private fun validatePassword() {
-        val newPasswordString = binding.newPassword.text.toString()
-        val confirmPasswordString = binding.confirmNewPassword.text.toString()
+    private fun updatePassword() {
+        TODO("Not yet implemented")
+    }
 
-        val hasLetter = newPasswordString.any { it.isLetter() }
-        val hasNumber = newPasswordString.any { it.isDigit() }
-        val hasSpecialChar = newPasswordString.contains(specialChar)
+    private fun validateCurrentPassword() {
+        TODO("Not yet implemented")
+    }
 
-        if (newPasswordString == confirmPasswordString) {
-            if (newPasswordString.length >= passwordLength && hasLetter && hasNumber && hasSpecialChar) {
-                newPassword = newPasswordString
-            } else {
-                Toast.makeText(requireContext(), "Password does not satisfy requirements", Toast.LENGTH_SHORT).show()
+    private fun validateNewPassword() {
+        var errors = true
+
+        while (errors) {
+            val newPasswordString = binding.newPassword.text.toString()
+            val confirmPasswordString = binding.confirmNewPassword.text.toString()
+
+            // Password rules
+            val hasLetter = newPasswordString.any { it.isLetter() }
+            val hasNumber = newPasswordString.any { it.isDigit() }
+            val hasSpecialChar = newPasswordString.contains(specialChar)
+
+            if (newPasswordString == confirmPasswordString) {
+                if (newPasswordString.length >= passwordLength && hasLetter && hasNumber && hasSpecialChar) {
+                    newPassword = newPasswordString
+                    errors = false
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Password does not satisfy requirements",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
-        } else {
-            Toast.makeText(requireContext(), "Passwords don't match", Toast.LENGTH_SHORT).show()
         }
+
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+
     }
 
 
