@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentChangePasswordBinding
+import com.example.cp3407_assignment.ui.ValidatePassword
 
 
 class ChangePassword : Fragment() {
@@ -89,7 +90,6 @@ class ChangePassword : Fragment() {
                 view?.findNavController()
                     ?.navigate(R.id.action_changePassword_to_navigation_profile)
             }
-
         }
     }
 
@@ -98,40 +98,46 @@ class ChangePassword : Fragment() {
     }
 
     private fun validateCurrentPassword() {
-        // Check current password enetered is the same to what is on user account.
+        // Check current password entered is the same to what is on user account.
     }
 
     private fun validateNewPassword() {
 
-        val passwordLength = 6
+        val input = binding.newPassword.text.toString()
+        val confirmInput = binding.confirmNewPassword.text.toString()
 
-        val newPasswordString = binding.newPassword.text.toString()
-        val confirmPasswordString = binding.confirmNewPassword.text.toString()
+        val validatePassword = ValidatePassword(input, confirmInput)
 
-        // Password rules
-        val hasLetter = newPasswordString.any { it.isLetter() }
-        val hasNumber = newPasswordString.any { it.isDigit() }
-        val hasSpecialChar = findSpecialCharacter(newPasswordString)
+        if (!validatePassword.checkPasswordRules() && !validatePassword.checkConfirmPassword()) {
+            Toast.makeText(
+                requireContext(),
+                "Password does not meet requirements. Please review rules above. ",
+                Toast.LENGTH_LONG
+            ).show()
 
-        if (newPasswordString.length < passwordLength || !hasLetter || !hasNumber || !hasSpecialChar || newPasswordString != confirmPasswordString) {
+            updateUI()
 
-            Toast.makeText(requireContext(), "Password does not meet requirements. Please review rules above. ", Toast.LENGTH_LONG).show()
-
-            binding.newPassword.removeTextChangedListener(textWatcher)
-            binding.confirmNewPassword.removeTextChangedListener(textWatcher)
-
-            // Clear EditText
-            binding.currentPassword.text.clear()
-            binding.newPassword.text.clear()
-            binding.confirmNewPassword.text.clear()
-
-            binding.newPassword.addTextChangedListener(textWatcher)
-            binding.confirmNewPassword.addTextChangedListener(textWatcher)
         } else {
-            newPassword = newPasswordString
+
+            newPassword = input
             errors = false
         }
 
+
+
+    }
+
+    private fun updateUI() {
+        binding.newPassword.removeTextChangedListener(textWatcher)
+        binding.confirmNewPassword.removeTextChangedListener(textWatcher)
+
+        // Clear EditText
+        binding.currentPassword.text.clear()
+        binding.newPassword.text.clear()
+        binding.confirmNewPassword.text.clear()
+
+        binding.newPassword.addTextChangedListener(textWatcher)
+        binding.confirmNewPassword.addTextChangedListener(textWatcher)
     }
 
     private fun findSpecialCharacter(input: String): Boolean {
