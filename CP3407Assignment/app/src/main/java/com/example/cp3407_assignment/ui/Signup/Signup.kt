@@ -1,6 +1,7 @@
 package com.example.cp3407_assignment.ui.Signup
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +13,17 @@ import androidx.navigation.fragment.findNavController
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentSignupBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.example.cp3407_assignment.User
 
 
 class Signup : Fragment() {
     private var _binding: FragmentSignupBinding? = null
+
+    private val db = Firebase.firestore
+    //private lateinit var firebaseFirestore: FirebaseFirestore
 
     lateinit var userNameInput: EditText
     lateinit var passwordInput: EditText
@@ -34,10 +42,6 @@ class Signup : Fragment() {
         _binding = FragmentSignupBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // hide nav bar
-        val view = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
-        view.visibility = View.GONE
-
         binding.confirmButton.setOnClickListener {
             if (binding.phoneNumberInput.text.toString().length != 8 && binding.passwordInput.text.toString()
                     .isNotEmpty() && binding.userNameInput.text.toString()
@@ -54,18 +58,24 @@ class Signup : Fragment() {
                 var Username = binding.userNameInput.text.toString()
                 var Email = binding.emailInput.text.toString()
                 val PhoneNumber = binding.phoneNumberInput.text.toString()
+                val ListDogs = ""
 
-                Toast.makeText(context, "Welcome " + Username, Toast.LENGTH_SHORT).show()
+                //val user = User(Username, Password, ListDogs, Email, PhoneNumber)
+                val user = User(Username, Password, ListDogs, Email, PhoneNumber)
+                db.collection("Users").document(Username).set(user)
+                    .addOnSuccessListener {
+                        Toast.makeText(
+                            context,
+                            "Note saved",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
+                        Log.d("error", e.toString())
+                    }
 
-                findNavController().navigate(
-                    R.id.action_signup_to_navigation_home
-                )
-
-            } else {
-                Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             }
-
-
         }
         val returnToLoginButton = binding.returnToLoginButton
         returnToLoginButton.setOnClickListener {
