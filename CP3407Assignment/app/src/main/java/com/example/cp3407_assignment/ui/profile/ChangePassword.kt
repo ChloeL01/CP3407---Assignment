@@ -31,8 +31,7 @@ class ChangePassword : Fragment() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            // Check if all EditText fields have input
-            binding.confirmNewPasswordButton.isEnabled = checkAllEditTextsNotEmpty()
+            binding.confirmNewPasswordButton.isEnabled = checkAllEditTextsNotEmpty()        // Change password button enabled when there is a value in each EditText
         }
 
         override fun afterTextChanged(s: Editable?) {
@@ -43,6 +42,9 @@ class ChangePassword : Fragment() {
         }
     }
 
+    /**
+     * Checks if all EditTexts to see if they are empty
+     */
     private fun checkAllEditTextsNotEmpty(): Boolean {
         return binding.currentPassword.toString().isNotEmpty() && binding.newPassword.toString()
             .isNotEmpty() && binding.confirmNewPassword.toString().isNotEmpty()
@@ -64,7 +66,6 @@ class ChangePassword : Fragment() {
     override fun onResume() {
         super.onResume()
 
-
         binding.currentPassword.setOnKeyListener { view, keyCode, _ ->
             handleKeyEvent(view, keyCode)
         }
@@ -80,27 +81,28 @@ class ChangePassword : Fragment() {
 
         binding.confirmNewPasswordButton.setOnClickListener {
             // Connect to User database and get current instance of user
-            // Need to check that the password on the database is the same as what the entered
-            // If not current then provide error message
-            // If current update password and update Firebase
+            // Check that the password on the database is the same as what the entered
+            validateCurrentPassword()
             validateNewPassword()
 
             // If everything went okidoki then go back to profile page
             if (!errors) {
+                // Upload new password to User
+
+                // Return to Profile page
                 view?.findNavController()
                     ?.navigate(R.id.action_changePassword_to_navigation_profile)
             }
         }
     }
 
-    private fun updatePassword() {
-        TODO("Not yet implemented")
-    }
-
     private fun validateCurrentPassword() {
         // Check current password entered is the same to what is on user account.
     }
 
+    /**
+     * Validate user's new password and confirm new password input
+     */
     private fun validateNewPassword() {
 
         val input = binding.newPassword.text.toString()
@@ -122,32 +124,21 @@ class ChangePassword : Fragment() {
             newPassword = input
             errors = false
         }
-
-
-
     }
 
+    /**
+     * Updates the EditTexts
+     */
     private fun updateUI() {
         binding.newPassword.removeTextChangedListener(textWatcher)
         binding.confirmNewPassword.removeTextChangedListener(textWatcher)
 
-        // Clear EditText
         binding.currentPassword.text.clear()
         binding.newPassword.text.clear()
         binding.confirmNewPassword.text.clear()
 
         binding.newPassword.addTextChangedListener(textWatcher)
         binding.confirmNewPassword.addTextChangedListener(textWatcher)
-    }
-
-    private fun findSpecialCharacter(input: String): Boolean {
-        val specialChar = "!$@%"
-        for (char in specialChar) {
-            if (input.contains(char)) {
-                return true
-            }
-        }
-        return false
     }
 
     private fun handleKeyEvent(view: View, keyCode: Int): Boolean {
