@@ -21,7 +21,6 @@ class ChangePassword : Fragment() {
 
     private lateinit var binding: FragmentChangePasswordBinding
 
-    private val passwordLength = 6
     private var newPassword = ""
     private var errors = true
 
@@ -83,7 +82,6 @@ class ChangePassword : Fragment() {
             // Need to check that the password on the database is the same as what the entered
             // If not current then provide error message
             // If current update password and update Firebase
-//            validateCurrentPassword()
             validateNewPassword()
 
             // If everything went okidoki then go back to profile page
@@ -100,47 +98,51 @@ class ChangePassword : Fragment() {
     }
 
     private fun validateCurrentPassword() {
-        TODO("Not yet implemented")
+        // Check current password enetered is the same to what is on user account.
     }
 
     private fun validateNewPassword() {
-        while (errors) {
-            val newPasswordString = binding.newPassword.text.toString()
-            val confirmPasswordString = binding.confirmNewPassword.text.toString()
 
-            // Password rules
-            val hasLetter = newPasswordString.any { it.isLetter() }
-            val hasNumber = newPasswordString.any { it.isDigit() }
-            val hasSpecialChar = findSpecialCharacter(newPasswordString)
+        val passwordLength = 6
 
-            if (newPasswordString == confirmPasswordString) {
-                if (newPasswordString.length >= passwordLength && hasLetter && hasNumber && hasSpecialChar) {
-                    newPassword = newPasswordString
-                    errors = false
-                } else {
-                    binding.currentPassword.text.clear()
-                    binding.newPassword.text.clear()
-                    binding.confirmNewPassword.text.clear()
-//                    Toast.makeText(
-//                        requireContext(),
-//                        "Password does not satisfy requirements",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-                }
-            }
+        val newPasswordString = binding.newPassword.text.toString()
+        val confirmPasswordString = binding.confirmNewPassword.text.toString()
+
+        // Password rules
+        val hasLetter = newPasswordString.any { it.isLetter() }
+        val hasNumber = newPasswordString.any { it.isDigit() }
+        val hasSpecialChar = findSpecialCharacter(newPasswordString)
+
+        if (newPasswordString.length < passwordLength || !hasLetter || !hasNumber || !hasSpecialChar || newPasswordString != confirmPasswordString) {
+
+            Toast.makeText(requireContext(), "Password does not meet requirements. Please review rules above. ", Toast.LENGTH_LONG).show()
+
+            binding.newPassword.removeTextChangedListener(textWatcher)
+            binding.confirmNewPassword.removeTextChangedListener(textWatcher)
+
+            // Clear EditText
+            binding.currentPassword.text.clear()
+            binding.newPassword.text.clear()
+            binding.confirmNewPassword.text.clear()
+
+            binding.newPassword.addTextChangedListener(textWatcher)
+            binding.confirmNewPassword.addTextChangedListener(textWatcher)
+        } else {
+            newPassword = newPasswordString
+            errors = false
         }
+
     }
 
     private fun findSpecialCharacter(input: String): Boolean {
         val specialChar = "!$@%"
-        for (char in specialChar){
-            if (input.contains(char)){
+        for (char in specialChar) {
+            if (input.contains(char)) {
                 return true
             }
         }
         return false
     }
-
 
     private fun handleKeyEvent(view: View, keyCode: Int): Boolean {
         if (keyCode == KeyEvent.KEYCODE_ENTER) {
