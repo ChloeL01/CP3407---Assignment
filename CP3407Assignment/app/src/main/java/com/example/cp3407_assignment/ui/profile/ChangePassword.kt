@@ -19,6 +19,8 @@ import com.example.cp3407_assignment.databinding.FragmentChangePasswordBinding
 class ChangePassword : Fragment() {
 
     private lateinit var binding: FragmentChangePasswordBinding
+    private var specialChar = "!$@%"
+    private val passwordLength = 6
 
     private var newPassword: String = ""
 
@@ -78,14 +80,24 @@ class ChangePassword : Fragment() {
             // TODO need to check that the password on the database is the same as what the entered
             // If not current then provide error message
             // If current update password and update Firebase
-           validatePassword()
+            validatePassword()
         }
     }
 
     private fun validatePassword() {
-        // TODO need to check if user has followed password rules
-        if (binding.newPassword.toString() == binding.confirmNewPassword.toString()){
-            newPassword = binding.newPassword.toString()
+        val newPasswordString = binding.newPassword.text.toString()
+        val confirmPasswordString = binding.confirmNewPassword.text.toString()
+
+        val hasLetter = newPasswordString.any { it.isLetter() }
+        val hasNumber = newPasswordString.any { it.isDigit() }
+        val hasSpecialChar = newPasswordString.contains(specialChar)
+
+        if (newPasswordString == confirmPasswordString) {
+            if (newPasswordString.length >= passwordLength && hasLetter && hasNumber && hasSpecialChar) {
+                newPassword = newPasswordString
+            } else {
+                Toast.makeText(requireContext(), "Password does not satisfy requirements", Toast.LENGTH_SHORT).show()
+            }
         } else {
             Toast.makeText(requireContext(), "Passwords don't match", Toast.LENGTH_SHORT).show()
         }
