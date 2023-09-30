@@ -23,7 +23,6 @@ class Signup : Fragment() {
     private var _binding: FragmentSignupBinding? = null
 
     private val db = Firebase.firestore
-    //private lateinit var firebaseFirestore: FirebaseFirestore
 
     lateinit var userNameInput: EditText
     lateinit var passwordInput: EditText
@@ -43,45 +42,59 @@ class Signup : Fragment() {
         val root: View = binding.root
 
         binding.confirmButton.setOnClickListener {
-            if (binding.phoneNumberInput.text.toString().length != 8 && binding.passwordInput.text.toString()
-                    .isNotEmpty() && binding.userNameInput.text.toString()
-                    .isNotEmpty() && binding.emailInput.text.toString().isNotEmpty()
-            ) {
-                Toast.makeText(context, "Please enter valid phone number", Toast.LENGTH_SHORT)
-                    .show()
-            } else if (binding.passwordInput.text.toString()
-                    .isNotEmpty() && binding.userNameInput.text.toString()
-                    .isNotEmpty() && binding.emailInput.text.toString()
-                    .isNotEmpty() && binding.phoneNumberInput.text.toString().isNotEmpty()
-            ) {
-                var Password = binding.passwordInput.text.toString()
-                var Username = binding.userNameInput.text.toString()
-                var Email = binding.emailInput.text.toString()
-                val PhoneNumber = binding.phoneNumberInput.text.toString()
-                val ListDogs = ""
+            var Password = binding.passwordInput.text.toString()
+            var Username = binding.userNameInput.text.toString()
+            var Email = binding.emailInput.text.toString()
+            val PhoneNumber = binding.phoneNumberInput.text.toString()
+            val ListDogs = ""
 
-                //val user = User(Username, Password, ListDogs, Email, PhoneNumber)
-                val user = User(Username, Password, ListDogs, Email, PhoneNumber)
-                db.collection("Users").document(Username).set(user)
-                    .addOnSuccessListener {
+            db.collection("Users").document(Username).get()
+                .addOnSuccessListener { documentSnapshot ->
+                    if (documentSnapshot.exists()) {
                         Toast.makeText(
                             context,
-                            "Note saved",
+                            "This username is taken, please try again",
                             Toast.LENGTH_SHORT
                         ).show()
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
-                        Log.d("error", e.toString())
-                    }
+                    } else if (binding.phoneNumberInput.text.toString().length != 8 && binding.passwordInput.text.toString()
+                            .isNotEmpty() && binding.userNameInput.text.toString()
+                            .isNotEmpty() && binding.emailInput.text.toString().isNotEmpty()
+                    ) {
+                        Toast.makeText(
+                            context,
+                            "Please enter valid phone number",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    } else if (binding.passwordInput.text.toString()
+                            .isNotEmpty() && binding.userNameInput.text.toString()
+                            .isNotEmpty() && binding.emailInput.text.toString()
+                            .isNotEmpty() && binding.phoneNumberInput.text.toString().isNotEmpty()
+                    ) {
 
+                        val user = User(Username, Password, ListDogs, Email, PhoneNumber)
+                        db.collection("Users").document(Username).set(user)
+                            .addOnSuccessListener {
+                                Toast.makeText(
+                                    context,
+                                    "Welcome " + Username,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                findNavController().navigate(R.id.action_signup_to_navigation_home)
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
+                                Log.d("error", e.toString())
+                            }
+
+                    }
+                }
+            val returnToLoginButton = binding.returnToLoginButton
+            returnToLoginButton.setOnClickListener {
+                findNavController().navigate(
+                    R.id.action_signup_to_login
+                )
             }
-        }
-        val returnToLoginButton = binding.returnToLoginButton
-        returnToLoginButton.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_signup_to_login
-            )
         }
 
         return root

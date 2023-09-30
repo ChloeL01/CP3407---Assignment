@@ -1,6 +1,7 @@
 package com.example.cp3407_assignment.ui.Login
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,31 +41,40 @@ class Login : Fragment() {
         //setContentView(binding.root)
         val root: View = binding.root
 
-
         binding.LoginButton.setOnClickListener {
-            if (binding.UsernameLogin.text.toString() == "user" && binding.PasswordLogin.text.toString() == "1234") {
-                Toast.makeText(
-                    context,
-                    "Welcome Back " + binding.UsernameLogin.text.toString(),
-                    Toast.LENGTH_SHORT
-                ).show()
+            var Username = binding.UsernameLogin.text.toString()
+            var Password = binding.PasswordLogin.text.toString()
+            db.collection("Users").document(Username).get()
+                .addOnSuccessListener { documentSnapshot ->
+                    if (documentSnapshot.exists()) {
+                        val username = documentSnapshot.getString(Username)
+                        val password = documentSnapshot.getString(Password)
+                        Toast.makeText(
+                            context,
+                            "Welcome Back " + binding.UsernameLogin.text.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        findNavController().navigate(R.id.action_login_to_navigation_home)
 
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "That doesn't look right, please try again",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-                findNavController().navigate(R.id.action_login_to_navigation_home)
-
-            } else {
-                Toast.makeText(
-                    context,
-                    "That doesn't look right, please try again",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-            }
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
+                    Log.d("Error finding User", e.toString())
+                }
         }
 
         binding.ReturnToSignInButton.setOnClickListener {
             findNavController().navigate(
-                R.id.action_login_to_signup)
+                R.id.action_login_to_signup
+            )
         }
 
         return root
