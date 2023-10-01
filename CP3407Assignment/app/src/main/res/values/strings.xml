@@ -3,4 +3,15 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="left_arrow"><![CDATA[<—]]></string>
+    <string name="month_year_text">Sep 2023</string>
+    <string name="right_arrow"><![CDATA[—>]]></string>
+    <string name="monday_text">MON</string>
+    <string name="tuesday_text">TUE</string>
+    <string name="wednesday_text">WED</string>
+    <string name="thursday_text">THU</string>
+    <string name="friday_text">FRI</string>
+    <string name="saturday_text">SAT</string>
+    <string name="sunday_text">SUN</string>
+    <string name="block_text">1</string>
 </resources>
