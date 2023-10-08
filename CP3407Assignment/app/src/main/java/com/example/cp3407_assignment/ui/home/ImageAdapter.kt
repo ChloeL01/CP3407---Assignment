@@ -30,7 +30,7 @@ class ImageAdapter(private val mContext: Context, dogs: List<Dog>) :
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         val uploadCurrent: Dog = mDogs[position]
-        holder.textViewName.text = uploadCurrent.doggo_name
+        holder.textViewName.text = mContext.getString(R.string.hire_doggo_name, uploadCurrent.doggo_name)
         holder.textViewBreed.text = uploadCurrent.doggo_breed
         holder.textViewDate.text = mContext.getString(R.string.hire_date, uploadCurrent.hire_start_date, uploadCurrent.hire_end_date)
         holder.textViewCost.text = mContext.getString(R.string.hire_cost, uploadCurrent.cost)
@@ -44,6 +44,8 @@ class ImageAdapter(private val mContext: Context, dogs: List<Dog>) :
         Picasso.with(mContext)
             .load(uploadCurrent.imageUrl)
             .fit()
+            .placeholder(R.drawable.placeholder)
+            .error(R.drawable.ic_baseline_error_24)
             .centerCrop()
             .into(holder.imageView)
     }

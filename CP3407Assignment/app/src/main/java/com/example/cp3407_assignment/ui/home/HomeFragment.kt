@@ -1,5 +1,6 @@
 package com.example.cp3407_assignment.ui.home
 
+import android.R.attr.rating
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -25,7 +27,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class HomeFragment : Fragment() {
@@ -57,12 +58,35 @@ class HomeFragment : Fragment() {
         storageReference = FirebaseStorage.getInstance().reference.child("Storage")
         firebaseFirestore = FirebaseFirestore.getInstance()
 
+
         return root
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString("search_query", binding.searchBar.query.toString())
+        super.onSaveInstanceState(outState)
+    }
+
+//    override fun onActivityCreated(@Nullable savedInstanceState: Bundle) {
+//        super.onActivityCreated(savedInstanceState)
+//        title = savedInstanceState.getString(TITLE)
+//        rating = savedInstanceState.getDouble(RATING).toInt()
+//        year = savedInstanceState.getInt(YEAR)
+//    }
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (savedInstanceState != null) {
+            binding.searchBar.setQuery("this is a test", false)
+            Toast.makeText(
+                context,
+                savedInstanceState.getString("search_query") + " not NULL",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
 
         val mRecyclerView = binding.recyclerView
 
@@ -78,8 +102,11 @@ class HomeFragment : Fragment() {
         //searchbar logic
         binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(newText: String): Boolean {
+                //onSaveInstanceState()
                 createSpinner()
                 searchList(newText, mUploads)
+                mRecyclerView.scrollToPosition(0)
+
                 binding.textViewSearchResults.visibility = View.VISIBLE
                 binding.spinner.visibility = View.VISIBLE
                 binding.searchBar.clearFocus()
@@ -90,6 +117,17 @@ class HomeFragment : Fragment() {
                 return false
             }
         })
+
+        //reset the page if the "X" button is pushed in the search bar
+        val closeBtn: View = binding.searchBar.findViewById(androidx.appcompat.R.id.search_close_btn)
+        closeBtn.setOnClickListener {
+            //binding.searchBar.setQuery("", false) // reset Query text to be empty without submition
+            binding.searchBar.isIconified = true // Replace the x icon with the search icon
+            binding.textViewSearchResults.visibility = View.GONE
+            binding.spinner.visibility = View.GONE
+            mRecyclerView.scrollToPosition(0)
+            mAdapter.searchDataList(mUploads)
+        }
 
     }
 
@@ -122,13 +160,13 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun sortSearchList(dataList: ArrayList<Dog>, position: Int){
+    private fun sortSearchList(dataList: ArrayList<Dog>, position: Int) {
         when (position) {
-            0 -> dataList.sortBy { it.cost?.toFloat()}
-            1 -> dataList.sortByDescending { it.cost?.toFloat() }
-            2 -> dataList.sortWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.doggo_breed!! })
-            3 -> dataList.sortByDescending{ it.doggo_breed!! }
-            else -> {
+            0 -> dataList.sortBy { it.cost?.toFloat() } //price low to high
+            1 -> dataList.sortByDescending { it.cost?.toFloat() } //price high to low
+            2 -> dataList.sortWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.doggo_breed!! }) //A-Z
+            3 -> dataList.sortByDescending { it.doggo_breed!! } //Z-A
+            else -> { //popular
                 dataList.sortWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.doggo_review!! })
             }
         }
@@ -156,7 +194,8 @@ class HomeFragment : Fragment() {
                                 "description" to model.description,
                                 "reviews" to model.doggo_review,
                                 "start_date" to model.hire_start_date,
-                                "end_date" to model.hire_end_date
+                                "end_date" to model.hire_end_date,
+                                "search_query" to binding.searchBar.query.toString()
                             )
                         findNavController().navigate(
                             R.id.action_navigation_home_to_doggoInformation,
@@ -168,9 +207,10 @@ class HomeFragment : Fragment() {
     }
 
     fun searchList(text: String, dataList: ArrayList<Dog>) {
-        searchList = ArrayList<Dog>()
+        searchList = ArrayList()
         for (dataClass in dataList) {
             if (dataClass.description?.lowercase()
+                    ?.contains(text.lowercase(Locale.getDefault())) == true || dataClass.doggo_breed?.lowercase()
                     ?.contains(text.lowercase(Locale.getDefault())) == true
             ) {
                 searchList.add(dataClass)
@@ -188,7 +228,9 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.searchBar.setQuery("", false) //clear the searchbar of old user input
+        //binding.searchBar.setQuery("", false) //clear the searchbar of old user input
+
+        //binding.searchBar.setQuery(arguments?.getString("search_query"), true)
 
         // this stops the back button so that the user cant go back to the login screen
         requireView().isFocusableInTouchMode = true

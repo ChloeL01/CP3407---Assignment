@@ -63,6 +63,7 @@
     <string name="good_boi_pic">Good boi pic</string>
 
     <string name="hire_date">%1$s - %2$s</string>
+    <string name="hire_doggo_name">%1$s |</string>
     <string name="hire_cost">$%1$s</string>
     <string name="doggo_name">Name</string>
     <string name="good_boi_breed">Good boi breed</string>
