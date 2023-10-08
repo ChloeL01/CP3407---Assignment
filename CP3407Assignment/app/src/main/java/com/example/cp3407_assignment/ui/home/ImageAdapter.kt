@@ -2,6 +2,7 @@ package com.example.cp3407_assignment.ui.home
 
 
 import android.content.Context
+import android.provider.Settings.System.getString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,9 +31,9 @@ class ImageAdapter(private val mContext: Context, dogs: List<Dog>) :
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         val uploadCurrent: Dog = mDogs[position]
         holder.textViewName.text = uploadCurrent.doggo_name
-        holder.textViewDate.text =
-            uploadCurrent.hire_start_date + " - " + uploadCurrent.hire_end_date
-        holder.textViewCost.text = "$" + uploadCurrent.cost
+        holder.textViewBreed.text = uploadCurrent.doggo_breed
+        holder.textViewDate.text = mContext.getString(R.string.hire_date, uploadCurrent.hire_start_date, uploadCurrent.hire_end_date)
+        holder.textViewCost.text = mContext.getString(R.string.hire_cost, uploadCurrent.cost)
 
         holder.itemView.setOnClickListener {
             if (onClickListener != null) {
@@ -67,12 +68,14 @@ class ImageAdapter(private val mContext: Context, dogs: List<Dog>) :
 
     inner class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var textViewName: TextView
+        var textViewBreed: TextView
         var textViewDate: TextView
         var textViewCost: TextView
         var imageView: ImageView
 
         init {
             textViewName = itemView.findViewById(R.id.text_view_name)
+            textViewBreed = itemView.findViewById(R.id.text_view_breed)
             textViewDate = itemView.findViewById(R.id.text_view_start_date)
             textViewCost = itemView.findViewById(R.id.text_view_cost)
             imageView = itemView.findViewById(R.id.image_view_upload)

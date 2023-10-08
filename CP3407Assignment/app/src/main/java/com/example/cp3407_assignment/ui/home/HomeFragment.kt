@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -41,6 +40,8 @@ class HomeFragment : Fragment() {
     private lateinit var mAdapter: ImageAdapter
 
     private val binding get() = _binding!!
+    private lateinit var mUploads: ArrayList<Dog>
+    private lateinit var searchList: ArrayList<Dog>
 
 
     override fun onCreateView(
@@ -68,7 +69,7 @@ class HomeFragment : Fragment() {
         mRecyclerView.setHasFixedSize(true)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        val mUploads = ArrayList<Dog>()
+        mUploads = ArrayList()
 
         mAdapter = context?.let { ImageAdapter(it, mUploads) }!!
 
@@ -94,14 +95,14 @@ class HomeFragment : Fragment() {
 
     private fun createSpinner() {
         //spinner setup
-        val filter_options = resources.getStringArray(R.array.Filter_options)
+        val filterOptions = resources.getStringArray(R.array.Filter_options)
 
         //load spinner options
         val spinner = binding.spinner
         val adapter = context?.let {
             ArrayAdapter(
                 it,
-                android.R.layout.simple_spinner_item, filter_options
+                android.R.layout.simple_spinner_item, filterOptions
             )
         }
         spinner.adapter = adapter
@@ -112,15 +113,26 @@ class HomeFragment : Fragment() {
                 parent: AdapterView<*>,
                 view: View?, position: Int, id: Long
             ) {
-//                    Toast.makeText(context,
-//                        getString(R.string.selected_item) + " " +
-//                                "" + filter_options[position], Toast.LENGTH_SHORT).show()
+                sortSearchList(searchList, position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // write code to perform some action
             }
         }
+    }
+
+    private fun sortSearchList(dataList: ArrayList<Dog>, position: Int){
+        when (position) {
+            0 -> dataList.sortBy { it.cost?.toFloat()}
+            1 -> dataList.sortByDescending { it.cost?.toFloat() }
+            2 -> dataList.sortWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.doggo_breed!! })
+            3 -> dataList.sortByDescending{ it.doggo_breed!! }
+            else -> {
+                dataList.sortWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.doggo_review!! })
+            }
+        }
+        mAdapter.searchDataList(dataList)
     }
 
     private fun loadDogs(mUploads: ArrayList<Dog>, mRecyclerView: RecyclerView) {
@@ -139,6 +151,7 @@ class HomeFragment : Fragment() {
                         val bundle =
                             bundleOf(
                                 "doggo_name" to model.doggo_name,
+                                "doggo_breed" to model.doggo_breed,
                                 "imageUrl" to model.imageUrl,
                                 "description" to model.description,
                                 "reviews" to model.doggo_review,
@@ -150,13 +163,12 @@ class HomeFragment : Fragment() {
                             bundle
                         )
                     }
-
                 })
             }
     }
 
     fun searchList(text: String, dataList: ArrayList<Dog>) {
-        val searchList = ArrayList<Dog>()
+        searchList = ArrayList<Dog>()
         for (dataClass in dataList) {
             if (dataClass.description?.lowercase()
                     ?.contains(text.lowercase(Locale.getDefault())) == true
