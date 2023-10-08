@@ -1,39 +1,44 @@
 package com.example.cp3407_assignment.ui.home
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.cp3407_assignment.Dog
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentHomeBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
 
-    //private val TAG = "MainActivity"
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var storageReference: StorageReference
-    private var imageUri: Uri? = null
-
     private val db = Firebase.firestore
     private val dogDBRef = db.collection("Dogs")
+
+    private lateinit var mAdapter: ImageAdapter
 
     private val binding get() = _binding!!
 
@@ -44,29 +49,16 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+            ViewModelProvider(this)[HomeViewModel::class.java]
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
         storageReference = FirebaseStorage.getInstance().reference.child("Storage")
         firebaseFirestore = FirebaseFirestore.getInstance()
-
-
-// TODO use this code to open the photos on the device
-//        binding.buttonChooseImage.setOnClickListener {
-//            resultLauncher.launch("image/*")
-//        }
 
         return root
     }
 
-    // TODO use this code to open the photos on the device
-    private val resultLauncher = registerForActivityResult(
-        ActivityResultContracts.GetContent()
-    ) {
-        imageUri = it
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -78,17 +70,71 @@ class HomeFragment : Fragment() {
 
         val mUploads = ArrayList<Dog>()
 
+        mAdapter = context?.let { ImageAdapter(it, mUploads) }!!
+
+        loadDogs(mUploads, mRecyclerView)
+
+        //searchbar logic
+        binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(newText: String): Boolean {
+                createSpinner()
+                searchList(newText, mUploads)
+                binding.textViewSearchResults.visibility = View.VISIBLE
+                binding.spinner.visibility = View.VISIBLE
+                binding.searchBar.clearFocus()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
+
+    }
+
+    private fun createSpinner() {
+        //spinner setup
+        val filter_options = resources.getStringArray(R.array.Filter_options)
+
+        //load spinner options
+        val spinner = binding.spinner
+        val adapter = context?.let {
+            ArrayAdapter(
+                it,
+                android.R.layout.simple_spinner_item, filter_options
+            )
+        }
+        spinner.adapter = adapter
+
+        spinner.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?, position: Int, id: Long
+            ) {
+//                    Toast.makeText(context,
+//                        getString(R.string.selected_item) + " " +
+//                                "" + filter_options[position], Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // write code to perform some action
+            }
+        }
+    }
+
+    private fun loadDogs(mUploads: ArrayList<Dog>, mRecyclerView: RecyclerView) {
         // update the recyclerview
-        dogDBRef.get()
+        dogDBRef.orderBy("doggo_breed", Query.Direction.DESCENDING).get()
             .addOnSuccessListener { queryDocumentSnapshots ->
                 for (documentSnapshot in queryDocumentSnapshots) {
                     val dog = documentSnapshot.toObject<Dog>()
                     mUploads.add(dog)
                 }
-                val mAdapter = context?.let { ImageAdapter(it, mUploads) }
+                mAdapter = context?.let { ImageAdapter(it, mUploads) }!!
                 mRecyclerView.adapter = mAdapter
 
-                mAdapter?.setOnClickListener(object : ImageAdapter.OnClickListener {
+                mAdapter.setOnClickListener(object : ImageAdapter.OnClickListener {
                     override fun onClick(position: Int, model: Dog) {
                         val bundle =
                             bundleOf(
@@ -109,14 +155,30 @@ class HomeFragment : Fragment() {
             }
     }
 
+    fun searchList(text: String, dataList: ArrayList<Dog>) {
+        val searchList = ArrayList<Dog>()
+        for (dataClass in dataList) {
+            if (dataClass.description?.lowercase()
+                    ?.contains(text.lowercase(Locale.getDefault())) == true
+            ) {
+                searchList.add(dataClass)
+            }
+        }
+        binding.textViewSearchResults.text =
+            getString(R.string.search_results_number, searchList.size.toString())
+        mAdapter.searchDataList(searchList)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
     override fun onResume() {
-        // this stop the back button so that the user cant go back to the login screen
         super.onResume()
+        binding.searchBar.setQuery("", false) //clear the searchbar of old user input
+
+        // this stops the back button so that the user cant go back to the login screen
         requireView().isFocusableInTouchMode = true
         requireView().requestFocus()
         requireView().setOnKeyListener { _, keyCode, event ->
@@ -124,49 +186,5 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun uploadImage() { //TODO use this to upload a doggo to the database
-        // call this to upload the doggo to the server
-        storageReference = storageReference.child(System.currentTimeMillis().toString())
-        imageUri?.let {
-            storageReference.putFile(it).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    storageReference.downloadUrl.addOnSuccessListener { uri ->
-                        val upload = Dog( //TODO replace with user input
-                            "new doggo name",
-                            "new doggo breed",
-                            "new doggo description goes here",
-                            "new doggo hire date start",
-                            "new doggo hire date end",
-                            "new doggo cost",
-                            "new doggo good boi points",
-                            "owner id",
-                            "owner contact",
-                            uri.toString()
-                        )
-                        firebaseFirestore.collection("Dogs").add(upload)
-                            .addOnCompleteListener { firestoreTask ->
 
-                                if (firestoreTask.isSuccessful) {
-                                    Toast.makeText(
-                                        context,
-                                        "Uploaded Successfully",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                } else {
-                                    Toast.makeText(
-                                        context,
-                                        firestoreTask.exception?.message,
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                                //binding.imageView.setImageResource(R.drawable.vector) TODO replace imageview with the doggo pic
-                            }
-                    }
-                } else {
-                    Toast.makeText(context, task.exception?.message, Toast.LENGTH_SHORT).show()
-                    //binding.imageView.setImageResource(R.drawable.vector) TODO replace imageview with a 'fail to upload' pic
-                }
-            }
-        }
-    }
 }

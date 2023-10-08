@@ -19,7 +19,11 @@
         android:id="@+id/navigation_dogs"
         android:name="com.example.cp3407_assignment.ui.dogs.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dogs" />
+        tools:layout="@layout/fragment_dogs" >
+        <action
+            android:id="@+id/action_navigation_dogs_to_listHireItem"
+            app:destination="@id/listHireItem" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_messages"

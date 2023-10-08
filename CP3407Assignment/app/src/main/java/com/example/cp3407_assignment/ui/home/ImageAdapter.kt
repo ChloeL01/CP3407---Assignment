@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso
 
 class ImageAdapter(private val mContext: Context, dogs: List<Dog>) :
     RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
-    private val mDogs: List<Dog>
+    private var mDogs: List<Dog>
     private var onClickListener: OnClickListener? = null
 
     init {
@@ -49,6 +49,11 @@ class ImageAdapter(private val mContext: Context, dogs: List<Dog>) :
 
     override fun getItemCount(): Int {
         return mDogs.size
+    }
+
+    fun searchDataList(searchList: List<Dog>) {
+        mDogs = searchList
+        notifyDataSetChanged()
     }
 
     fun setOnClickListener(onClickListener: OnClickListener) {

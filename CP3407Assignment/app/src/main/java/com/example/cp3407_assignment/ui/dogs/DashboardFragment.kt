@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentDogsBinding
 
 
@@ -33,6 +35,11 @@ class DashboardFragment : Fragment() {
         val textView: TextView = binding.textDashboard
         dashboardViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
+        }
+
+        binding.button.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_navigation_dogs_to_listHireItem)
         }
 
         return root

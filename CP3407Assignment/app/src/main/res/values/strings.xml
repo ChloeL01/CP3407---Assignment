@@ -50,4 +50,14 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+
+    <string name="selected_item">Selected item:</string>
+    <string-array name="Filter_options">
+        <item>Price (descending)</item>
+        <item>Price (ascending)</item>
+        <item>Breed (ascending)</item>
+        <item>Breed (descending)</item>
+        <item>Most Popular</item>
+    </string-array>
+    <string name="search_results_number">%1$s Doggos Found</string>
 </resources>
