@@ -70,4 +70,5 @@
     <string name="enter_new_email_address">Enter new email address</string>
     <string name="re_enter_new_email_address">Re-enter new email address</string>
     <string name="change_email">Change email</string>
+    <string name="enter_current_email_address">Enter current email address</string>
 </resources>

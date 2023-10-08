@@ -15,7 +15,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentChangeEmailBinding
-import com.example.cp3407_assignment.databinding.FragmentChangePasswordBinding
 
 class ChangeEmail : Fragment() {
 
@@ -33,7 +32,7 @@ class ChangeEmail : Fragment() {
 
         override fun afterTextChanged(s: Editable?) {
             // If any are empty again disable button
-            if (binding.newEmail.text.isEmpty() || binding.confirmNewEmail.text.isEmpty()) {
+            if (binding.newEmail.text.isEmpty() || binding.confirmNewEmail.text.isEmpty() || binding.currentEmail.text.isEmpty()) {
                 binding.confirmNewEmail.isEnabled = false
             }
         }
@@ -52,6 +51,9 @@ class ChangeEmail : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        binding.currentEmail.setOnKeyListener{view, keyCode, _ ->
+            handleKeyEvent(view, keyCode)
+        }
         binding.newEmail.setOnKeyListener { view, keyCode, _ ->
             handleKeyEvent(view, keyCode)
         }
@@ -59,11 +61,13 @@ class ChangeEmail : Fragment() {
             handleKeyEvent(view, keyCode)
         }
 
+        binding.currentEmail.addTextChangedListener(textWatcher)
         binding.newEmail.addTextChangedListener(textWatcher)
         binding.confirmNewEmail.addTextChangedListener(textWatcher)
 
         binding.changeEmailBtn.setOnClickListener {
-            validateEmail()
+            validateCurrentEmail()
+            validateNewEmail()
 
             if (!errors) {
                 // Save new email address to database
@@ -75,7 +79,11 @@ class ChangeEmail : Fragment() {
         }
     }
 
-    private fun validateEmail() {
+    private fun validateCurrentEmail() {
+        // Check current email entered is the same to what is on user account.
+    }
+
+    private fun validateNewEmail() {
         val newEmail = binding.newEmail.toString()
         val confirmNewEmail = binding.confirmNewEmail.toString()
 

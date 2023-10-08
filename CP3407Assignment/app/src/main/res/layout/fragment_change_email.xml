@@ -32,7 +32,7 @@
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/change_email_title" />
+            app:layout_constraintTop_toBottomOf="@+id/current_email" />
 
         <EditText
             android:id="@+id/confirm_new_email"
@@ -50,12 +50,24 @@
             android:id="@+id/change_email_btn"
             android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:text="@string/change_email"
             android:layout_marginTop="12dp"
             android:enabled="false"
+            android:text="@string/change_email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/confirm_new_email" />
+
+        <EditText
+            android:id="@+id/current_email"
+            android:layout_width="320dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:autofillHints="@string/enter_current_email_address"
+            android:hint="@string/enter_current_email_address"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/change_email_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
