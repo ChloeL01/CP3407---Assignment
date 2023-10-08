@@ -64,4 +64,6 @@
     <string name="retype_new_password">Retype new password</string>
     <string name="create_dog_listing">Create dog listing</string>
     <string name="create_doggo_listing_icon">Create doggo listing icon</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
