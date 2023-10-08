@@ -23,7 +23,7 @@ class ValidatePassword(private val newPasswordString: String, private val confir
         return false
     }
 
-    fun checkConfirmPassword(): Boolean {
+    fun checkNewPasswordsMatch(): Boolean {
         return newPasswordString == confirmPasswordString
     }
 }

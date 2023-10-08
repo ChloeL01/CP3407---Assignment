@@ -87,7 +87,7 @@ class ChangePassword : Fragment() {
 
             // If everything went okidoki then go back to profile page
             if (!errors) {
-                // Upload new password to User
+                // Upload new password to User in the database
 
                 // Return to Profile page
                 view?.findNavController()
@@ -110,7 +110,7 @@ class ChangePassword : Fragment() {
 
         val validatePassword = ValidatePassword(input, confirmInput)
 
-        if (!validatePassword.checkPasswordRules() && !validatePassword.checkConfirmPassword()) {
+        if (!validatePassword.checkPasswordRules() && !validatePassword.checkNewPasswordsMatch()) {
             Toast.makeText(
                 requireContext(),
                 "Password does not meet requirements. Please review rules above. ",

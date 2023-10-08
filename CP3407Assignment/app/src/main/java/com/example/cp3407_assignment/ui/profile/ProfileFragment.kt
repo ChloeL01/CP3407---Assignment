@@ -30,5 +30,9 @@ class ProfileFragment : Fragment() {
         binding.changePasswordBtn.setOnClickListener {view: View? ->
             view?.findNavController()?.navigate(R.id.action_navigation_profile_to_changePassword)
         }
+
+        binding.emailAddress.setOnClickListener { view: View? ->
+            view?.findNavController()?.navigate(R.id.action_navigation_profile_to_changeEmail)
+        }
     }
 }

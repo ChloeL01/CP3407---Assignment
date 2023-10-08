@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_navigation_profile_to_changePassword"
             app:destination="@id/changePassword" />
+        <action
+            android:id="@+id/action_navigation_profile_to_changeEmail"
+            app:destination="@id/changeEmail" />
     </fragment>
     <fragment
         android:id="@+id/doggoInformation"
@@ -114,6 +117,14 @@
         android:label="ChangePassword" >
         <action
             android:id="@+id/action_changePassword_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeEmail"
+        android:name="com.example.cp3407_assignment.ui.profile.ChangeEmail"
+        android:label="ChangeEmail" >
+        <action
+            android:id="@+id/action_changeEmail_to_navigation_profile"
             app:destination="@id/navigation_profile" />
     </fragment>
 </navigation>
