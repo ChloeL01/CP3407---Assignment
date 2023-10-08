@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentChangePasswordBinding
-import com.example.cp3407_assignment.ui.ValidatePassword
+import com.example.cp3407_assignment.ValidatePassword
 
 
 class ChangePassword : Fragment() {

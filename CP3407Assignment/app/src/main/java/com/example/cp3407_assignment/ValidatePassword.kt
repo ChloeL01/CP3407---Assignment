@@ -1,4 +1,4 @@
-package com.example.cp3407_assignment.ui
+package com.example.cp3407_assignment
 
 class ValidatePassword(private val newPasswordString: String, private val confirmPasswordString: String) {
     private val passwordLength = 6
