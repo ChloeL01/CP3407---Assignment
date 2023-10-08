@@ -1,4 +1,4 @@
-package com.example.cp3407_assignment.ui.profile
+package com.example.cp3407_assignment.ui.settings
 
 import android.content.Context
 import android.os.Bundle
