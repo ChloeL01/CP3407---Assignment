@@ -66,4 +66,8 @@
     <string name="create_doggo_listing_icon">Create doggo listing icon</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="change_email_address">Change Email Address</string>
+    <string name="enter_new_email_address">Enter new email address</string>
+    <string name="re_enter_new_email_address">Re-enter new email address</string>
+    <string name="change_email">Change email</string>
 </resources>

@@ -22,4 +22,8 @@ class ChangeEmail : Fragment() {
 
         return binding.root
     }
+
+    override fun onResume() {
+        super.onResume()
+    }
 }
