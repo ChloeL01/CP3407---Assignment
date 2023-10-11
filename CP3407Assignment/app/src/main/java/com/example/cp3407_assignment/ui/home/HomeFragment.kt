@@ -1,5 +1,8 @@
 package com.example.cp3407_assignment.ui.home
 
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
@@ -22,7 +25,9 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import org.checkerframework.checker.units.qual.s
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 import java.util.*
 
 
@@ -56,6 +61,7 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
         storageReference = FirebaseStorage.getInstance().reference.child("Storage")
         firebaseFirestore = FirebaseFirestore.getInstance()
+        mAdapter = context?.let { ImageAdapter(it, mUploads) }!!
 
         if (savedInstanceState != null) { //TODO fix this
             //binding.searchBar.clearFocus()
@@ -66,12 +72,13 @@ class HomeFragment : Fragment() {
                 savedInstanceState.getString("search_query") + " not NULL",
                 Toast.LENGTH_SHORT
             ).show()
-//        if (mUploads.isEmpty()) {
-//
-//        }
 
+            searchList = arrayListOf()
+            loadPreference()
+
+        } else {
+            loadDogs()
         }
-        loadDogs()
 
         liveList = MutableLiveData()
         liveList.observe(viewLifecycleOwner) {
@@ -90,7 +97,7 @@ class HomeFragment : Fragment() {
 
 //        mUploads = ArrayList()
 
-        mAdapter = context?.let { ImageAdapter(it, mUploads) }!!
+
         //updateRecyclerView(mRecyclerView)
 
         return root
@@ -100,7 +107,42 @@ class HomeFragment : Fragment() {
         outState.putString("search_query", binding.searchBar.query.toString())
 //        outState.putString("search_query", searchQuery)
 //        outState.putString("search_query", "searchQuery")
+        savePreference()
         super.onSaveInstanceState(outState)
+    }
+
+    private fun loadPreference() {
+        val sharedPref: SharedPreferences = requireActivity().getPreferences(MODE_PRIVATE);
+       // val sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE)
+
+        val gson = Gson()
+        val json = sharedPref.getString("dogs", "[]")
+        val type: Type = object : TypeToken<ArrayList<Dog>>() {}.type
+        //searchList = gson.fromJson<Any>(json, type) as ArrayList<Dog>
+        if (searchList.isEmpty()) {
+            searchList = ArrayList()
+        }
+        searchList = gson.fromJson(json, type)
+
+        val mRecyclerView = binding.recyclerView
+        mRecyclerView.setHasFixedSize(true)
+        mRecyclerView.layoutManager = LinearLayoutManager(context)
+        updateRecyclerView(mRecyclerView, searchList)
+    }
+
+    private fun savePreference() {
+        val sharedPref: SharedPreferences = requireActivity().getPreferences(MODE_PRIVATE);
+        //val sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        val gson = Gson()
+        val json: String = gson.toJson(searchList)
+        editor.putString("dogs", json)
+        editor.apply()
+
+        // after saving data we are displaying a toast message.
+        Toast.makeText(context, "Saved Array List to Shared preferences. ", Toast.LENGTH_SHORT)
+            .show()
+
     }
 
 
@@ -124,8 +166,6 @@ class HomeFragment : Fragment() {
 //                Toast.LENGTH_LONG
 //            ).show()
         //}
-
-
 
 
         //searchbar logic
@@ -209,16 +249,16 @@ class HomeFragment : Fragment() {
         // update the recyclerview
         val doggos = ArrayList<Dog>()
         dogDBRef.get().addOnSuccessListener { queryDocumentSnapshots ->
-                for (documentSnapshot in queryDocumentSnapshots) {
-                    val dog = documentSnapshot.toObject<Dog>()
-                    doggos.add(dog)
-                    liveList.value = doggos
-                }
+            for (documentSnapshot in queryDocumentSnapshots) {
+                val dog = documentSnapshot.toObject<Dog>()
+                doggos.add(dog)
+                liveList.value = doggos
             }
+        }
         //return doggos
     }
 
-    private fun updateRecyclerView(mRecyclerView: RecyclerView, doggoList:  ArrayList<Dog>) {
+    private fun updateRecyclerView(mRecyclerView: RecyclerView, doggoList: ArrayList<Dog>) {
         mAdapter = context?.let { ImageAdapter(it, doggoList) }!!
         mRecyclerView.adapter = mAdapter
 
@@ -295,7 +335,7 @@ class HomeFragment : Fragment() {
             binding.searchBar.post { binding.searchBar.setQuery(searchQuery, false) }
             //binding.searchBar.setQuery(searchQuery, true)
             //binding.searchBar.isFocusable = false
-            search(searchQuery)
+            //search(searchQuery)
         }
 
     }
