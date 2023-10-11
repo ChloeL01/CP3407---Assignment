@@ -1,17 +1,14 @@
 package com.example.cp3407_assignment.ui.home
 
-import android.R.attr.rating
 import android.os.Bundle
-import android.view.KeyEvent
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,12 +17,12 @@ import com.example.cp3407_assignment.Dog
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentHomeBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import org.checkerframework.checker.units.qual.s
 import java.util.*
 
 
@@ -41,8 +38,10 @@ class HomeFragment : Fragment() {
     private lateinit var mAdapter: ImageAdapter
 
     private val binding get() = _binding!!
-    private lateinit var mUploads: ArrayList<Dog>
+    private var mUploads = ArrayList<Dog>()
     private lateinit var searchList: ArrayList<Dog>
+    private var searchQuery = ""
+    private lateinit var liveList: MutableLiveData<ArrayList<Dog>>
 
 
     override fun onCreateView(
@@ -58,14 +57,52 @@ class HomeFragment : Fragment() {
         storageReference = FirebaseStorage.getInstance().reference.child("Storage")
         firebaseFirestore = FirebaseFirestore.getInstance()
 
+        if (savedInstanceState != null) { //TODO fix this
+            //binding.searchBar.clearFocus()
+            //binding.searchBar.setQuery("this is a test", true)
+            searchQuery = savedInstanceState.getString("search_query").toString()
+            Toast.makeText(
+                context,
+                savedInstanceState.getString("search_query") + " not NULL",
+                Toast.LENGTH_SHORT
+            ).show()
+//        if (mUploads.isEmpty()) {
+//
+//        }
+
+        }
+        loadDogs()
+
+        liveList = MutableLiveData()
+        liveList.observe(viewLifecycleOwner) {
+            //Toast.makeText(context,"detect change", Toast.LENGTH_SHORT).show()
+            val mRecyclerView = binding.recyclerView
+            mRecyclerView.setHasFixedSize(true)
+            mRecyclerView.layoutManager = LinearLayoutManager(context)
+            //mAdapter.searchDataList(it)
+            updateRecyclerView(mRecyclerView, it)
+            //updateRecyclerView(mRecyclerView)
+        }
+
+//        val mRecyclerView = binding.recyclerView
+//        mRecyclerView.setHasFixedSize(true)
+//        mRecyclerView.layoutManager = LinearLayoutManager(context)
+
+//        mUploads = ArrayList()
+
+        mAdapter = context?.let { ImageAdapter(it, mUploads) }!!
+        //updateRecyclerView(mRecyclerView)
 
         return root
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString("search_query", binding.searchBar.query.toString())
+//        outState.putString("search_query", searchQuery)
+//        outState.putString("search_query", "searchQuery")
         super.onSaveInstanceState(outState)
     }
+
 
 //    override fun onActivityCreated(@Nullable savedInstanceState: Bundle) {
 //        super.onActivityCreated(savedInstanceState)
@@ -74,42 +111,29 @@ class HomeFragment : Fragment() {
 //        year = savedInstanceState.getInt(YEAR)
 //    }
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (savedInstanceState != null) {
-            binding.searchBar.setQuery("this is a test", false)
-            Toast.makeText(
-                context,
-                savedInstanceState.getString("search_query") + " not NULL",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+        //if (binding.searchBar.query.toString() != "") {
+//            if (savedInstanceState != null) {
+//                search(savedInstanceState.getString("search_query")?.let { search(it) }.toString())
+//            }
+//            Toast.makeText(
+//                context,
+//                "search bar is NOT empty" + binding.searchBar.query.toString() + "---",
+//                Toast.LENGTH_LONG
+//            ).show()
+        //}
 
-        val mRecyclerView = binding.recyclerView
 
-        mRecyclerView.setHasFixedSize(true)
-        mRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        mUploads = ArrayList()
-
-        mAdapter = context?.let { ImageAdapter(it, mUploads) }!!
-
-        loadDogs(mUploads, mRecyclerView)
 
         //searchbar logic
         binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(newText: String): Boolean {
-                //onSaveInstanceState()
-                createSpinner()
-                searchList(newText, mUploads)
-                mRecyclerView.scrollToPosition(0)
-
-                binding.textViewSearchResults.visibility = View.VISIBLE
-                binding.spinner.visibility = View.VISIBLE
-                binding.searchBar.clearFocus()
+                binding.recyclerView.scrollToPosition(0)
+                searchQuery = newText
+                search(newText)
                 return true
             }
 
@@ -119,22 +143,31 @@ class HomeFragment : Fragment() {
         })
 
         //reset the page if the "X" button is pushed in the search bar
-        val closeBtn: View = binding.searchBar.findViewById(androidx.appcompat.R.id.search_close_btn)
+        val closeBtn: View =
+            binding.searchBar.findViewById(androidx.appcompat.R.id.search_close_btn)
         closeBtn.setOnClickListener {
             //binding.searchBar.setQuery("", false) // reset Query text to be empty without submition
             binding.searchBar.isIconified = true // Replace the x icon with the search icon
             binding.textViewSearchResults.visibility = View.GONE
             binding.spinner.visibility = View.GONE
-            mRecyclerView.scrollToPosition(0)
+            binding.recyclerView.scrollToPosition(0)
             mAdapter.searchDataList(mUploads)
         }
 
     }
 
+    private fun search(newText: String) {
+        //onSaveInstanceState()
+        createSpinner()
+        searchList(newText)
+        binding.textViewSearchResults.visibility = View.VISIBLE
+        binding.spinner.visibility = View.VISIBLE
+        binding.searchBar.clearFocus()
+    }
+
     private fun createSpinner() {
         //spinner setup
         val filterOptions = resources.getStringArray(R.array.Filter_options)
-
         //load spinner options
         val spinner = binding.spinner
         val adapter = context?.let {
@@ -144,7 +177,6 @@ class HomeFragment : Fragment() {
             )
         }
         spinner.adapter = adapter
-
         spinner.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -173,51 +205,69 @@ class HomeFragment : Fragment() {
         mAdapter.searchDataList(dataList)
     }
 
-    private fun loadDogs(mUploads: ArrayList<Dog>, mRecyclerView: RecyclerView) {
+    private fun loadDogs() {
         // update the recyclerview
-        dogDBRef.orderBy("doggo_breed", Query.Direction.DESCENDING).get()
-            .addOnSuccessListener { queryDocumentSnapshots ->
+        val doggos = ArrayList<Dog>()
+        dogDBRef.get().addOnSuccessListener { queryDocumentSnapshots ->
                 for (documentSnapshot in queryDocumentSnapshots) {
                     val dog = documentSnapshot.toObject<Dog>()
-                    mUploads.add(dog)
+                    doggos.add(dog)
+                    liveList.value = doggos
                 }
-                mAdapter = context?.let { ImageAdapter(it, mUploads) }!!
-                mRecyclerView.adapter = mAdapter
-
-                mAdapter.setOnClickListener(object : ImageAdapter.OnClickListener {
-                    override fun onClick(position: Int, model: Dog) {
-                        val bundle =
-                            bundleOf(
-                                "doggo_name" to model.doggo_name,
-                                "doggo_breed" to model.doggo_breed,
-                                "imageUrl" to model.imageUrl,
-                                "description" to model.description,
-                                "reviews" to model.doggo_review,
-                                "start_date" to model.hire_start_date,
-                                "end_date" to model.hire_end_date,
-                                "search_query" to binding.searchBar.query.toString()
-                            )
-                        findNavController().navigate(
-                            R.id.action_navigation_home_to_doggoInformation,
-                            bundle
-                        )
-                    }
-                })
             }
+        //return doggos
     }
 
-    fun searchList(text: String, dataList: ArrayList<Dog>) {
+    private fun updateRecyclerView(mRecyclerView: RecyclerView, doggoList:  ArrayList<Dog>) {
+        mAdapter = context?.let { ImageAdapter(it, doggoList) }!!
+        mRecyclerView.adapter = mAdapter
+
+        mAdapter.setOnClickListener(object : ImageAdapter.OnClickListener {
+            override fun onClick(position: Int, model: Dog) {
+                val bundle =
+                    bundleOf(
+                        "doggo_name" to model.doggo_name,
+                        "doggo_breed" to model.doggo_breed,
+                        "imageUrl" to model.imageUrl,
+                        "description" to model.description,
+                        "reviews" to model.doggo_review,
+                        "start_date" to model.hire_start_date,
+                        "end_date" to model.hire_end_date,
+                        "search_query" to binding.searchBar.query.toString()
+                    )
+                findNavController().navigate(
+                    R.id.action_navigation_home_to_doggoInformation,
+                    bundle
+                )
+            }
+        })
+    }
+
+    private fun searchList(text: String) {
         searchList = ArrayList()
-        for (dataClass in dataList) {
-            if (dataClass.description?.lowercase()
-                    ?.contains(text.lowercase(Locale.getDefault())) == true || dataClass.doggo_breed?.lowercase()
+        liveList.value?.forEach {
+            if (it.description?.lowercase()
+                    ?.contains(text.lowercase(Locale.getDefault())) == true || it.doggo_breed?.lowercase()
+                    ?.contains(text.lowercase(Locale.getDefault())) == true || it.doggo_name?.lowercase()
                     ?.contains(text.lowercase(Locale.getDefault())) == true
             ) {
-                searchList.add(dataClass)
+                searchList.add(it)
+                //liveList.value = searchList
             }
         }
+//        for (dog in liveList) {
+//            if (dog.description?.lowercase()
+//                    ?.contains(text.lowercase(Locale.getDefault())) == true || dog.doggo_breed?.lowercase()
+//                    ?.contains(text.lowercase(Locale.getDefault())) == true || dog.doggo_name?.lowercase()
+//                    ?.contains(text.lowercase(Locale.getDefault())) == true
+//            ) {
+//                searchList.add(dog)
+//                liveList.value = searchList
+//            }
+//        }
         binding.textViewSearchResults.text =
             getString(R.string.search_results_number, searchList.size.toString())
+        //mUploads = searchList
         mAdapter.searchDataList(searchList)
     }
 
@@ -238,6 +288,16 @@ class HomeFragment : Fragment() {
         requireView().setOnKeyListener { _, keyCode, event ->
             event.action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK
         }
+
+        if (searchQuery != "") {
+            //binding.searchBar.isIconified = true
+            //binding.searchBar.onActionViewExpanded()
+            binding.searchBar.post { binding.searchBar.setQuery(searchQuery, false) }
+            //binding.searchBar.setQuery(searchQuery, true)
+            //binding.searchBar.isFocusable = false
+            search(searchQuery)
+        }
+
     }
 
 

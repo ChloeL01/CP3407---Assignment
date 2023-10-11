@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cp3407_assignment.Dog
 import com.example.cp3407_assignment.R
@@ -24,8 +25,9 @@ class ImageAdapter(private val mContext: Context, dogs: List<Dog>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+        val lifeCycleOwner = parent.context as LifecycleOwner
         val v: View = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false)
-        return ImageViewHolder(v)
+        return ImageViewHolder(v, lifeCycleOwner)
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
@@ -68,7 +70,7 @@ class ImageAdapter(private val mContext: Context, dogs: List<Dog>) :
         fun onClick(position: Int, model: Dog)
     }
 
-    inner class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ImageViewHolder(itemView: View, private val lifecycleOwner: LifecycleOwner) : RecyclerView.ViewHolder(itemView) {
         var textViewName: TextView
         var textViewBreed: TextView
         var textViewDate: TextView
