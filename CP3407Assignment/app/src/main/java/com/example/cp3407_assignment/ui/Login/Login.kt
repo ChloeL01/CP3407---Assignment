@@ -44,31 +44,42 @@ class Login : Fragment() {
         binding.LoginButton.setOnClickListener {
             var Username = binding.UsernameLogin.text.toString()
             var Password = binding.PasswordLogin.text.toString()
-            db.collection("Users").document(Username).get()
-                .addOnSuccessListener { documentSnapshot ->
-                    if (documentSnapshot.exists()) {
-                        val username = documentSnapshot.getString(Username)
-                        val password = documentSnapshot.getString(Password)
-                        Toast.makeText(
-                            context,
-                            "Welcome Back " + binding.UsernameLogin.text.toString(),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        findNavController().navigate(R.id.action_login_to_navigation_home)
+            if(Username.isNotEmpty() && Password.isNotEmpty()){
+                //------------------------------------------------
+                db.collection("Users").document(Username).get()
+                    .addOnSuccessListener { documentSnapshot ->
+                        if (documentSnapshot.exists()) {
+                            val username = documentSnapshot.getString(Username)
+                            val password = documentSnapshot.getString(Password)
+                            Toast.makeText(
+                                context,
+                                "Welcome Back " + binding.UsernameLogin.text.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            findNavController().navigate(R.id.action_login_to_navigation_home)
 
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "That doesn't look right, please try again",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "That doesn't look right, please try again",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
+                        }
                     }
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
-                    Log.d("Error finding User", e.toString())
-                }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
+                        Log.d("Error finding User", e.toString())
+                    }
+            }
+            //-----------------------------------------
+            else{
+                Toast.makeText(
+                    context,
+                    "Please enter a username and password",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         binding.ReturnToSignInButton.setOnClickListener {
