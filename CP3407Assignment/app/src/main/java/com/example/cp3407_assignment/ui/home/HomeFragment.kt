@@ -1,6 +1,5 @@
 package com.example.cp3407_assignment.ui.home
 
-import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -15,7 +14,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.cp3407_assignment.Dog
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentHomeBinding
@@ -63,110 +61,60 @@ class HomeFragment : Fragment() {
         firebaseFirestore = FirebaseFirestore.getInstance()
         mAdapter = context?.let { ImageAdapter(it, mUploads) }!!
 
-        if (savedInstanceState != null) { //TODO fix this
-            //binding.searchBar.clearFocus()
-            //binding.searchBar.setQuery("this is a test", true)
-            searchQuery = savedInstanceState.getString("search_query").toString()
-            Toast.makeText(
-                context,
-                savedInstanceState.getString("search_query") + " not NULL",
-                Toast.LENGTH_SHORT
-            ).show()
 
-            searchList = arrayListOf()
-            loadPreference()
-
-        } else {
+        val sharedPref: SharedPreferences = requireActivity().getPreferences(MODE_PRIVATE);
+        val dogs = sharedPref.getString("dogs", "[]")
+        if (dogs == "[]") {
+            //check if the shared preference is empty
             loadDogs()
+        } else {
+            if (savedInstanceState != null) {
+                searchQuery = savedInstanceState.getString("search_query").toString()
+                Toast.makeText(
+                    context,
+                    savedInstanceState.getString("search_query") + " not NULL",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            mUploads = arrayListOf()
+            loadPreference()
         }
-
-        liveList = MutableLiveData()
-        liveList.observe(viewLifecycleOwner) {
-            //Toast.makeText(context,"detect change", Toast.LENGTH_SHORT).show()
-            val mRecyclerView = binding.recyclerView
-            mRecyclerView.setHasFixedSize(true)
-            mRecyclerView.layoutManager = LinearLayoutManager(context)
-            //mAdapter.searchDataList(it)
-            updateRecyclerView(mRecyclerView, it)
-            //updateRecyclerView(mRecyclerView)
-        }
-
-//        val mRecyclerView = binding.recyclerView
-//        mRecyclerView.setHasFixedSize(true)
-//        mRecyclerView.layoutManager = LinearLayoutManager(context)
-
-//        mUploads = ArrayList()
-
-
-        //updateRecyclerView(mRecyclerView)
 
         return root
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString("search_query", binding.searchBar.query.toString())
-//        outState.putString("search_query", searchQuery)
-//        outState.putString("search_query", "searchQuery")
         savePreference()
         super.onSaveInstanceState(outState)
     }
 
     private fun loadPreference() {
         val sharedPref: SharedPreferences = requireActivity().getPreferences(MODE_PRIVATE);
-       // val sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE)
 
         val gson = Gson()
         val json = sharedPref.getString("dogs", "[]")
         val type: Type = object : TypeToken<ArrayList<Dog>>() {}.type
-        //searchList = gson.fromJson<Any>(json, type) as ArrayList<Dog>
-        if (searchList.isEmpty()) {
-            searchList = ArrayList()
+        if (mUploads.isEmpty()) {
+            mUploads = ArrayList()
         }
-        searchList = gson.fromJson(json, type)
+        mUploads = gson.fromJson(json, type)
 
-        val mRecyclerView = binding.recyclerView
-        mRecyclerView.setHasFixedSize(true)
-        mRecyclerView.layoutManager = LinearLayoutManager(context)
-        updateRecyclerView(mRecyclerView, searchList)
+        updateRecyclerView(mUploads)
     }
 
     private fun savePreference() {
         val sharedPref: SharedPreferences = requireActivity().getPreferences(MODE_PRIVATE);
-        //val sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE)
         val editor = sharedPref.edit()
         val gson = Gson()
-        val json: String = gson.toJson(searchList)
+        val json: String = gson.toJson(mUploads)
         editor.putString("dogs", json)
         editor.apply()
-
-        // after saving data we are displaying a toast message.
-        Toast.makeText(context, "Saved Array List to Shared preferences. ", Toast.LENGTH_SHORT)
-            .show()
-
     }
 
 
-//    override fun onActivityCreated(@Nullable savedInstanceState: Bundle) {
-//        super.onActivityCreated(savedInstanceState)
-//        title = savedInstanceState.getString(TITLE)
-//        rating = savedInstanceState.getDouble(RATING).toInt()
-//        year = savedInstanceState.getInt(YEAR)
-//    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        //if (binding.searchBar.query.toString() != "") {
-//            if (savedInstanceState != null) {
-//                search(savedInstanceState.getString("search_query")?.let { search(it) }.toString())
-//            }
-//            Toast.makeText(
-//                context,
-//                "search bar is NOT empty" + binding.searchBar.query.toString() + "---",
-//                Toast.LENGTH_LONG
-//            ).show()
-        //}
-
 
         //searchbar logic
         binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -191,7 +139,9 @@ class HomeFragment : Fragment() {
             binding.textViewSearchResults.visibility = View.GONE
             binding.spinner.visibility = View.GONE
             binding.recyclerView.scrollToPosition(0)
-            mAdapter.searchDataList(mUploads)
+            //mAdapter.searchDataList(mUploads)
+            loadDogs()
+            updateRecyclerView(mUploads)
         }
 
     }
@@ -223,7 +173,7 @@ class HomeFragment : Fragment() {
                 parent: AdapterView<*>,
                 view: View?, position: Int, id: Long
             ) {
-                sortSearchList(searchList, position)
+                sortSearchList(mUploads, position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -252,13 +202,18 @@ class HomeFragment : Fragment() {
             for (documentSnapshot in queryDocumentSnapshots) {
                 val dog = documentSnapshot.toObject<Dog>()
                 doggos.add(dog)
-                liveList.value = doggos
+                //liveList.value = doggos
             }
         }
+        mUploads = doggos
         //return doggos
     }
 
-    private fun updateRecyclerView(mRecyclerView: RecyclerView, doggoList: ArrayList<Dog>) {
+    private fun updateRecyclerView(doggoList: ArrayList<Dog>) {
+        val mRecyclerView = binding.recyclerView
+        mRecyclerView.setHasFixedSize(true)
+        mRecyclerView.layoutManager = LinearLayoutManager(context)
+
         mAdapter = context?.let { ImageAdapter(it, doggoList) }!!
         mRecyclerView.adapter = mAdapter
 
@@ -285,29 +240,19 @@ class HomeFragment : Fragment() {
 
     private fun searchList(text: String) {
         searchList = ArrayList()
-        liveList.value?.forEach {
-            if (it.description?.lowercase()
-                    ?.contains(text.lowercase(Locale.getDefault())) == true || it.doggo_breed?.lowercase()
-                    ?.contains(text.lowercase(Locale.getDefault())) == true || it.doggo_name?.lowercase()
+        for (dog in mUploads) {
+            if (dog.description?.lowercase()
+                    ?.contains(text.lowercase(Locale.getDefault())) == true || dog.doggo_breed?.lowercase()
+                    ?.contains(text.lowercase(Locale.getDefault())) == true || dog.doggo_name?.lowercase()
                     ?.contains(text.lowercase(Locale.getDefault())) == true
             ) {
-                searchList.add(it)
+                searchList.add(dog)
                 //liveList.value = searchList
             }
         }
-//        for (dog in liveList) {
-//            if (dog.description?.lowercase()
-//                    ?.contains(text.lowercase(Locale.getDefault())) == true || dog.doggo_breed?.lowercase()
-//                    ?.contains(text.lowercase(Locale.getDefault())) == true || dog.doggo_name?.lowercase()
-//                    ?.contains(text.lowercase(Locale.getDefault())) == true
-//            ) {
-//                searchList.add(dog)
-//                liveList.value = searchList
-//            }
-//        }
         binding.textViewSearchResults.text =
             getString(R.string.search_results_number, searchList.size.toString())
-        //mUploads = searchList
+        mUploads = searchList
         mAdapter.searchDataList(searchList)
     }
 
@@ -329,14 +274,14 @@ class HomeFragment : Fragment() {
             event.action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK
         }
 
-        if (searchQuery != "") {
+        //if (searchQuery != "") {
             //binding.searchBar.isIconified = true
             //binding.searchBar.onActionViewExpanded()
-            binding.searchBar.post { binding.searchBar.setQuery(searchQuery, false) }
+            //binding.searchBar.post { binding.searchBar.setQuery(searchQuery, false) }
             //binding.searchBar.setQuery(searchQuery, true)
             //binding.searchBar.isFocusable = false
             //search(searchQuery)
-        }
+        //}
 
     }
 
