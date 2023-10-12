@@ -74,6 +74,9 @@
             android:name="end_date"
             app:argType="string"
             android:defaultValue="end date" />
+        <action
+            android:id="@+id/action_doggoInformation_to_navigation_home"
+            app:destination="@id/navigation_home" />
     </fragment>
     <fragment
         android:id="@+id/login"
