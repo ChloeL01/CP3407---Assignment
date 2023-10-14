@@ -71,6 +71,18 @@ class HireOutDog : Fragment() {
                 }
             }
 
+        pickVisualMediaLauncher = registerForActivityResult(
+            ActivityResultContracts.PickVisualMedia()
+        ) { result ->
+            if (result != null){
+                // Later implementation -> update imageview thumbnail of image selected
+                Log.d("Image selected", "Image Uri: $result")
+            } else {
+                Log.d("Image selected", "No image selected")
+            }
+        }
+
+
         // Populate dog breed spinner
         val breedSpinner: Spinner = binding.breedSpinner
         ArrayAdapter.createFromResource(
