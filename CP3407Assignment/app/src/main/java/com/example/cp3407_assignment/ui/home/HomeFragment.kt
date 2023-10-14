@@ -36,8 +36,6 @@ class HomeFragment : Fragment() {
     private val dogDBRef = db.collection("Dogs")
 
     private val binding get() = _binding!!
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
