@@ -12,9 +12,12 @@ class ValidatePasswordTest {
         assertEquals(true, validatePassword.checkPasswordRules("password1!"))
     }
 
+
     @Test
     fun passwordRules_isIncorrect(){
         assertNotEquals(true, validatePassword.checkPasswordRules("password"))
+        assertNotEquals(true, validatePassword.checkPasswordRules("123456"))
+        assertNotEquals(true, validatePassword.checkPasswordRules("!!!!!!"))
     }
 
     @Test
