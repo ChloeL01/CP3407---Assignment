@@ -2,6 +2,7 @@ package com.example.cp3407_assignment.ui.Login
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +45,7 @@ class Login : Fragment() {
         binding.LoginButton.setOnClickListener {
             var Username = binding.UsernameLogin.text.toString()
             var Password = binding.PasswordLogin.text.toString()
-            if(Username.isNotEmpty() && Password.isNotEmpty()){
+            if (Username.isNotEmpty() && Password.isNotEmpty()) {
                 db.collection("Users").document(Username).get()
                     .addOnSuccessListener { documentSnapshot ->
                         if (documentSnapshot.exists()) {
@@ -70,8 +71,7 @@ class Login : Fragment() {
                         Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
                         Log.d("Error finding User", e.toString())
                     }
-            }
-            else{
+            } else {
                 Toast.makeText(
                     context,
                     "Please enter a username and password",
@@ -88,7 +88,9 @@ class Login : Fragment() {
 
         return root
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+}
