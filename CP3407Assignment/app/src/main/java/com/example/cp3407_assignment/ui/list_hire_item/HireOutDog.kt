@@ -48,6 +48,25 @@ class HireOutDog : Fragment() {
         listDogViewModel.imageUri = it
     }
 
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            // Not required
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            binding.listDogButton.isEnabled = checkAllEditTextsNotEmpty()
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+            // Disable hire button
+            if (binding.name.text.isEmpty() || binding.description.text.isEmpty() || binding.location.text.isEmpty() || binding.hireCost.text.isEmpty()){
+                binding.listDogButton.isEnabled = false
+            }
+        }
+    }
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,7 +93,7 @@ class HireOutDog : Fragment() {
         pickVisualMediaLauncher = registerForActivityResult(
             ActivityResultContracts.PickVisualMedia()
         ) { result ->
-            if (result != null){
+            if (result != null) {
                 // Later implementation -> update imageview thumbnail of image selected
                 Log.d("Image selected", "Image Uri: $result")
             } else {
@@ -114,18 +133,29 @@ class HireOutDog : Fragment() {
 
         binding.lifecycleOwner = this
 
+        binding.name.addTextChangedListener(textWatcher)
+        binding.description.addTextChangedListener(textWatcher)
+        binding.location.addTextChangedListener(textWatcher)
+        binding.hireCost.addTextChangedListener(textWatcher)
+
         binding.name.setOnKeyListener { view, keyCode, _ ->
             handleKeyEvent(view, keyCode)
         }
         binding.description.setOnKeyListener { view, keyCode, _ ->
             handleKeyEvent(view, keyCode)
         }
+        binding.hireCost.setOnKeyListener { view, keyCode, _ ->
+            handleKeyEvent(view, keyCode)
+        }
+        binding.location.setOnKeyListener { view, keyCode, _ ->
+            handleKeyEvent(view, keyCode)
+        }
 
-        binding.listDogButton.setOnClickListener {view: View? ->
+        binding.listDogButton.setOnClickListener { view: View? ->
 
             listDogViewModel.saveDogListing()
 
-            if (listDogViewModel.isSuccessful){
+            if (listDogViewModel.isSuccessful) {
                 view?.findNavController()?.navigate(R.id.action_listHireItem_to_navigation_dogs4)
             }
         }
@@ -137,82 +167,6 @@ class HireOutDog : Fragment() {
         binding.uploadImageButton.setOnClickListener {
             onClickRequestPermission()
         }
-
-        binding.name.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not required
-            }
-
-            override fun onTextChanged(
-                sequence: CharSequence?,
-                start: Int,
-                before: Int,
-                count: Int
-            ) {
-                listDogViewModel.dogName.value = sequence.toString()
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                // Not required
-            }
-        })
-
-        binding.description.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not required
-            }
-
-            override fun onTextChanged(
-                sequence: CharSequence?,
-                start: Int,
-                before: Int,
-                count: Int
-            ) {
-                listDogViewModel.description.value = sequence.toString()
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                // Not required
-            }
-        })
-
-        binding.location.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not required
-            }
-
-            override fun onTextChanged(
-                sequence: CharSequence?,
-                start: Int,
-                before: Int,
-                count: Int
-            ) {
-                listDogViewModel.location.value = sequence.toString()
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                // Not required
-            }
-        })
-
-        binding.hireCost.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not required
-            }
-
-            override fun onTextChanged(
-                sequence: CharSequence?,
-                start: Int,
-                before: Int,
-                count: Int
-            ) {
-                listDogViewModel.cost.value = sequence?.toString()?.toDoubleOrNull() ?: 0.0
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                // Not required
-            }
-        })
 
         binding.breedSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -270,6 +224,13 @@ class HireOutDog : Fragment() {
             }
         }
     }
+
+    private fun checkAllEditTextsNotEmpty(): Boolean {
+        return binding.name.toString().isNotEmpty() || binding.description.toString()
+            .isNotEmpty() || binding.hireCost.toString().isNotEmpty() || binding.location.toString()
+            .isNotEmpty()
+    }
+
 
     private fun getDateRange() {
         val datePicker =
