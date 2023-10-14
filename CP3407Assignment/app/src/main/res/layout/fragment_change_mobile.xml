@@ -35,5 +35,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/change_mobile_title" />
 
+        <Button
+            android:id="@+id/submit_btn"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:text="@string/change_mobile"
+            android:layout_marginTop="10dp"
+            android:enabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mobile_number" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

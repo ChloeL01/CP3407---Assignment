@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.ValidatePassword
 import com.example.cp3407_assignment.databinding.FragmentChangePasswordBinding
@@ -86,13 +87,13 @@ class ChangePassword : Fragment() {
             validateNewPassword()
 
             // If everything went okidoki then go back to profile page
-//            if (errors == false) {
-//                // Upload new password to User in the database
-//
-//                // Return to Profile page
-//                view?.findNavController()
-//                    ?.navigate(R.id.action_changePassword_to_navigation_profile)
-//            }
+            if (!errors) {
+                // Upload new password to User in the database
+
+                // Return to Profile page
+                view?.findNavController()
+                    ?.navigate(R.id.action_changePassword_to_navigation_profile)
+            }
         }
     }
 
@@ -127,6 +128,13 @@ class ChangePassword : Fragment() {
 
             newPassword = input
             errors = false
+
+            // Move to database code
+            Toast.makeText(
+                requireContext(),
+                "Password successfully changed",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
