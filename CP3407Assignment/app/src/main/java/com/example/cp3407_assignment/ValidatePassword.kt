@@ -8,7 +8,7 @@ class ValidatePassword() {
         val hasLetter = newPasswordString.any { it.isLetter() }
         val hasNumber = newPasswordString.any { it.isDigit() }
         val hasSpecialChar = findSpecialCharacter(newPasswordString)
-        val correctLength = newPasswordString.length == passwordLength
+        val correctLength = newPasswordString.length >= passwordLength
 
         return hasLetter && hasNumber && hasSpecialChar && correctLength
     }
