@@ -2,4 +2,4 @@
  
 App that allows users to rent dogs or rent out their dogs. 
 
-Development documentation (https://github.com/ChloeL01/CP3407-assignment)
+[Development documentation](https://github.com/ChloeL01/CP3407-assignment) completed by J-A-C-K group members.
