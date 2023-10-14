@@ -1,9 +1,9 @@
 package com.example.cp3407_assignment
 
-class ValidatePassword(private val newPasswordString: String, private val confirmPasswordString: String) {
+class ValidatePassword() {
     private val passwordLength = 6
 
-    fun checkPasswordRules(): Boolean {
+    fun checkPasswordRules(newPasswordString: String): Boolean {
         // Password rules
         val hasLetter = newPasswordString.any { it.isLetter() }
         val hasNumber = newPasswordString.any { it.isDigit() }
@@ -23,7 +23,7 @@ class ValidatePassword(private val newPasswordString: String, private val confir
         return false
     }
 
-    fun checkNewPasswordsMatch(): Boolean {
+    fun checkNewPasswordsMatch(newPasswordString:String, confirmPasswordString: String): Boolean {
         return newPasswordString == confirmPasswordString
     }
 }

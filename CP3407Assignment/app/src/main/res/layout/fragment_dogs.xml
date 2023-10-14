@@ -15,10 +15,11 @@
         <!--    Display current dogs out for hire-->
 
 
-        <!--    Dogs wanting to hire-->
+        <!--    Dog hire wishlist-->
 
 
         <!--    Hire a dog out-->
+
         <TextView
             android:id="@+id/doggo_title"
             android:layout_width="wrap_content"

@@ -12,10 +12,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import com.example.cp3407_assignment.R
-import com.example.cp3407_assignment.databinding.FragmentChangePasswordBinding
 import com.example.cp3407_assignment.ValidatePassword
+import com.example.cp3407_assignment.databinding.FragmentChangePasswordBinding
 
 
 class ChangePassword : Fragment() {
@@ -31,7 +30,8 @@ class ChangePassword : Fragment() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            binding.confirmNewPasswordButton.isEnabled = checkAllEditTextsNotEmpty()        // Change password button enabled when there is a value in each EditText
+            binding.confirmNewPasswordButton.isEnabled =
+                checkAllEditTextsNotEmpty()        // Change password button enabled when there is a value in each EditText
         }
 
         override fun afterTextChanged(s: Editable?) {
@@ -82,17 +82,17 @@ class ChangePassword : Fragment() {
         binding.confirmNewPasswordButton.setOnClickListener {
             // Connect to User database and get current instance of user
             // Check that the password on the database is the same as what the entered
-            validateCurrentPassword()
+//            validateCurrentPassword()
             validateNewPassword()
 
             // If everything went okidoki then go back to profile page
-            if (!errors) {
-                // Upload new password to User in the database
-
-                // Return to Profile page
-                view?.findNavController()
-                    ?.navigate(R.id.action_changePassword_to_navigation_profile)
-            }
+//            if (errors == false) {
+//                // Upload new password to User in the database
+//
+//                // Return to Profile page
+//                view?.findNavController()
+//                    ?.navigate(R.id.action_changePassword_to_navigation_profile)
+//            }
         }
     }
 
@@ -108,9 +108,13 @@ class ChangePassword : Fragment() {
         val input = binding.newPassword.text.toString()
         val confirmInput = binding.confirmNewPassword.text.toString()
 
-        val validatePassword = ValidatePassword(input, confirmInput)
+        val validatePassword = ValidatePassword()
 
-        if (!validatePassword.checkPasswordRules() && !validatePassword.checkNewPasswordsMatch()) {
+        if (!validatePassword.checkPasswordRules(input) && !validatePassword.checkNewPasswordsMatch(
+                input,
+                confirmInput
+            )
+        ) {
             Toast.makeText(
                 requireContext(),
                 "Password does not meet requirements. Please review rules above. ",
