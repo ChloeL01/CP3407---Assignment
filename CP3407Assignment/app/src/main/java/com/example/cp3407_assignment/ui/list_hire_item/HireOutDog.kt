@@ -42,6 +42,10 @@ class HireOutDog : Fragment() {
     private lateinit var pickVisualMediaLauncher: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
+    private var isDatePickerUsed = false
+    private var imageSelected = false
+
+
     private val resultLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) {
@@ -54,14 +58,11 @@ class HireOutDog : Fragment() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            binding.listDogButton.isEnabled = checkAllEditTextsNotEmpty() && checkAllSpinnersSelected()
+            setButtonState()
         }
 
         override fun afterTextChanged(s: Editable?) {
-            // Disable hire button
-            if (binding.name.text.isEmpty() || binding.description.text.isEmpty() || binding.location.text.isEmpty() || binding.hireCost.text.isEmpty()){
-                binding.listDogButton.isEnabled = false
-            }
+
         }
     }
 
@@ -71,13 +72,12 @@ class HireOutDog : Fragment() {
 
     inner class SpinnerItemSelectedListener : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            val selectedSpinner = parent as Spinner
-            binding.listDogButton.isEnabled = checkAllEditTextsNotEmpty() && checkAllSpinnersSelected()
 
-            when (selectedSpinner){
+            when (parent as Spinner) {
                 binding.breedSpinner -> binding.breedSpinner.selectedItem.toString()
-                binding.contactSpinner-> binding.contactSpinner.selectedItem.toString()
+                binding.contactSpinner -> binding.contactSpinner.selectedItem.toString()
             }
+            setButtonState()
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -85,6 +85,13 @@ class HireOutDog : Fragment() {
         }
 
     }
+
+    private fun setButtonState() {
+        val isEditTextsNotEmpty = checkAllEditTextsNotEmpty()
+        val isSpinnersSelected = checkAllSpinnersSelected()
+        binding.listDogButton.isEnabled = isEditTextsNotEmpty && isSpinnersSelected && isDatePickerUsed && imageSelected
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -95,7 +102,6 @@ class HireOutDog : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_hire_out_dog, container, false)
 
         binding.dogHireViewModel = listDogViewModel
-        layout = binding.listToHireScroll
 
         requestPermissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -114,12 +120,17 @@ class HireOutDog : Fragment() {
         ) { result ->
             if (result != null) {
                 // Later implementation -> update imageview thumbnail of image selected
-                Log.d("Image selected", "Image Uri: $result")
+                Log.d("Image selected", "Image Uri: $imageSelected")
+                println("Imaged selected value: $imageSelected")
+                imageSelected = true
+                setButtonState()
+
             } else {
                 Log.d("Image selected", "No image selected")
+                imageSelected = false
+                setButtonState()
             }
         }
-
 
         // Populate dog breed spinner
         val breedSpinner: Spinner = binding.breedSpinner
@@ -191,39 +202,6 @@ class HireOutDog : Fragment() {
 
         binding.breedSpinner.onItemSelectedListener = SpinnerItemSelectedListener()
         binding.contactSpinner.onItemSelectedListener = SpinnerItemSelectedListener()
-//        binding.breedSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(
-//                parent: AdapterView<*>?,
-//                view: View?,
-//                position: Int,
-//                id: Long
-//            ) {
-//                val selectedBreed = parent?.getItemAtPosition(position).toString()
-//                listDogViewModel.breed.value = selectedBreed
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>?) {
-//                // TODO: Implement error checking if nothing selected
-//            }
-//        }
-//
-//        binding.contactSpinner.onItemSelectedListener =
-//            object : AdapterView.OnItemSelectedListener {
-//                override fun onItemSelected(
-//                    parent: AdapterView<*>?,
-//                    view: View?,
-//                    position: Int,
-//                    id: Long
-//                ) {
-//                    // Not required
-//                    val selectedContact = parent?.getItemAtPosition(position).toString()
-//                    listDogViewModel.contactType.value = selectedContact
-//                }
-//
-//                override fun onNothingSelected(parent: AdapterView<*>?) {
-//                    // TODO: Implement error checking if nothing selected
-//                }
-//            }
     }
 
     private fun onClickRequestPermission() {
@@ -233,6 +211,8 @@ class HireOutDog : Fragment() {
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED -> {
                 resultLauncher.launch("image/*")
+                imageSelected = true
+                setButtonState()
             }
 
             ActivityCompat.shouldShowRequestPermissionRationale(
@@ -249,8 +229,9 @@ class HireOutDog : Fragment() {
     }
 
     private fun checkAllEditTextsNotEmpty(): Boolean {
-        return binding.name.toString().isNotEmpty() || binding.description.toString()
-            .isNotEmpty() || binding.hireCost.toString().isNotEmpty() || binding.location.toString()
+        return binding.name.text.toString().isNotEmpty() && binding.description.text.toString()
+            .isNotEmpty() &&
+                binding.hireCost.text.toString().isNotEmpty() && binding.location.text.toString()
             .isNotEmpty()
     }
 
@@ -261,6 +242,7 @@ class HireOutDog : Fragment() {
                 .build()
         datePicker.show(childFragmentManager, "DatePicker")
         datePicker.addOnPositiveButtonClickListener { selection ->
+            isDatePickerUsed = true
             val startDate = selection.first
             val endDate = selection.second
 
@@ -271,7 +253,9 @@ class HireOutDog : Fragment() {
             val selectedDateRange =
                 "${listDogViewModel.startDate.value} - ${listDogViewModel.endDate.value}"
             binding.dateRange.text = selectedDateRange
+            setButtonState()
         }
+
     }
 
     private fun handleKeyEvent(view: View, keyCode: Int): Boolean {
