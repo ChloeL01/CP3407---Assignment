@@ -23,7 +23,8 @@ class ChangeMobile : Fragment() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            binding.submitBtn.isEnabled = binding.mobileNumber.text.isNotEmpty()       // Change mobile number button enabled when there is a value in each EditText
+            binding.submitBtn.isEnabled =
+                binding.mobileNumber.text.isNotEmpty()       // Change mobile number button enabled when there is a value in each EditText
         }
 
         override fun afterTextChanged(s: Editable?) {
@@ -39,24 +40,24 @@ class ChangeMobile : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_change_mobile, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_change_mobile, container, false)
 
         return binding.root
-
     }
 
     override fun onResume() {
         super.onResume()
 
-        binding.mobileNumber.setOnKeyListener{view, keyCode, _ ->
+        binding.mobileNumber.setOnKeyListener { view, keyCode, _ ->
             handleKeyEvent(view, keyCode)
-
         }
+        binding.mobileNumber.addTextChangedListener(textWatcher)
         binding.submitBtn.setOnClickListener {
-
+            // Save mobile number to database
+            // Later implementation, send verification code via text as an extra verification step.
         }
     }
-
 
     private fun handleKeyEvent(view: View, keyCode: Int): Boolean {
         if (keyCode == KeyEvent.KEYCODE_ENTER) {
