@@ -53,6 +53,9 @@ class HireOutDogViewModel : ViewModel() {
     var isSuccessful: Boolean = false
 
 
+    /*
+    Saves to database
+     */
     fun saveDogListing() {
         storageReference = storageReference.child(System.currentTimeMillis().toString())
         imageUri?.let {

@@ -54,7 +54,7 @@ class HireOutDog : Fragment() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            binding.listDogButton.isEnabled = checkAllEditTextsNotEmpty()
+            binding.listDogButton.isEnabled = checkAllEditTextsNotEmpty() && checkAllSpinnersSelected()
         }
 
         override fun afterTextChanged(s: Editable?) {
@@ -65,7 +65,26 @@ class HireOutDog : Fragment() {
         }
     }
 
+    private fun checkAllSpinnersSelected(): Boolean {
+        return (binding.breedSpinner.selectedItemPosition != 0 && binding.contactSpinner.selectedItemPosition != 0)
+    }
 
+    inner class SpinnerItemSelectedListener : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            val selectedSpinner = parent as Spinner
+            binding.listDogButton.isEnabled = checkAllEditTextsNotEmpty() && checkAllSpinnersSelected()
+
+            when (selectedSpinner){
+                binding.breedSpinner -> binding.breedSpinner.selectedItem.toString()
+                binding.contactSpinner-> binding.contactSpinner.selectedItem.toString()
+            }
+        }
+
+        override fun onNothingSelected(parent: AdapterView<*>?) {
+            binding.listDogButton.isEnabled = false
+        }
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -133,11 +152,13 @@ class HireOutDog : Fragment() {
 
         binding.lifecycleOwner = this
 
+        // Text watcher for input
         binding.name.addTextChangedListener(textWatcher)
         binding.description.addTextChangedListener(textWatcher)
         binding.location.addTextChangedListener(textWatcher)
         binding.hireCost.addTextChangedListener(textWatcher)
 
+        // Key listeners for edit texts
         binding.name.setOnKeyListener { view, keyCode, _ ->
             handleKeyEvent(view, keyCode)
         }
@@ -168,39 +189,41 @@ class HireOutDog : Fragment() {
             onClickRequestPermission()
         }
 
-        binding.breedSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val selectedBreed = parent?.getItemAtPosition(position).toString()
-                listDogViewModel.breed.value = selectedBreed
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // TODO: Implement error checking if nothing selected
-            }
-        }
-
-        binding.contactSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    // Not required
-                    val selectedContact = parent?.getItemAtPosition(position).toString()
-                    listDogViewModel.contactType.value = selectedContact
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    // TODO: Implement error checking if nothing selected
-                }
-            }
+        binding.breedSpinner.onItemSelectedListener = SpinnerItemSelectedListener()
+        binding.contactSpinner.onItemSelectedListener = SpinnerItemSelectedListener()
+//        binding.breedSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(
+//                parent: AdapterView<*>?,
+//                view: View?,
+//                position: Int,
+//                id: Long
+//            ) {
+//                val selectedBreed = parent?.getItemAtPosition(position).toString()
+//                listDogViewModel.breed.value = selectedBreed
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>?) {
+//                // TODO: Implement error checking if nothing selected
+//            }
+//        }
+//
+//        binding.contactSpinner.onItemSelectedListener =
+//            object : AdapterView.OnItemSelectedListener {
+//                override fun onItemSelected(
+//                    parent: AdapterView<*>?,
+//                    view: View?,
+//                    position: Int,
+//                    id: Long
+//                ) {
+//                    // Not required
+//                    val selectedContact = parent?.getItemAtPosition(position).toString()
+//                    listDogViewModel.contactType.value = selectedContact
+//                }
+//
+//                override fun onNothingSelected(parent: AdapterView<*>?) {
+//                    // TODO: Implement error checking if nothing selected
+//                }
+//            }
     }
 
     private fun onClickRequestPermission() {
