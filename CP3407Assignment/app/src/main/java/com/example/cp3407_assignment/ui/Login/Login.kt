@@ -1,10 +1,11 @@
 package com.example.cp3407_assignment.ui.Login
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -91,5 +92,3 @@ class Login : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-}

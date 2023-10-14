@@ -19,7 +19,11 @@
         android:id="@+id/navigation_dogs"
         android:name="com.example.cp3407_assignment.ui.dogs.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dogs" />
+        tools:layout="@layout/fragment_dogs" >
+        <action
+            android:id="@+id/action_navigation_dogs_to_listHireItem"
+            app:destination="@id/listHireItem" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_messages"
@@ -31,7 +35,11 @@
         android:name="com.example.cp3407_assignment.ui.list_hire_item.HireOutDog"
         android:label="Tell us more about your pooch!"
 
-        tools:layout="@layout/fragment_messages" />
+        tools:layout="@layout/fragment_messages" >
+        <action
+            android:id="@+id/action_listHireItem_to_navigation_dogs4"
+            app:destination="@id/navigation_dogs" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_cart"
         android:name="com.example.cp3407_assignment.ui.cart.CartFragment"
@@ -43,8 +51,14 @@
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile" >
         <action
-            android:id="@+id/action_navigation_profile_to_listHireItem"
-            app:destination="@id/listHireItem" />
+            android:id="@+id/action_navigation_profile_to_userContactDetails"
+            app:destination="@id/userContactDetails" />
+        <action
+            android:id="@+id/action_navigation_profile_to_changePassword"
+            app:destination="@id/changePassword" />
+        <action
+            android:id="@+id/action_navigation_profile_to_changeEmail"
+            app:destination="@id/changeEmail" />
     </fragment>
     <fragment
         android:id="@+id/doggoInformation"
@@ -92,5 +106,25 @@
         <action
             android:id="@+id/action_signup_to_login"
             app:destination="@id/login" />
+    </fragment>
+    <fragment
+        android:id="@+id/userContactDetails"
+        android:name="com.example.cp3407_assignment.ui.profile.UserContactDetails"
+        android:label="UserContactDetails" />
+    <fragment
+        android:id="@+id/changePassword"
+        android:name="com.example.cp3407_assignment.ui.settings.ChangePassword"
+        android:label="ChangePassword" >
+        <action
+            android:id="@+id/action_changePassword_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeEmail"
+        android:name="com.example.cp3407_assignment.ui.profile.ChangeEmail"
+        android:label="ChangeEmail" >
+        <action
+            android:id="@+id/action_changeEmail_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
     </fragment>
 </navigation>

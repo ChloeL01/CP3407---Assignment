@@ -25,6 +25,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentHireOutDogBinding
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -108,8 +109,13 @@ class HireOutDog : Fragment() {
             handleKeyEvent(view, keyCode)
         }
 
-        binding.listDogButton.setOnClickListener {
+        binding.listDogButton.setOnClickListener {view: View? ->
+
             listDogViewModel.saveDogListing()
+
+            if (listDogViewModel.isSuccessful){
+                view?.findNavController()?.navigate(R.id.action_listHireItem_to_navigation_dogs4)
+            }
         }
 
         binding.dateRange.setOnClickListener {

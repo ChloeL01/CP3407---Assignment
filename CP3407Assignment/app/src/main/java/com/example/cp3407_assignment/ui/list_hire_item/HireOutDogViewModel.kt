@@ -50,7 +50,7 @@ class HireOutDogViewModel : ViewModel() {
 
     var imageUri: Uri? = null
 
-    private var isSuccessful: Boolean = false
+    var isSuccessful: Boolean = false
 
 
     fun saveDogListing() {
