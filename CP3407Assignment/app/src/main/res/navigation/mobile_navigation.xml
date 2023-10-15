@@ -133,5 +133,9 @@
     <fragment
         android:id="@+id/changePaymentDetails"
         android:name="com.example.cp3407_assignment.ui.settings.ChangePaymentDetails"
-        android:label="ChangePaymentDetails" />
+        android:label="ChangePaymentDetails" >
+        <action
+            android:id="@+id/action_changePaymentDetails_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
 </navigation>

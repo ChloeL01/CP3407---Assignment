@@ -70,6 +70,7 @@
         </RadioGroup>
 
         <Button
+            android:id="@+id/submit_changes_btn"
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:text="@string/submit_changes"
