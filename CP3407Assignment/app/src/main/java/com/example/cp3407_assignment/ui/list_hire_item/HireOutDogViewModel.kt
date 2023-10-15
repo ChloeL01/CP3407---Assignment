@@ -4,24 +4,24 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.cp3407_assignment.Dog
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
 class HireOutDogViewModel : ViewModel() {
 
-    private val _userName = MutableLiveData<String>()
-
     private val _dogName = MutableLiveData<String>()
     val dogName: MutableLiveData<String>
-        get() = _dogName
+    get() = _dogName
 
     private val _description = MutableLiveData<String>()
     val description: MutableLiveData<String>
-        get() = _description
+    get() = _description
 
-    private val _cost = MutableLiveData<Double>()
-    val cost: MutableLiveData<Double>
+    private val _cost = MutableLiveData<String>()
+    val cost: MutableLiveData<String>
         get() = _cost
 
     private val _startDate = MutableLiveData<String>()
@@ -40,18 +40,34 @@ class HireOutDogViewModel : ViewModel() {
     val contactType: MutableLiveData<String>
         get() = _contactType
 
-    private val _location = MutableLiveData<String>()
-    val location: MutableLiveData<String>
-        get() = _location
+    // Later implementation
+//    private val _location = MutableLiveData<String>()
+
+    private val auth = FirebaseAuth.getInstance()
+    private val _user: FirebaseUser? = auth.currentUser
 
     // Firebase database
     private val firebaseFirestore = FirebaseFirestore.getInstance()
     private var storageReference = Firebase.storage.reference.child("Storage")
 
+    private val _userName =
+        firebaseFirestore.collection("Users").document(_user.toString()).get().toString()
+
     var imageUri: Uri? = null
 
     var isSuccessful: Boolean = false
-
+//
+//    fun updateDogName(name: String) {
+//        _dogName.value = name
+//    }
+//
+//    fun updateDescription(description: String) {
+//        _description.value = description
+//    }
+//
+//    fun updatePrice(price: String) {
+//        _cost.value = price
+//    }
 
     /*
     Saves to database
@@ -69,8 +85,8 @@ class HireOutDogViewModel : ViewModel() {
                             _startDate.value ?: "",
                             _endDate.value ?: "",
                             _cost.value.toString(),
-                            "new doggo good boi points",
-                            _userName.value.toString(),
+                            "",
+                            _userName,
                             _contactType.value.toString(),
                             uri.toString()
                         )

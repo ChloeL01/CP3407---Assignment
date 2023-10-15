@@ -33,6 +33,7 @@ import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 class HireOutDog : Fragment() {
 
     private lateinit var layout: View
@@ -62,6 +63,13 @@ class HireOutDog : Fragment() {
         }
 
         override fun afterTextChanged(s: Editable?) {
+            // Update ViewModel properties based on user input
+//            listDogViewModel.updateDogName(binding.name.text.toString())
+//            listDogViewModel.updateDescription(binding.description.text.toString())
+//            listDogViewModel.updatePrice(binding.hireCost.text.toString())
+            listDogViewModel.dogName.value = binding.name.text.toString()
+            listDogViewModel.description.value = binding.description.text.toString()
+            listDogViewModel.cost.value = binding.hireCost.text.toString()
 
         }
     }
@@ -72,10 +80,15 @@ class HireOutDog : Fragment() {
 
     inner class SpinnerItemSelectedListener : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
-            when (parent as Spinner) {
-                binding.breedSpinner -> binding.breedSpinner.selectedItem.toString()
-                binding.contactSpinner -> binding.contactSpinner.selectedItem.toString()
+            when (parent) {
+                binding.breedSpinner -> {
+                    val selectedBreed = parent.getItemAtPosition(position).toString()
+                    listDogViewModel.breed.value = selectedBreed
+                }
+                binding.contactSpinner -> {
+                    val selectedContact = parent.getItemAtPosition(position).toString()
+                    listDogViewModel.contactType.value = selectedContact
+                }
             }
             setButtonState()
         }
@@ -83,13 +96,14 @@ class HireOutDog : Fragment() {
         override fun onNothingSelected(parent: AdapterView<*>?) {
             binding.listDogButton.isEnabled = false
         }
-
     }
+
 
     private fun setButtonState() {
         val isEditTextsNotEmpty = checkAllEditTextsNotEmpty()
         val isSpinnersSelected = checkAllSpinnersSelected()
-        binding.listDogButton.isEnabled = isEditTextsNotEmpty && isSpinnersSelected && isDatePickerUsed && imageSelected
+        binding.listDogButton.isEnabled =
+            isEditTextsNotEmpty && isSpinnersSelected && isDatePickerUsed && imageSelected
     }
 
 
@@ -184,7 +198,6 @@ class HireOutDog : Fragment() {
         }
 
         binding.listDogButton.setOnClickListener { view: View? ->
-
             listDogViewModel.saveDogListing()
 
             if (listDogViewModel.isSuccessful) {
@@ -203,6 +216,7 @@ class HireOutDog : Fragment() {
         binding.breedSpinner.onItemSelectedListener = SpinnerItemSelectedListener()
         binding.contactSpinner.onItemSelectedListener = SpinnerItemSelectedListener()
     }
+
 
     private fun onClickRequestPermission() {
         when {
