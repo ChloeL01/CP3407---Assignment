@@ -7,11 +7,11 @@
 
         <variable
             name="nextMonth"
-            type="com.example.cp3407_assignment.ui.hireschedule.HireScheduleViewModel.OnClickNextMonth" />
+            type="com.example.cp3407_assignment.ui.hireschedule.HireScheduleFragment" />
 
         <variable
             name="previousMonth"
-            type="com.example.cp3407_assignment.ui.hireschedule.HireScheduleViewModel.OnClickPreviousMonth" />
+            type="com.example.cp3407_assignment.ui.hireschedule.HireScheduleFragment" />
     </data>
 
     <LinearLayout
@@ -28,6 +28,7 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/previous_Month"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -49,6 +50,7 @@
                 android:textSize="25sp" />
 
             <Button
+                android:id="@+id/next_Month"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

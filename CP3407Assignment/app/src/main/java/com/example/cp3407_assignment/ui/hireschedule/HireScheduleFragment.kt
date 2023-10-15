@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
@@ -22,7 +21,6 @@ class HireScheduleFragment : Activity(), CalenderAdapter.OnItemListener {
 //    private var _binding: FragmentHireScheduleBinding? = null
 //    private val binding get() = _binding!!
 
-    private var monthYearText: TextView? = null
     private var calenderRecyclerView: RecyclerView? = null
     private lateinit var dateSelection: LocalDate
     private lateinit var binding: FragmentHireScheduleBinding
@@ -34,11 +32,11 @@ class HireScheduleFragment : Activity(), CalenderAdapter.OnItemListener {
         savedInstanceState: Bundle?
     ): View {
 //        _binding = FragmentHireScheduleBinding.inflate(inflater, container, false)
-//        val binding: FragmentHireScheduleBinding =
-//            DataBindingUtil.setContentView(this, R.layout.fragment_hire_schedule)
+        val binding: FragmentHireScheduleBinding =
+            DataBindingUtil.setContentView(this, R.layout.fragment_hire_schedule)
 
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_hire_schedule, container, false)
+//        binding =
+//            DataBindingUtil.inflate(inflater, R.layout.fragment_hire_schedule, container, false)
         initialiseWidgets()
         //TODO: implement recyclerView using binding
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -51,12 +49,11 @@ class HireScheduleFragment : Activity(), CalenderAdapter.OnItemListener {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun selectMonthView() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            monthYearText?.text = dateForMonthYear(dateSelection)
+            binding.textMonthYear.text = dateForMonthYear(dateSelection)
         }
         val daysInMonth: ArrayList<String> = daysInMonthArray(dateSelection)
         calenderRecyclerView?.layoutManager = GridLayoutManager(applicationContext, 7)
         calenderRecyclerView?.adapter = CalenderAdapter(daysInMonth, this)
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -86,19 +83,18 @@ class HireScheduleFragment : Activity(), CalenderAdapter.OnItemListener {
     }
 
     private fun initialiseWidgets() {
-        //TODO: Implement binding equivalent of findViewByID
-        calenderRecyclerView //
-        monthYearText  //
+        binding.calenderRecyclerView
+        binding.textMonthYear
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun onClickPreviousMonth(view: View) {
+    fun onClickPreviousMonth() {
         dateSelection = dateSelection.minusMonths(1)
         selectMonthView()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun onClickNextMonth(view: View) {
+    fun onClickNextMonth() {
         dateSelection = dateSelection.plusMonths(1)
         selectMonthView()
     }
