@@ -76,7 +76,7 @@
 
         <Button
             android:id="@+id/email_address"
-            android:layout_width="320dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
@@ -90,7 +90,7 @@
 
         <Button
             android:id="@+id/phone_number"
-            android:layout_width="320dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
