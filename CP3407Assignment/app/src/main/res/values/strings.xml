@@ -86,4 +86,8 @@
     <string name="dog_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam consectetur nisl a nulla congue, vel lobortis risus faucibus. \n\nAliquam tincidunt justo vel aliquam vulputate. Nam ac lacus scelerisque, mollis dui ac, feugiat ligula. Proin tristique, magna at maximus euismod, leo velit mollis velit, ut porta erat elit ut nisl.</string>
     <string name="good_boi_points">Good Boi Points</string>
     <string name="text_review">Best boi ever! Would highly recommend\n\nSo cute! Would have again 5/5\n\n Makes me want a doggo, very well behaved</string>
+    <string name="howl_about_your_experience">Howl About Your Experience!</string>
+    <string name="review_message">Time to share some tail wagging feedback!</string>
+    <string name="title">Tell us what stood out about your experience</string>
+    <string name="rate_that_good_pupper">Rate that good pupper!</string>
 </resources>

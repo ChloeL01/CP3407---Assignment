@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_navigation_dogs_to_listHireItem"
             app:destination="@id/listHireItem" />
+        <action
+            android:id="@+id/action_navigation_dogs_to_dogReview"
+            app:destination="@id/dogReview" />
     </fragment>
 
     <fragment
@@ -138,4 +141,8 @@
             android:id="@+id/action_changePaymentDetails_to_navigation_profile"
             app:destination="@id/navigation_profile" />
     </fragment>
+    <fragment
+        android:id="@+id/dogReview"
+        android:name="com.example.cp3407_assignment.ui.dogs.DogReview"
+        android:label="DogReview" />
 </navigation>
