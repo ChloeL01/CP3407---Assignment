@@ -88,6 +88,9 @@
     <string name="text_review">Best boi ever! Would highly recommend\n\nSo cute! Would have again 5/5\n\n Makes me want a doggo, very well behaved</string>
     <string name="howl_about_your_experience">Howl About Your Experience!</string>
     <string name="review_message">Time to share some tail wagging feedback!</string>
-    <string name="title">Tell us what stood out about your experience</string>
+    <string name="title">What stood out about your experience?</string>
     <string name="rate_that_good_pupper">Rate that good pupper!</string>
+    <string name="review_description_hint">Howl to the moon!\nTell us more about your experience</string>
+    <string name="submit_woof_view">Submit woof-view!</string>
+    <string name="rate_dog_bar">Rate dog bar</string>
 </resources>
