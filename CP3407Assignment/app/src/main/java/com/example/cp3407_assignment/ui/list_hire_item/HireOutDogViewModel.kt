@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.cp3407_assignment.Dog
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -14,11 +13,11 @@ class HireOutDogViewModel : ViewModel() {
 
     private val _dogName = MutableLiveData<String>()
     val dogName: MutableLiveData<String>
-    get() = _dogName
+        get() = _dogName
 
     private val _description = MutableLiveData<String>()
     val description: MutableLiveData<String>
-    get() = _description
+        get() = _description
 
     private val _cost = MutableLiveData<String>()
     val cost: MutableLiveData<String>
@@ -43,36 +42,20 @@ class HireOutDogViewModel : ViewModel() {
     // Later implementation
 //    private val _location = MutableLiveData<String>()
 
-    private val auth = FirebaseAuth.getInstance()
-    private val _user: FirebaseUser? = auth.currentUser
-
     // Firebase database
     private val firebaseFirestore = FirebaseFirestore.getInstance()
     private var storageReference = Firebase.storage.reference.child("Storage")
 
-    private val _userName =
-        firebaseFirestore.collection("Users").document(_user.toString()).get().toString()
 
     var imageUri: Uri? = null
-
     var isSuccessful: Boolean = false
-//
-//    fun updateDogName(name: String) {
-//        _dogName.value = name
-//    }
-//
-//    fun updateDescription(description: String) {
-//        _description.value = description
-//    }
-//
-//    fun updatePrice(price: String) {
-//        _cost.value = price
-//    }
 
     /*
     Saves to database
      */
     fun saveDogListing() {
+        val user = firebaseFirestore.collection("Users").document(FirebaseAuth.getInstance().currentUser.toString())
+        // Save dog data
         storageReference = storageReference.child(System.currentTimeMillis().toString())
         imageUri?.let {
             storageReference.putFile(it).addOnCompleteListener { task ->
@@ -84,10 +67,10 @@ class HireOutDogViewModel : ViewModel() {
                             _description.value ?: "",
                             _startDate.value ?: "",
                             _endDate.value ?: "",
-                            _cost.value.toString(),
-                            "",
-                            _userName,
-                            _contactType.value.toString(),
+                            _cost.value ?: "",
+                            "",  // You might want to replace this with appropriate data
+                            user.toString(),  // Use the UID of the currently authenticated user
+                            _contactType.value ?: "",
                             uri.toString()
                         )
                         firebaseFirestore.collection("Dogs").add(upload)
@@ -100,3 +83,4 @@ class HireOutDogViewModel : ViewModel() {
         }
     }
 }
+

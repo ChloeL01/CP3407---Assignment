@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentLoginBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -25,11 +26,10 @@ class Login : Fragment() {
     private val db = Firebase.firestore
     private val binding get() = _binding!!
 
-    lateinit var UsernameLogin: EditText
-    lateinit var PasswordLogin: EditText
-    lateinit var LoginButton: Button
-    lateinit var Return_to_Sign_in_Button: Button
-
+//    lateinit var UsernameLogin: EditText
+//    lateinit var PasswordLogin: EditText
+//    lateinit var LoginButton: Button
+//    lateinit var Return_to_Sign_in_Button: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,6 +45,7 @@ class Login : Fragment() {
         binding.LoginButton.setOnClickListener {
             var Username = binding.UsernameLogin.text.toString()
             var Password = binding.PasswordLogin.text.toString()
+
             if (Username.isNotEmpty() && Password.isNotEmpty()) {
                 db.collection("Users").document(Username).get()
                     .addOnSuccessListener { documentSnapshot ->
