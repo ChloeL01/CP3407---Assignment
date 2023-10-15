@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_navigation_dogs_to_listHireItem"
             app:destination="@id/listHireItem" />
+        <action
+            android:id="@+id/action_navigation_to_currently_hiring"
+            app:destination="@id/currently_Hiring" />
     </fragment>
 
     <fragment
@@ -127,4 +130,9 @@
             android:id="@+id/action_changeEmail_to_navigation_profile"
             app:destination="@id/navigation_profile" />
     </fragment>
+    <fragment
+        android:id="@+id/currently_Hiring"
+        android:name="com.example.cp3407_assignment.ui.current_hire.Currently_Hiring"
+        android:label="fragment_currently__hiring"
+        tools:layout="@layout/fragment_currently__hiring" />
 </navigation>

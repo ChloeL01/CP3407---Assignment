@@ -33,6 +33,10 @@ class DashboardFragment : Fragment() {
         binding.createListing.setOnClickListener {view: View? ->
             view?.findNavController()?.navigate(R.id.action_navigation_dogs_to_listHireItem)
         }
+
+        binding.CurrentlyHiringButton.setOnClickListener { view: View? ->
+            view?.findNavController()?.navigate(R.id.action_navigation_to_currently_hiring)
+        }
     }
 
 }
