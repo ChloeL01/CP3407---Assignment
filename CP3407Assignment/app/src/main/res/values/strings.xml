@@ -74,4 +74,10 @@
     <string name="mobile_verification">Mobile Verification</string>
     <string name="enter_mobile_phone_number">Enter mobile phone number</string>
     <string name="change_mobile">Change mobile</string>
+    <string name="change_payment_details">Change payment details</string>
+    <string name="select_payment_type_to_change_to">Select payment type to change to:</string>
+    <string name="submit_changes">Submit changes</string>
+    <string name="card">Card</string>
+    <string name="paypal">Paypal</string>
+    <string name="google_pay">Google Pay</string>
 </resources>

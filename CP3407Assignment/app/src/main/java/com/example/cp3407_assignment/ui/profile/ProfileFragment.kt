@@ -28,7 +28,7 @@ class ProfileFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        binding.changePasswordBtn.setOnClickListener {view: View? ->
+        binding.changePasswordBtn.setOnClickListener { view: View? ->
             view?.findNavController()?.navigate(R.id.action_navigation_profile_to_changePassword)
         }
 
@@ -36,10 +36,12 @@ class ProfileFragment : Fragment() {
             view?.findNavController()?.navigate(R.id.action_navigation_profile_to_changeEmail)
         }
 
-        binding.logoutBtn.setOnClickListener { logOut() }
+        binding.changePaymentDetailsBtn.setOnClickListener { view: View? ->
+            view?.findNavController()?.navigate(R.id.action_navigation_profile_to_changePaymentDetails)
+        }
+
+        binding.logoutBtn.setOnClickListener { }
     }
 
-    private fun logOut() {
 
-    }
 }
