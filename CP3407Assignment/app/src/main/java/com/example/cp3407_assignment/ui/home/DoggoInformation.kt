@@ -48,9 +48,10 @@ class DoggoInformation : Fragment() {
                         bundleOf(
                             "search_doggos" to arguments?.getStringArrayList("doggos")
                         )
-                    findNavController().navigate(
-                        R.id.action_doggoInformation_to_navigation_home,
-                        bundle)
+                    findNavController().popBackStack()
+//                    findNavController().navigate(
+//                        R.id.action_doggoInformation_to_navigation_home,
+//                        bundle)
                 }
             }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)

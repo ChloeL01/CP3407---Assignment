@@ -153,6 +153,7 @@ open class HomeFragment : Fragment() {
     }
 
     private fun savePreference() {
+        //TODO fix just search getting saved
         val sharedPref: SharedPreferences = requireActivity().getPreferences(MODE_PRIVATE)
         val editor = sharedPref.edit()
         val gson = Gson()
@@ -199,6 +200,7 @@ open class HomeFragment : Fragment() {
             //binding.searchBar.post { binding.searchBar.setQuery("", true) }
             binding.searchBar.setQuery("", true) // reset Query text to be empty without submition
             searchQuery = ""
+            searchList = ArrayList()
             binding.searchBar.isIconified = true // Replace the x icon with the search icon
             hideSpinner()
             loadDogs()
@@ -300,6 +302,7 @@ open class HomeFragment : Fragment() {
                         "search_query" to binding.searchBar.query.toString()
                        // "doggos" to searchList
                     )
+                savePreference()
                 findNavController().navigate(
                     R.id.action_navigation_home_to_doggoInformation,
                     bundle
