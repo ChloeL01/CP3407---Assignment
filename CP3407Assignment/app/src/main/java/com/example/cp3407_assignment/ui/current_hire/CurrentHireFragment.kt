@@ -8,24 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.cp3407_assignment.R
 
-class Currently_Hiring : Fragment() {
+class CurrentHireFragment : Fragment() {
 
     companion object {
-        fun newInstance() = Currently_Hiring()
+        fun newInstance() = CurrentHireFragment()
     }
 
-    private lateinit var viewModel: CurrentlyHiringViewModel2
+    private lateinit var viewModel: CurrentHireViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_currently__hiring, container, false)
+        return inflater.inflate(R.layout.fragment_current_hire, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CurrentlyHiringViewModel2::class.java)
+        viewModel = ViewModelProvider(this).get(CurrentHireViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
