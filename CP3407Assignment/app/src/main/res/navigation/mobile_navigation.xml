@@ -133,6 +133,6 @@
     <fragment
         android:id="@+id/currently_Hiring"
         android:name="com.example.cp3407_assignment.ui.current_hire.CurrentHireFragment"
-        android:label="fragment_currently__hiring"
-        tools:layout="@layout/fragment_currently__hiring" />
+        android:label="fragment_current_hire"
+        tools:layout="@layout/fragment_current_hire" />
 </navigation>
