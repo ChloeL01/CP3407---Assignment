@@ -29,9 +29,9 @@ class CurrentlyHiringItemAdapter(private val mContext: Context, dogs: List<Dog>)
         override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
             val uploadCurrent: Dog = mDogs[position]
             holder.textViewName.text = uploadCurrent.doggo_name
-            holder.textViewStartDate.text = uploadCurrent.hire_start_date
-            holder.textViewEndDate.text = uploadCurrent.hire_end_date
-            //holder.textViewCost.text = "$" + uploadCurrent.cost
+            holder.textViewDate.text =
+                uploadCurrent.hire_start_date + " - " + uploadCurrent.hire_end_date
+            holder.textViewCost.text = "$" + uploadCurrent.cost
 
             holder.itemView.setOnClickListener {
                 if (onClickListener != null) {
@@ -61,17 +61,15 @@ class CurrentlyHiringItemAdapter(private val mContext: Context, dogs: List<Dog>)
 
         inner class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             var textViewName: TextView
-            var textViewStartDate: TextView
-            var textViewEndDate: TextView
-            //var textViewCost: TextView
+            var textViewDate: TextView
+            var textViewCost: TextView
             var imageView: ImageView
 
             init {
-                textViewName = itemView.findViewById(R.id.pet_name)//
-                textViewStartDate = itemView.findViewById(R.id.pet_start_date)//
-                textViewEndDate = itemView.findViewById(R.id.pet_end_date)//
-                //textViewCost = itemView.findViewById(R.id.text_view_cost)
-                imageView = itemView.findViewById(R.id.pet_image)//
+                textViewName = itemView.findViewById(R.id.text_view_name)
+                textViewDate = itemView.findViewById(R.id.text_view_start_date)
+                textViewCost = itemView.findViewById(R.id.text_view_cost)
+                imageView = itemView.findViewById(R.id.image_view_upload)
             }
         }
     }
