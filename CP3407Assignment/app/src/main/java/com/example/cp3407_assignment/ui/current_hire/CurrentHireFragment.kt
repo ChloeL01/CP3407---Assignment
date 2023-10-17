@@ -94,8 +94,8 @@ class CurrentHireFragment : Fragment() {
                             bundleOf(
                                 "doggo_name" to model.doggo_name,
                                 "imageUrl" to model.imageUrl,
-                                "description" to model.description,
-                                "reviews" to model.doggo_review,
+                                //"description" to model.description,
+                                //"reviews" to model.doggo_review,
                                 "start_date" to model.hire_start_date,
                                 "end_date" to model.hire_end_date
                             )
