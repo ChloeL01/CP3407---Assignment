@@ -48,7 +48,9 @@ class HireOutDogViewModel : ViewModel() {
     val location: MutableLiveData<String>
         get() = _location
 
-    // Firebase database
+    private lateinit var firebaseAuth: FirebaseAuth
+
+    // Firestore database
     private val firebaseFirestore = FirebaseFirestore.getInstance()
     private var storageReference = Firebase.storage.reference.child("Storage")
 
@@ -58,29 +60,39 @@ class HireOutDogViewModel : ViewModel() {
 
 
     fun saveDogListing() {
+        firebaseAuth = Firebase.auth
 
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
 
-        imageUri?.let {
-            storageReference.putFile(it).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    storageReference.downloadUrl.addOnSuccessListener { uri ->
-                        val data = Dog(
-                            _dogName.value ?: "",
-                            _breed.value ?: "",
-                            _description.value ?: "",
-                            _startDate.value ?: "",
-                            _endDate.value ?: "",
-                            _cost.value.toString(),
-                            "new doggo good boi points",
-                            _userName,
-                            _contactType.value.toString(),
-                            uri.toString()
-                        )
-                        firebaseFirestore.collection("Dogs").add(data)
-                            .addOnCompleteListener { firestoreTask ->
-                                isSuccessful = firestoreTask.isSuccessful
-                                isSuccessful= true // not sure why false at the moment oh well
-                            }
+            imageUri?.let {
+                storageReference.putFile(it).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        storageReference.downloadUrl.addOnSuccessListener { uri ->
+                            val userUid = currentUser.uid // Get the user's UID
+                            val data = Dog(
+                                _dogName.value ?: "",
+                                _breed.value ?: "",
+                                _description.value ?: "",
+                                _startDate.value ?: "",
+                                _endDate.value ?: "",
+                                _cost.value.toString(),
+                                "new doggo good boi points",
+                                userUid,
+                                _contactType.value.toString(),
+                                uri.toString()
+                            )
+                            firebaseFirestore.collection("Dogs").add(data)
+                                .addOnCompleteListener { firestoreTask ->
+                                    if (firestoreTask.isSuccessful) {
+                                        isSuccessful = true
+                                        Log.d("Firestore", "Dog listing added successfully")
+                                    } else {
+                                        isSuccessful = false
+                                        Log.e("Firestore", "Error adding dog listing")
+                                    }
+                                }
+                        }
                     }
                 }
             }
