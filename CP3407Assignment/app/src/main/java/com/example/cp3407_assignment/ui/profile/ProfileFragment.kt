@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentProfileBinding
+import com.google.rpc.context.AttributeContext.Auth
 
 class ProfileFragment : Fragment() {
 
@@ -27,12 +28,20 @@ class ProfileFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        binding.changePasswordBtn.setOnClickListener {view: View? ->
+        binding.changePasswordBtn.setOnClickListener { view: View? ->
             view?.findNavController()?.navigate(R.id.action_navigation_profile_to_changePassword)
         }
 
         binding.emailAddress.setOnClickListener { view: View? ->
             view?.findNavController()?.navigate(R.id.action_navigation_profile_to_changeEmail)
         }
+
+        binding.changePaymentDetailsBtn.setOnClickListener { view: View? ->
+            view?.findNavController()?.navigate(R.id.action_navigation_profile_to_changePaymentDetails)
+        }
+
+        binding.logoutBtn.setOnClickListener { }
     }
+
+
 }

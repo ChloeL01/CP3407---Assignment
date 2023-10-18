@@ -16,6 +16,7 @@ import com.example.cp3407_assignment.databinding.FragmentChangeMobileBinding
 
 class ChangeMobile : Fragment() {
     private lateinit var binding: FragmentChangeMobileBinding
+    var newNumber = ""
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -32,6 +33,7 @@ class ChangeMobile : Fragment() {
             if (binding.mobileNumber.text.isEmpty()) {
                 binding.submitBtn.isEnabled = false
             }
+
         }
     }
 
@@ -56,6 +58,7 @@ class ChangeMobile : Fragment() {
         binding.submitBtn.setOnClickListener {
             // Save mobile number to database
             // Later implementation, send verification code via text as an extra verification step.
+            newNumber = binding.mobileNumber.text.toString()
         }
     }
 

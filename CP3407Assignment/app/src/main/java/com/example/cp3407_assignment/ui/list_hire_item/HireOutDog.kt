@@ -33,6 +33,7 @@ import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 class HireOutDog : Fragment() {
 
     private lateinit var layout: View
@@ -42,11 +43,69 @@ class HireOutDog : Fragment() {
     private lateinit var pickVisualMediaLauncher: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
+    private var isDatePickerUsed = false
+    private var imageSelected = false
+
+
     private val resultLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) {
         listDogViewModel.imageUri = it
     }
+
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            // Not required
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            setButtonState()
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+            // Update ViewModel properties based on user input
+//            listDogViewModel.updateDogName(binding.name.text.toString())
+//            listDogViewModel.updateDescription(binding.description.text.toString())
+//            listDogViewModel.updatePrice(binding.hireCost.text.toString())
+            listDogViewModel.dogName.value = binding.name.text.toString()
+            listDogViewModel.description.value = binding.description.text.toString()
+            listDogViewModel.cost.value = binding.hireCost.text.toString()
+
+        }
+    }
+
+    private fun checkAllSpinnersSelected(): Boolean {
+        return (binding.breedSpinner.selectedItemPosition != 0 && binding.contactSpinner.selectedItemPosition != 0)
+    }
+
+    inner class SpinnerItemSelectedListener : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            when (parent) {
+                binding.breedSpinner -> {
+                    val selectedBreed = parent.getItemAtPosition(position).toString()
+                    listDogViewModel.breed.value = selectedBreed
+                }
+                binding.contactSpinner -> {
+                    val selectedContact = parent.getItemAtPosition(position).toString()
+                    listDogViewModel.contactType.value = selectedContact
+                }
+            }
+            setButtonState()
+        }
+
+        override fun onNothingSelected(parent: AdapterView<*>?) {
+            binding.listDogButton.isEnabled = false
+        }
+    }
+
+
+    private fun setButtonState() {
+        val isEditTextsNotEmpty = checkAllEditTextsNotEmpty()
+        val isSpinnersSelected = checkAllSpinnersSelected()
+        binding.listDogButton.isEnabled =
+            isEditTextsNotEmpty && isSpinnersSelected && isDatePickerUsed && imageSelected
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +116,6 @@ class HireOutDog : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_hire_out_dog, container, false)
 
         binding.dogHireViewModel = listDogViewModel
-        layout = binding.listToHireScroll
 
         requestPermissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -70,6 +128,23 @@ class HireOutDog : Fragment() {
                     Log.i("Permission: ", "Denied")
                 }
             }
+
+        pickVisualMediaLauncher = registerForActivityResult(
+            ActivityResultContracts.PickVisualMedia()
+        ) { result ->
+            if (result != null) {
+                // Later implementation -> update imageview thumbnail of image selected
+                Log.d("Image selected", "Image Uri: $imageSelected")
+                println("Imaged selected value: $imageSelected")
+                imageSelected = true
+                setButtonState()
+
+            } else {
+                Log.d("Image selected", "No image selected")
+                imageSelected = false
+                setButtonState()
+            }
+        }
 
         // Populate dog breed spinner
         val breedSpinner: Spinner = binding.breedSpinner
@@ -102,18 +177,30 @@ class HireOutDog : Fragment() {
 
         binding.lifecycleOwner = this
 
+        // Text watcher for input
+        binding.name.addTextChangedListener(textWatcher)
+        binding.description.addTextChangedListener(textWatcher)
+        binding.location.addTextChangedListener(textWatcher)
+        binding.hireCost.addTextChangedListener(textWatcher)
+
+        // Key listeners for edit texts
         binding.name.setOnKeyListener { view, keyCode, _ ->
             handleKeyEvent(view, keyCode)
         }
         binding.description.setOnKeyListener { view, keyCode, _ ->
             handleKeyEvent(view, keyCode)
         }
+        binding.hireCost.setOnKeyListener { view, keyCode, _ ->
+            handleKeyEvent(view, keyCode)
+        }
+        binding.location.setOnKeyListener { view, keyCode, _ ->
+            handleKeyEvent(view, keyCode)
+        }
 
-        binding.listDogButton.setOnClickListener {view: View? ->
-
+        binding.listDogButton.setOnClickListener { view: View? ->
             listDogViewModel.saveDogListing()
 
-            if (listDogViewModel.isSuccessful){
+            if (listDogViewModel.isSuccessful) {
                 view?.findNavController()?.navigate(R.id.action_listHireItem_to_navigation_dogs4)
             }
         }
@@ -126,116 +213,10 @@ class HireOutDog : Fragment() {
             onClickRequestPermission()
         }
 
-        binding.name.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not required
-            }
-
-            override fun onTextChanged(
-                sequence: CharSequence?,
-                start: Int,
-                before: Int,
-                count: Int
-            ) {
-                listDogViewModel.dogName.value = sequence.toString()
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                // Not required
-            }
-        })
-
-        binding.description.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not required
-            }
-
-            override fun onTextChanged(
-                sequence: CharSequence?,
-                start: Int,
-                before: Int,
-                count: Int
-            ) {
-                listDogViewModel.description.value = sequence.toString()
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                // Not required
-            }
-        })
-
-        binding.location.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not required
-            }
-
-            override fun onTextChanged(
-                sequence: CharSequence?,
-                start: Int,
-                before: Int,
-                count: Int
-            ) {
-                listDogViewModel.location.value = sequence.toString()
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                // Not required
-            }
-        })
-
-        binding.hireCost.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not required
-            }
-
-            override fun onTextChanged(
-                sequence: CharSequence?,
-                start: Int,
-                before: Int,
-                count: Int
-            ) {
-                listDogViewModel.cost.value = sequence?.toString()?.toDoubleOrNull() ?: 0.0
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                // Not required
-            }
-        })
-
-        binding.breedSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val selectedBreed = parent?.getItemAtPosition(position).toString()
-                listDogViewModel.breed.value = selectedBreed
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // TODO: Implement error checking if nothing selected
-            }
-        }
-
-        binding.contactSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    // Not required
-                    val selectedContact = parent?.getItemAtPosition(position).toString()
-                    listDogViewModel.contactType.value = selectedContact
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    // TODO: Implement error checking if nothing selected
-                }
-            }
+        binding.breedSpinner.onItemSelectedListener = SpinnerItemSelectedListener()
+        binding.contactSpinner.onItemSelectedListener = SpinnerItemSelectedListener()
     }
+
 
     private fun onClickRequestPermission() {
         when {
@@ -244,6 +225,8 @@ class HireOutDog : Fragment() {
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED -> {
                 resultLauncher.launch("image/*")
+                imageSelected = true
+                setButtonState()
             }
 
             ActivityCompat.shouldShowRequestPermissionRationale(
@@ -259,12 +242,21 @@ class HireOutDog : Fragment() {
         }
     }
 
+    private fun checkAllEditTextsNotEmpty(): Boolean {
+        return binding.name.text.toString().isNotEmpty() && binding.description.text.toString()
+            .isNotEmpty() &&
+                binding.hireCost.text.toString().isNotEmpty() && binding.location.text.toString()
+            .isNotEmpty()
+    }
+
+
     private fun getDateRange() {
         val datePicker =
             MaterialDatePicker.Builder.dateRangePicker().setTitleText("Select dog availability")
                 .build()
         datePicker.show(childFragmentManager, "DatePicker")
         datePicker.addOnPositiveButtonClickListener { selection ->
+            isDatePickerUsed = true
             val startDate = selection.first
             val endDate = selection.second
 
@@ -275,7 +267,9 @@ class HireOutDog : Fragment() {
             val selectedDateRange =
                 "${listDogViewModel.startDate.value} - ${listDogViewModel.endDate.value}"
             binding.dateRange.text = selectedDateRange
+            setButtonState()
         }
+
     }
 
     private fun handleKeyEvent(view: View, keyCode: Int): Boolean {
