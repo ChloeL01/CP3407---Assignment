@@ -49,65 +49,61 @@ class Login : Fragment() {
                 val email = binding.UsernameLogin.text.toString()
                 val password = binding.PasswordLogin.text.toString()
 
-        binding.LoginButton.setOnClickListener {
-            var Username = binding.UsernameLogin.text.toString()
-            var Password = binding.PasswordLogin.text.toString()
+                binding.LoginButton.setOnClickListener {
 
-            if (Username.isNotEmpty() && Password.isNotEmpty()) {
-                db.collection("Users").document(Username).get()
-                    .addOnSuccessListener { documentSnapshot ->
-                        if (documentSnapshot.exists()) {
-                            val username = documentSnapshot.getString(Username)
-                            val password = documentSnapshot.getString(Password)
-                            Toast.makeText(
-                                context,
-                                "Welcome Back " + binding.UsernameLogin.text.toString(),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            findNavController().navigate(R.id.action_login_to_navigation_home)
+                    if (email.isNotEmpty() && password.isNotEmpty()) {
+                        FirebaseAuth.getInstance()
+                            .signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    val currentUserData = firebaseAuth.currentUser
+                                    val userUid = currentUserData?.uid
 
-                if (email.isNotEmpty() && password.isNotEmpty()) {
-                    FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                val currentUserData = firebaseAuth.currentUser
-                                val userUid = currentUserData?.uid
-
-                                if (userUid != null) {
-                                    db.collection("users").document(userUid).get()
-                                        .addOnSuccessListener { documentSnapshot ->
-                                            if (documentSnapshot.exists()) {
-                                                val username =
-                                                    documentSnapshot.getString("username")
-                                                if (username != null) { // Ensure username is not null
-                                                    Toast.makeText(
-                                                        context,
-                                                        "Welcome back $username",
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
+                                    if (userUid != null) {
+                                        db.collection("users").document(userUid)
+                                            .get()
+                                            .addOnSuccessListener { documentSnapshot ->
+                                                if (documentSnapshot.exists()) {
+                                                    val username =
+                                                        documentSnapshot.getString("username")
+                                                    if (username != null) { // Ensure username is not null
+                                                        Toast.makeText(
+                                                            context,
+                                                            "Welcome back $username",
+                                                            Toast.LENGTH_SHORT
+                                                        ).show()
+                                                    } else {
+                                                        // Handle the case where the username is not found
+                                                    }
                                                 } else {
-                                                    // Handle the case where the username is not found
+                                                    // Handle the case where the document doesn't exist
                                                 }
-                                            } else {
-                                                // Handle the case where the document doesn't exist
                                             }
-                                        }
-                                    findNavController().navigate(R.id.action_login_to_navigation_home)
+                                        findNavController().navigate(R.id.action_login_to_navigation_home)
+                                    } else {
+                                        // Handle the case where userUid is null
+                                        Toast.makeText(
+                                            context,
+                                            "User UID is null",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                            .show()
+                                    }
                                 } else {
-                                    // Handle the case where userUid is null
-                                    Toast.makeText(context, "User UID is null", Toast.LENGTH_SHORT)
-                                        .show()
+                                    Toast.makeText(
+                                        context,
+                                        "Sign-in failed",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
-                            } else {
-                                Toast.makeText(context, "Sign-in failed", Toast.LENGTH_SHORT).show()
                             }
-                        }
-                } else {
-                    Toast.makeText(
-                        context,
-                        "Please enter your email and password",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "Please enter your email and password",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }
