@@ -1,11 +1,15 @@
 package com.example.cp3407_assignment.ui.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentDoggoInformationBinding
 import com.squareup.picasso.Picasso
 
@@ -25,16 +29,36 @@ class DoggoInformation : Fragment() {
         Picasso.with(context)
             .load(arguments?.getString("imageUrl"))
             .fit()
+            .placeholder(R.drawable.placeholder)
+            .error(R.drawable.ic_baseline_error_24)
             .centerCrop()
             .into(binding.imageView)
         (activity as AppCompatActivity).supportActionBar?.title = arguments?.getString("doggo_name")
         binding.textViewName.text = arguments?.getString("doggo_name")
+        binding.textViewBreed.text = arguments?.getString("doggo_breed")
         binding.textViewDescription.text = arguments?.getString("description")
         binding.textViewReviews.text = arguments?.getString("reviews")
 
 
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true /* enabled by default */) {
+                override fun handleOnBackPressed() {
+                    // Handle the back button event
+                    val bundle =
+                        bundleOf(
+                            //"search_doggos" to arguments?.getStringArrayList("doggos")
+                            "navigation" to true
+                        )
+                    findNavController().popBackStack()
+//                    findNavController().navigate(
+//                        R.id.action_doggoInformation_to_navigation_home,
+//                        bundle)
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
         return root
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

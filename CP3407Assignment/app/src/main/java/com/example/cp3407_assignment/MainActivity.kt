@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.navigation_home,
                 R.id.navigation_dogs,
-                R.id.navigation_messages,
                 R.id.navigation_cart,
                 R.id.navigation_profile
             )
