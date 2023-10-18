@@ -41,6 +41,10 @@ class ProfileFragment : Fragment() {
             view?.findNavController()?.navigate(R.id.action_navigation_profile_to_changeEmail)
         }
 
+        binding.phoneNumber.setOnClickListener { view: View? ->
+            view?.findNavController()?.navigate(R.id.action_navigation_profile_to_changeMobile)
+        }
+
 
         binding.logoutBtn.setOnClickListener {
             AuthUI.getInstance()
@@ -51,7 +55,8 @@ class ProfileFragment : Fragment() {
         }
 
         binding.changePaymentDetailsBtn.setOnClickListener { view: View? ->
-            view?.findNavController()?.navigate(R.id.action_navigation_profile_to_changePaymentDetails)
+            view?.findNavController()
+                ?.navigate(R.id.action_navigation_profile_to_changePaymentDetails)
         }
     }
 }

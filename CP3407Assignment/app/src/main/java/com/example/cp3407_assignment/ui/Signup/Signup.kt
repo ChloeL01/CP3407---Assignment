@@ -2,7 +2,6 @@ package com.example.cp3407_assignment.ui.Signup
 
 import android.content.ContentValues.TAG
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -23,9 +22,7 @@ import com.example.cp3407_assignment.databinding.FragmentSignupBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 
 
 class Signup : Fragment() {
@@ -33,9 +30,6 @@ class Signup : Fragment() {
     private lateinit var firebaseAuth: FirebaseAuth
 
     private val db = FirebaseFirestore.getInstance()
-    private var storageReference = Firebase.storage.reference.child("Storage")
-
-    private var uri: Uri? = null
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -66,7 +60,6 @@ class Signup : Fragment() {
             .isNotEmpty() && binding.passwordInput.toString()
             .isNotEmpty() && binding.confirmPassword.toString()
             .isNotEmpty() && binding.phoneNumberText.toString().isNotEmpty()
-
     }
 
     override fun onCreateView(
@@ -161,7 +154,7 @@ class Signup : Fragment() {
                                         e
                                     )
                                 }
-                        findNavController().navigate(R.id.action_signup_to_navigation_home)
+                            findNavController().navigate(R.id.action_signup_to_navigation_home)
                         } else {
                             // Handle the authentication error
                             Toast.makeText(

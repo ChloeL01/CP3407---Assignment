@@ -70,6 +70,9 @@
          <action
             android:id="@+id/action_navigation_profile_to_changePaymentDetails"
             app:destination="@id/changePaymentDetails" />
+        <action
+            android:id="@+id/action_navigation_profile_to_changeMobile"
+            app:destination="@id/changeMobile" />
 
     </fragment>
     <fragment
@@ -151,4 +154,12 @@
         android:id="@+id/dogReview"
         android:name="com.example.cp3407_assignment.ui.dogs.DogReview"
         android:label="DogReview" />
+    <fragment
+        android:id="@+id/changeMobile"
+        android:name="com.example.cp3407_assignment.ui.profile.ChangeMobile"
+        android:label="ChangeMobile" >
+        <action
+            android:id="@+id/action_changeMobile_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
 </navigation>
