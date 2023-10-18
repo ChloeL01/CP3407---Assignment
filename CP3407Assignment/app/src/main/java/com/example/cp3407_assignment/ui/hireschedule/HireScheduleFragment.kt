@@ -99,6 +99,12 @@ class HireScheduleFragment : Activity(), CalenderAdapter.OnItemListener {
         selectMonthView()
     }
 
+    fun onClickDateConfirmation(){
+        //TODO attempt to make dates in recyclerview clickable and assignable for recording on database
+
+        //TODO when button is clicked, assign selected dates to database
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onItemClick(position: Int, dayText: String) {
         if (dayText == "") {
