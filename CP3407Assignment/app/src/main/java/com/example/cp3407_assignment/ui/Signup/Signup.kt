@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.User
+import com.example.cp3407_assignment.ValidatePassword
 import com.example.cp3407_assignment.databinding.FragmentSignupBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -42,7 +43,12 @@ class Signup : Fragment() {
 
         override fun afterTextChanged(s: Editable?) {
             // If any are empty again disable button
-            if (binding.userNameInput.text.toString().isEmpty() || binding.emailInput.text.toString().isEmpty() || binding.passwordInput.text.toString().isEmpty() || binding.confirmPassword.text.toString().isEmpty() || binding.phoneNumberInput.text.toString().isEmpty()) {
+            if (binding.userNameInput.text.toString()
+                    .isEmpty() || binding.emailInput.text.toString()
+                    .isEmpty() || binding.passwordInput.text.toString()
+                    .isEmpty() || binding.confirmPassword.text.toString()
+                    .isEmpty() || binding.phoneNumberInput.text.toString().isEmpty()
+            ) {
                 binding.confirmButton.isEnabled = false
             }
 
@@ -157,8 +163,36 @@ class Signup : Fragment() {
             // if all good upload to authentication -> email and password
             // upload details to user collection
 
+            val password = binding.passwordInput.text.toString()
+            val confirmPassword = binding.confirmPassword.text.toString()
 
+            val validatePassword = ValidatePassword()
+
+
+            if (!validatePassword.checkPasswordRules(password) && !validatePassword.checkNewPasswordsMatch(
+                    password,
+                    confirmPassword
+                )
+            ) {
+                Toast.makeText(
+                    requireContext(),
+                    "Password does not meet requirements. Please review rules above. ",
+                    Toast.LENGTH_LONG
+                ).show()
+                updatePasswordFields()
+            } else {
+                //
+            }
         }
+    }
+
+    private fun updatePasswordFields() {
+        binding.passwordInput.removeTextChangedListener(textWatcher)
+        binding.confirmPassword.removeTextChangedListener(textWatcher)
+        binding.passwordInput.text?.clear()
+        binding.confirmPassword.text?.clear()
+        binding.passwordInput.addTextChangedListener(textWatcher)
+        binding.confirmPassword.addTextChangedListener(textWatcher)
     }
 
     private fun handleKeyEvent(view: View, keyCode: Int): Boolean {
