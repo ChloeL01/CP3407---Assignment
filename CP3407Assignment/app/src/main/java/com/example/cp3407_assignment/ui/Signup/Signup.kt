@@ -133,7 +133,7 @@ class Signup : Fragment() {
                     .addOnCompleteListener { authResult ->
                         if (authResult.isSuccessful) {
                             val user = User(
-                                userName, email, null, phoneNumber
+                                userName, email, null, null, phoneNumber
                             )
                             val currentUser = firebaseAuth.currentUser?.uid
                             val userRef = db.collection("Users").document(currentUser!!)
@@ -141,7 +141,8 @@ class Signup : Fragment() {
                             val userData = mapOf(
                                 "email" to user.email,
                                 "phoneNumber" to user.phoneNumber,
-                                "currentDogs" to user.dogs,
+                                "dogsOwned" to user.dogsOwned,
+                                "dogsHired" to user.dogsHired,
                                 "username" to user.username
                             )
 

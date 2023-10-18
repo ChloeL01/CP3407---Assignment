@@ -95,4 +95,6 @@
     <string name="rate_dog_bar">Rate dog bar</string>
     <string name="display_name">Display name:</string>
     <string name="confirm_password">Confirm password:</string>
+    <string name="change_email_address_label">Change email address</string>
+    <string name="change_phone_number">Change phone number</string>
 </resources>
