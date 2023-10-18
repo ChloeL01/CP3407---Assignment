@@ -46,7 +46,8 @@ class DoggoInformation : Fragment() {
                     // Handle the back button event
                     val bundle =
                         bundleOf(
-                            "search_doggos" to arguments?.getStringArrayList("doggos")
+                            //"search_doggos" to arguments?.getStringArrayList("doggos")
+                            "navigation" to true
                         )
                     findNavController().popBackStack()
 //                    findNavController().navigate(
