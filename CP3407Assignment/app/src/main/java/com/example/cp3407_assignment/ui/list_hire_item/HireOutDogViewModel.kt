@@ -6,16 +6,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.cp3407_assignment.Dog
 import com.google.firebase.auth.FirebaseAuth
+
 import com.google.firebase.auth.ktx.auth
+
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.snapshots
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
 class HireOutDogViewModel : ViewModel() {
-
-    private var _userName = ""
-
+  
     private val _dogName = MutableLiveData<String>()
     val dogName: MutableLiveData<String>
         get() = _dogName
@@ -44,9 +44,8 @@ class HireOutDogViewModel : ViewModel() {
     val contactType: MutableLiveData<String>
         get() = _contactType
 
-    private val _location = MutableLiveData<String>()
-    val location: MutableLiveData<String>
-        get() = _location
+    // Later implementation
+//    private val _location = MutableLiveData<String>()
 
     private lateinit var firebaseAuth: FirebaseAuth
 
@@ -54,11 +53,13 @@ class HireOutDogViewModel : ViewModel() {
     private val firebaseFirestore = FirebaseFirestore.getInstance()
     private var storageReference = Firebase.storage.reference.child("Storage")
 
-    var imageUri: Uri? = null
 
+    var imageUri: Uri? = null
     var isSuccessful: Boolean = false
 
-
+    /*
+    Saves to database
+     */
     fun saveDogListing() {
         firebaseAuth = Firebase.auth
 
@@ -93,6 +94,7 @@ class HireOutDogViewModel : ViewModel() {
                                     }
                                 }
                         }
+
                     }
                 }
             }

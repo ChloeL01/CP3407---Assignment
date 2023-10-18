@@ -85,10 +85,15 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
     implementation("com.google.firebase:firebase-auth-ktx")
 
+
     implementation 'com.google.android.gms:play-services-auth:9.2.0'
 
     // [START gradle_firebase_ui_auth]
     implementation("com.firebaseui:firebase-ui-auth:8.0.2")
+
+    implementation 'com.google.firebase:firebase-auth:22.1.2'
+    implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
+
 
     // When using the BoM, don't specify versions in Firebase dependencies
     //implementation("com.google.firebase:firebase-analytics-ktx")

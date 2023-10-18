@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_navigation_dogs_to_listHireItem"
             app:destination="@id/listHireItem" />
+        <action
+            android:id="@+id/action_navigation_dogs_to_dogReview"
+            app:destination="@id/dogReview" />
     </fragment>
 
     <fragment
@@ -60,8 +63,14 @@
             android:id="@+id/action_navigation_profile_to_changeEmail"
             app:destination="@id/changeEmail" />
         <action
+
             android:id="@+id/action_navigation_profile_to_login"
             app:destination="@id/login" />
+
+         <action
+            android:id="@+id/action_navigation_profile_to_changePaymentDetails"
+            app:destination="@id/changePaymentDetails" />
+
     </fragment>
     <fragment
         android:id="@+id/doggoInformation"
@@ -130,4 +139,16 @@
             android:id="@+id/action_changeEmail_to_navigation_profile"
             app:destination="@id/navigation_profile" />
     </fragment>
+    <fragment
+        android:id="@+id/changePaymentDetails"
+        android:name="com.example.cp3407_assignment.ui.settings.ChangePaymentDetails"
+        android:label="ChangePaymentDetails" >
+        <action
+            android:id="@+id/action_changePaymentDetails_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/dogReview"
+        android:name="com.example.cp3407_assignment.ui.dogs.DogReview"
+        android:label="DogReview" />
 </navigation>

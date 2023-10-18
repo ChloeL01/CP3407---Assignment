@@ -11,7 +11,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
+
 import com.google.firebase.auth.ktx.auth
+
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -36,6 +38,7 @@ class Login : Fragment() {
         return binding.root
     }
 
+
     override fun onStart() {
         super.onStart()
         val currentUser = firebaseAuth.currentUser
@@ -45,6 +48,23 @@ class Login : Fragment() {
             binding.LoginButton.setOnClickListener {
                 val email = binding.UsernameLogin.text.toString()
                 val password = binding.PasswordLogin.text.toString()
+
+        binding.LoginButton.setOnClickListener {
+            var Username = binding.UsernameLogin.text.toString()
+            var Password = binding.PasswordLogin.text.toString()
+
+            if (Username.isNotEmpty() && Password.isNotEmpty()) {
+                db.collection("Users").document(Username).get()
+                    .addOnSuccessListener { documentSnapshot ->
+                        if (documentSnapshot.exists()) {
+                            val username = documentSnapshot.getString(Username)
+                            val password = documentSnapshot.getString(Password)
+                            Toast.makeText(
+                                context,
+                                "Welcome Back " + binding.UsernameLogin.text.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            findNavController().navigate(R.id.action_login_to_navigation_home)
 
                 if (email.isNotEmpty() && password.isNotEmpty()) {
                     FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
