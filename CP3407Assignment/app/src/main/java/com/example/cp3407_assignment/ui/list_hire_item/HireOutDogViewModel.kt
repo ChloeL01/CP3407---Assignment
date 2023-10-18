@@ -54,7 +54,6 @@ class HireOutDogViewModel : ViewModel() {
     Saves to database
      */
     fun saveDogListing() {
-        val user = firebaseFirestore.collection("Users").document(FirebaseAuth.getInstance().currentUser.toString())
         // Save dog data
         storageReference = storageReference.child(System.currentTimeMillis().toString())
         imageUri?.let {
@@ -69,7 +68,7 @@ class HireOutDogViewModel : ViewModel() {
                             _endDate.value ?: "",
                             _cost.value ?: "",
                             "",  // You might want to replace this with appropriate data
-                            user.toString(),  // Use the UID of the currently authenticated user
+                            "jess",  // Use the UID of the currently authenticated user
                             _contactType.value ?: "",
                             uri.toString()
                         )
