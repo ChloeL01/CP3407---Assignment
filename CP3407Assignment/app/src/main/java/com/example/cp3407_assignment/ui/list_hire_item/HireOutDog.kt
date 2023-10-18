@@ -16,6 +16,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -202,6 +203,9 @@ class HireOutDog : Fragment() {
 
             if (listDogViewModel.isSuccessful) {
                 view?.findNavController()?.navigate(R.id.action_listHireItem_to_navigation_dogs4)
+                Toast.makeText(context, "Successful upload", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Upload failed", Toast.LENGTH_SHORT).show()
             }
         }
 

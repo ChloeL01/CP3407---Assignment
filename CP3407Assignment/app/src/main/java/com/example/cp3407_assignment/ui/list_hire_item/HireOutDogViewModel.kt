@@ -1,16 +1,21 @@
 package com.example.cp3407_assignment.ui.list_hire_item
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.cp3407_assignment.Dog
 import com.google.firebase.auth.FirebaseAuth
+
+import com.google.firebase.auth.ktx.auth
+
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.snapshots
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
 class HireOutDogViewModel : ViewModel() {
-
+  
     private val _dogName = MutableLiveData<String>()
     val dogName: MutableLiveData<String>
         get() = _dogName
@@ -42,7 +47,9 @@ class HireOutDogViewModel : ViewModel() {
     // Later implementation
 //    private val _location = MutableLiveData<String>()
 
-    // Firebase database
+    private lateinit var firebaseAuth: FirebaseAuth
+
+    // Firestore database
     private val firebaseFirestore = FirebaseFirestore.getInstance()
     private var storageReference = Firebase.storage.reference.child("Storage")
 
@@ -54,28 +61,40 @@ class HireOutDogViewModel : ViewModel() {
     Saves to database
      */
     fun saveDogListing() {
-        // Save dog data
-        storageReference = storageReference.child(System.currentTimeMillis().toString())
-        imageUri?.let {
-            storageReference.putFile(it).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    storageReference.downloadUrl.addOnSuccessListener { uri ->
-                        val upload = Dog(
-                            _dogName.value ?: "",
-                            _breed.value ?: "",
-                            _description.value ?: "",
-                            _startDate.value ?: "",
-                            _endDate.value ?: "",
-                            _cost.value ?: "",
-                            "",  // You might want to replace this with appropriate data
-                            "jess",  // Use the UID of the currently authenticated user
-                            _contactType.value ?: "",
-                            uri.toString()
-                        )
-                        firebaseFirestore.collection("Dogs").add(upload)
-                            .addOnCompleteListener { firestoreTask ->
-                                isSuccessful = firestoreTask.isSuccessful
-                            }
+        firebaseAuth = Firebase.auth
+
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
+
+            imageUri?.let {
+                storageReference.putFile(it).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        storageReference.downloadUrl.addOnSuccessListener { uri ->
+                            val userUid = currentUser.uid // Get the user's UID
+                            val data = Dog(
+                                _dogName.value ?: "",
+                                _breed.value ?: "",
+                                _description.value ?: "",
+                                _startDate.value ?: "",
+                                _endDate.value ?: "",
+                                _cost.value.toString(),
+                                "new doggo good boi points",
+                                userUid,
+                                _contactType.value.toString(),
+                                uri.toString()
+                            )
+                            firebaseFirestore.collection("Dogs").add(data)
+                                .addOnCompleteListener { firestoreTask ->
+                                    if (firestoreTask.isSuccessful) {
+                                        isSuccessful = true
+                                        Log.d("Firestore", "Dog listing added successfully")
+                                    } else {
+                                        isSuccessful = false
+                                        Log.e("Firestore", "Error adding dog listing")
+                                    }
+                                }
+                        }
+
                     }
                 }
             }

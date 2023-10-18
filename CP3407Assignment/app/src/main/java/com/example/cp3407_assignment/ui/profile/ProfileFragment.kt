@@ -7,13 +7,18 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentProfileBinding
-import com.google.rpc.context.AttributeContext.Auth
+
+import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.FirebaseAuth
+
 
 class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,12 +41,17 @@ class ProfileFragment : Fragment() {
             view?.findNavController()?.navigate(R.id.action_navigation_profile_to_changeEmail)
         }
 
+
+        binding.logoutBtn.setOnClickListener {
+            AuthUI.getInstance()
+                .signOut(requireContext())
+                .addOnCompleteListener {
+                    findNavController().navigate(R.id.action_navigation_profile_to_login)
+                }
+        }
+
         binding.changePaymentDetailsBtn.setOnClickListener { view: View? ->
             view?.findNavController()?.navigate(R.id.action_navigation_profile_to_changePaymentDetails)
         }
-
-        binding.logoutBtn.setOnClickListener { }
     }
-
-
 }

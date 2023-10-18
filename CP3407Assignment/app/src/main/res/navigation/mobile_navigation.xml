@@ -63,8 +63,14 @@
             android:id="@+id/action_navigation_profile_to_changeEmail"
             app:destination="@id/changeEmail" />
         <action
+
+            android:id="@+id/action_navigation_profile_to_login"
+            app:destination="@id/login" />
+
+         <action
             android:id="@+id/action_navigation_profile_to_changePaymentDetails"
             app:destination="@id/changePaymentDetails" />
+
     </fragment>
     <fragment
         android:id="@+id/doggoInformation"
