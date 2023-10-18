@@ -102,6 +102,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage-ktx")
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation "com.google.firebase:firebase-auth-ktx"
 
     //json
     implementation 'com.google.code.gson:gson:2.8.5'

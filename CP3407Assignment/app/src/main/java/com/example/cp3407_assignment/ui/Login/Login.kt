@@ -106,6 +106,9 @@ class Login : Fragment() {
                     }
                 }
             }
+            binding.ReturnToSignInButton.setOnClickListener {
+                findNavController().navigate(R.id.action_login_to_signup)
+            }
         }
     }
 }

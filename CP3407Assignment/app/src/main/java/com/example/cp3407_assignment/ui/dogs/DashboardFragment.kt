@@ -36,7 +36,6 @@ class DashboardFragment : Fragment() {
 
         binding.reviewBtn.setOnClickListener {view: View? ->
             view?.findNavController()?.navigate(R.id.action_navigation_dogs_to_dogReview)
-        return root
         }
     }
 

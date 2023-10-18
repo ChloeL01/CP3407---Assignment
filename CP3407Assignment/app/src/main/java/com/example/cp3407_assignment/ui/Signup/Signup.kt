@@ -89,12 +89,13 @@ class Signup : Fragment() {
 
                     }
                 }
-            val returnToLoginButton = binding.returnToLoginButton
-            returnToLoginButton.setOnClickListener {
-                findNavController().navigate(
-                    R.id.action_signup_to_login
-                )
-            }
+
+        }
+        val returnToLoginButton = binding.returnToLoginButton
+        returnToLoginButton.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_signup_to_login
+            )
         }
 
         return root

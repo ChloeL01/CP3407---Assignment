@@ -29,7 +29,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/doggo_name"
+                android:text="@string/doggo_name_hire_page"
                 android:textColor="@android:color/black"
                 android:textSize="22sp" />
 

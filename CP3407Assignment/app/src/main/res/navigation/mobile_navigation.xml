@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_navigation_dogs_to_listHireItem"
             app:destination="@id/listHireItem" />
+        <action
+            android:id="@+id/action_navigation_dogs_to_dogReview"
+            app:destination="@id/dogReview" />
 
     </fragment>
 
@@ -51,9 +54,6 @@
         android:name="com.example.cp3407_assignment.ui.profile.ProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile" >
-        <action
-            android:id="@+id/action_navigation_profile_to_userContactDetails"
-            app:destination="@id/userContactDetails" />
         <action
             android:id="@+id/action_navigation_profile_to_changePassword"
             app:destination="@id/changePassword" />
@@ -120,10 +120,6 @@
             android:id="@+id/action_signup_to_login"
             app:destination="@id/login" />
     </fragment>
-    <fragment
-        android:id="@+id/userContactDetails"
-        android:name="com.example.cp3407_assignment.ui.profile.UserContactDetails"
-        android:label="UserContactDetails" />
     <fragment
         android:id="@+id/changePassword"
         android:name="com.example.cp3407_assignment.ui.settings.ChangePassword"
