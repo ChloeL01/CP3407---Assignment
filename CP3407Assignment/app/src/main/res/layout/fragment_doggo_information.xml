@@ -18,7 +18,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Select Availability"
+            android:text="@string/select_availability"
             app:layout_constraintBottom_toBottomOf="@+id/constraint_layout" />
     </androidx.cardview.widget.CardView>
 
@@ -70,7 +70,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
-                        android:text="Doggo Name"
+                        android:text="@string/doggo_name"
                         android:textColor="@android:color/black"
                         android:textSize="24sp" />
 
@@ -81,7 +81,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
-                        android:text="Doggo breed"
+                        android:text="@string/doggo_breed"
                         android:textColor="@android:color/black"
                         android:textSize="20sp" />
 
@@ -92,7 +92,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
-                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam consectetur nisl a nulla congue, vel lobortis risus faucibus. \n\nAliquam tincidunt justo vel aliquam vulputate. Nam ac lacus scelerisque, mollis dui ac, feugiat ligula. Proin tristique, magna at maximus euismod, leo velit mollis velit, ut porta erat elit ut nisl."
+                        android:text="@string/dog_description"
                         android:textColor="@android:color/darker_gray"
                         android:textSize="20sp" />
                 </LinearLayout>
@@ -118,7 +118,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
-                        android:text="Good Boi Points"
+                        android:text="@string/good_boi_points"
                         android:textColor="@android:color/black"
                         android:textSize="20sp" />
 
@@ -129,7 +129,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
-                        android:text="Best boi ever! Would highly recommend\n\nSo cute! Would high again 5/5\n\n Makes me want a doggo, very well behaved"
+                        android:text="@string/text_review"
                         android:textColor="@android:color/darker_gray"
                         android:textSize="20sp" />
                 </LinearLayout>

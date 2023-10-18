@@ -43,6 +43,7 @@ open class HomeFragment : Fragment() {
     private lateinit var mRecyclerView: RecyclerView
 
     private val binding get() = _binding!!
+
     private var mUploads = ArrayList<Dog>()
     private var searchList: ArrayList<Dog> = arrayListOf()
     private var searchQuery = ""
