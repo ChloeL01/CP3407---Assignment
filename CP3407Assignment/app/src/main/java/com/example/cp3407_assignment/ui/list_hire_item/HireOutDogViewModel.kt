@@ -36,6 +36,10 @@ class HireOutDogViewModel : ViewModel() {
     val breed: MutableLiveData<String>
         get() = _breed
 
+    private val _hiree = MutableLiveData<String>()
+    val hiree: MutableLiveData<String>
+        get() = _hiree
+
     private val _contactType = MutableLiveData<String>()
     val contactType: MutableLiveData<String>
         get() = _contactType
@@ -69,6 +73,7 @@ class HireOutDogViewModel : ViewModel() {
                             "new doggo good boi points",
                             _userName.value.toString(),
                             _contactType.value.toString(),
+                            _hiree.value ?: "",
                             uri.toString()
                         )
                         firebaseFirestore.collection("Dogs").add(upload)

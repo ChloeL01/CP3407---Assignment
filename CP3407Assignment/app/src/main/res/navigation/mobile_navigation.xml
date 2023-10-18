@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_navigation_to_currently_hiring"
             app:destination="@id/currently_Hiring" />
+        <action
+            android:id="@+id/action_navigation_to_previously_hired"
+            app:destination="@id/previously_hired" />
     </fragment>
 
     <fragment
@@ -134,5 +137,21 @@
         android:id="@+id/currently_Hiring"
         android:name="com.example.cp3407_assignment.ui.current_hire.CurrentHireFragment"
         android:label="fragment_current_hire"
-        tools:layout="@layout/fragment_current_hire" />
+        tools:layout="@layout/fragment_current_hire" >
+        <action
+            android:id="@+id/action_currently_Hiring_to_doggoInformation"
+            app:destination="@id/doggoInformation" />
+    </fragment>
+    <fragment
+        android:id="@+id/previously_hired"
+        android:name="com.example.cp3407_assignment.ui.previously_hired.Previously_hired"
+        android:label="fragment_previously_hired"
+        tools:layout="@layout/fragment_previously_hired" >
+        <action
+            android:id="@+id/action_previously_hired_to_doggoInformation2"
+            app:destination="@id/doggoInformation" />
+    </fragment>
+    <action
+        android:id="@+id/action_previously_hired_to_doggoInformation"
+        app:destination="@id/doggoInformation" />
 </navigation>

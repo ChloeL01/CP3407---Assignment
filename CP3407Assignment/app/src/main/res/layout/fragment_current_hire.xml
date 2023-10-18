@@ -20,8 +20,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/CurrentHireRecycle"
-        android:layout_width="409dp"
-        android:layout_height="667dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="63dp" />
+        android:layout_width="418dp"
+        android:layout_height="654dp"
+        tools:layout_editor_absoluteX="-5dp"
+        tools:layout_editor_absoluteY="76dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,6 +31,7 @@ class CurrentlyHiringItemAdapter(private val mContext: Context, dogs: List<Dog>)
             holder.textViewName.text = uploadCurrent.doggo_name
             holder.textViewStartDate.text = uploadCurrent.hire_start_date
             holder.textViewEndDate.text = uploadCurrent.hire_end_date
+            holder.textViewBreed.text = uploadCurrent.doggo_breed
             //holder.textViewCost.text = "$" + uploadCurrent.cost
 
             holder.itemView.setOnClickListener {
@@ -63,8 +64,10 @@ class CurrentlyHiringItemAdapter(private val mContext: Context, dogs: List<Dog>)
             var textViewName: TextView
             var textViewStartDate: TextView
             var textViewEndDate: TextView
+            var textViewBreed: TextView
             //var textViewCost: TextView
             var imageView: ImageView
+
 
             init {
                 textViewName = itemView.findViewById(R.id.pet_name)
@@ -72,6 +75,7 @@ class CurrentlyHiringItemAdapter(private val mContext: Context, dogs: List<Dog>)
                 textViewEndDate = itemView.findViewById(R.id.pet_end_date)
                 //textViewCost = itemView.findViewById(R.id.text_view_cost)
                 imageView = itemView.findViewById(R.id.pet_image)
+                textViewBreed = itemView.findViewById(R.id.pet_breed)
             }
         }
     }

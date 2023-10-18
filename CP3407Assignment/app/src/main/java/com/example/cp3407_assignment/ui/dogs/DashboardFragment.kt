@@ -37,6 +37,9 @@ class DashboardFragment : Fragment() {
         binding.CurrentlyHiringButton.setOnClickListener { view: View? ->
             view?.findNavController()?.navigate(R.id.action_navigation_to_currently_hiring)
         }
+        binding.PreviouslyHiredButton.setOnClickListener { view: View? ->
+            view?.findNavController()?.navigate(R.id.action_navigation_to_previously_hired)
+        }
     }
 
 }

@@ -139,6 +139,7 @@ class HomeFragment : Fragment() {
                             "new doggo good boi points",
                             "owner id",
                             "owner contact",
+                            "hiree",
                             uri.toString()
                         )
                         firebaseFirestore.collection("Dogs").add(upload)
