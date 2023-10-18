@@ -161,7 +161,7 @@ class Signup : Fragment() {
                                         e
                                     )
                                 }
-
+                        findNavController().navigate(R.id.action_signup_to_navigation_home)
                         } else {
                             // Handle the authentication error
                             Toast.makeText(
@@ -171,7 +171,6 @@ class Signup : Fragment() {
                             ).show()
                         }
                     }
-
             }
         }
     }
