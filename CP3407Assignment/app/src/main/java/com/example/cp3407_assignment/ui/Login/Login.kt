@@ -120,4 +120,11 @@ class Login : Fragment() {
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        binding.signUpBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_login_to_signup)
+        }
+    }
 }

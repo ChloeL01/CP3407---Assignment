@@ -93,4 +93,6 @@
     <string name="review_description_hint">Howl to the moon!\nTell us more about your experience</string>
     <string name="submit_woof_view">Submit woof-view!</string>
     <string name="rate_dog_bar">Rate dog bar</string>
+    <string name="display_name">Display name:</string>
+    <string name="confirm_password">Confirm password:</string>
 </resources>
