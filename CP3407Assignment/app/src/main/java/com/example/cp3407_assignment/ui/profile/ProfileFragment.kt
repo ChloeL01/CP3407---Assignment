@@ -31,30 +31,36 @@ class ProfileFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
+
         firebaseAuth = Firebase.auth
+
+        updateProfileName()
 
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-
+    private fun updateProfileName() {
         val db = FirebaseFirestore.getInstance()
-        val currentUser = FirebaseAuth.getInstance().currentUser?.uid
+        val currentUser = firebaseAuth.currentUser?.uid
         val userRef = db.collection("Users").document(currentUser!!)
 
-        userRef.addSnapshotListener{docSnapshot, firebaseFireStoreException->
-            if (firebaseFireStoreException != null){
+        userRef.addSnapshotListener { docSnapshot, firebaseFireStoreException ->
+            if (firebaseFireStoreException != null) {
                 Log.w(TAG, "Listen failed.", firebaseFireStoreException)
             }
 
-            if (docSnapshot != null && docSnapshot.exists()){
+            if (docSnapshot != null && docSnapshot.exists()) {
                 binding.userName.text = docSnapshot["username"].toString()
                 Log.d(TAG, "Current user username: ${docSnapshot["username"]}")
             } else {
                 Log.d(TAG, "Current user username: null")
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateProfileName()
 
         binding.changePasswordBtn.setOnClickListener { view: View? ->
             view?.findNavController()?.navigate(R.id.action_navigation_profile_to_changePassword)
