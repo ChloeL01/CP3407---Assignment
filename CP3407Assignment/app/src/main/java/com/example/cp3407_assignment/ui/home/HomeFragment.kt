@@ -70,21 +70,28 @@ open class HomeFragment : Fragment() {
         mRecyclerView.layoutManager = LinearLayoutManager(context)
 
         val sharedPref: SharedPreferences = requireActivity().getPreferences(MODE_PRIVATE)
-        val search = sharedPref.getString("searchList", "[]")
-//        if (arguments?.getBoolean("navigation", true) == false) {
-        if (search == "[]") {
+
+
+        if (mUploads.isEmpty()) {
+//        if (search == "[]") {
             //check if the shared preference is empty
+            val editor = sharedPref.edit()
+            editor.putString("searchList", "[]")
+            editor.apply()
+            searchQuery = ""
+            clearPage()
             loadDogs()
-        }else {
+        }
+        val search = sharedPref.getString("searchList", "[]")
+        if (search != "[]"){
             loadPreference()
             updateSearchCount()
             searchQuery = sharedPref.getString("searchText", "").toString()
-            binding.searchBar.post { binding.searchBar.setQuery(searchQuery, false) }
             showSpinner()
             createSpinner()
             homeViewModel.setDoggos(searchList)
         }
-
+        binding.searchBar.post { binding.searchBar.setQuery(searchQuery, false) }
         homeViewModel.getDoggos().observe(viewLifecycleOwner) {
             //Toast.makeText(context,"detect change", Toast.LENGTH_SHORT).show()
             updateRecyclerView(it)
@@ -129,6 +136,8 @@ open class HomeFragment : Fragment() {
         binding.container.setOnRefreshListener {
             binding.container.isRefreshing = false
             clearPage()
+            loadDogs()
+            homeViewModel.setDoggos(mUploads)
         }
 
         //searchbar logic
@@ -158,6 +167,8 @@ open class HomeFragment : Fragment() {
             //binding.searchBar.post { binding.searchBar.setQuery("", true) }
             binding.searchBar.isIconified = true // Replace the x icon with the search icon
             clearPage()
+            loadDogs()
+            homeViewModel.setDoggos(mUploads)
         }
 
     }
@@ -167,9 +178,7 @@ open class HomeFragment : Fragment() {
         searchQuery = ""
         searchList = ArrayList()
         hideSpinner()
-        loadDogs()
         recyclerListPosition = 0
-        homeViewModel.setDoggos(mUploads)
     }
 
     private fun showSpinner() {
