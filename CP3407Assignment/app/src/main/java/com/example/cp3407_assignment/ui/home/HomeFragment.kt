@@ -47,7 +47,6 @@ open class HomeFragment : Fragment() {
     private var searchList: ArrayList<Dog> = arrayListOf()
     private var searchQuery = ""
 
-    private var mListState: Parcelable? = null
     private var recyclerListPosition: Int = 0
 
     private lateinit var homeViewModel: HomeViewModel
@@ -70,87 +69,32 @@ open class HomeFragment : Fragment() {
         mRecyclerView.setHasFixedSize(true)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
 
-
-//        if(savedInstanceState != null)
-//            mListState = savedInstanceState.getParcelable("Layout manager")!!
-
         val sharedPref: SharedPreferences = requireActivity().getPreferences(MODE_PRIVATE)
         val search = sharedPref.getString("searchList", "[]")
 //        if (arguments?.getBoolean("navigation", true) == false) {
         if (search == "[]") {
             //check if the shared preference is empty
             loadDogs()
-
-
-            //updateRecyclerView(mUploads)
-        }
-        if (search != "[]"){
-//            if (savedInstanceState != null) {
-//                searchQuery = savedInstanceState.getString("search_query").toString()
-//            }
+        }else {
             loadPreference()
             updateSearchCount()
             searchQuery = sharedPref.getString("searchText", "").toString()
             binding.searchBar.post { binding.searchBar.setQuery(searchQuery, false) }
             showSpinner()
             createSpinner()
-            //mUploads = arrayListOf()
-            //recyclerListPosition = 0
             homeViewModel.setDoggos(searchList)
-            //(mRecyclerView.layoutManager as LinearLayoutManager).onRestoreInstanceState(state)
         }
-
-
-        //homeViewModel.doggoList = mUploads
-//        val test = homeViewModel.doggoList.value
-//        val test = homeViewModel.getDoggos()
-//        if (homeViewModel.doggoList.value == null) {
-//            loadDogs()
-//            homeViewModel.setDoggos(mUploads)
-//            //homeViewModel.doggoList.value = mUploads
-//        }
-
 
         homeViewModel.getDoggos().observe(viewLifecycleOwner) {
             //Toast.makeText(context,"detect change", Toast.LENGTH_SHORT).show()
             updateRecyclerView(it)
             (mRecyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(recyclerListPosition, 0)
-        //            val mRecyclerView = binding.recyclerView
-//            mRecyclerView.setHasFixedSize(true)
-//            mRecyclerView.layoutManager = LinearLayoutManager(context)
-            //mAdapter.searchDataList(it)
-//            updateRecyclerView(mRecyclerView, it)
-            //updateRecyclerView(mRecyclerView)
         }
-//        mListState = savedInstanceState?.getParcelable("Layout manager")
-
-//        mRecyclerView.layoutManager?.onRestoreInstanceState(mListState)
-//        val test = arguments?.getStringArrayList("search_doggos")
-//
-//        if (arguments?.getStringArrayList("search_doggos") != null) {
-//            Toast.makeText(
-//                context,
-//                "search found",
-//                Toast.LENGTH_SHORT
-//            ).show()
-//        }
-
-//        if (mListState != null) {
-//            mRecyclerView.layoutManager?.onRestoreInstanceState(mListState)
-//        } else {
-//            loadDogs()
-//            updateRecyclerView(mUploads)
-//        }
 
         return root
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        //outState.putString("search_query", binding.searchBar.query.toString())
-//        mListState = mRecyclerView.layoutManager?.onSaveInstanceState()
-//        outState.putParcelable("Layout manager", mListState)
-//        if(::homeViewModel.isInitialized)
-//            homeViewModel.saveState()
         outState.putParcelable("Layout manager", mRecyclerView.layoutManager?.onSaveInstanceState())
         savePreference()
         super.onSaveInstanceState(outState)
@@ -276,8 +220,6 @@ open class HomeFragment : Fragment() {
                 dataList.sortWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.doggo_review!! })
             }
         }
-       // mAdapter.searchDataList(dataList)
-        //updateRecyclerView(dataList)
         homeViewModel.setDoggos(dataList)
     }
 
@@ -288,11 +230,9 @@ open class HomeFragment : Fragment() {
             for (documentSnapshot in queryDocumentSnapshots) {
                 val dog = documentSnapshot.toObject<Dog>()
                 doggos.add(dog)
-                //liveList.value = doggos
                 //Log.w("Load dogs", "Success")
             }
             mUploads = doggos
-            //homeViewModel.doggoList.value = mUploads
             homeViewModel.setDoggos(mUploads)
         }.addOnFailureListener { exception ->
             Log.w("Load dogs", "Error getting documents: ", exception)
@@ -301,14 +241,10 @@ open class HomeFragment : Fragment() {
 
 
     private fun updateRecyclerView(doggoList: ArrayList<Dog>) {
-        //binding.recyclerView.scrollToPosition(0)
-
         mRecyclerView.scrollToPosition(0)
 
         mAdapter = context?.let { ImageAdapter(it, doggoList) }!!
         mRecyclerView.adapter = mAdapter
-        //mAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-
 
         mAdapter.setOnClickListener(object : ImageAdapter.OnClickListener {
             override fun onClick(position: Int, model: Dog) {
@@ -329,9 +265,6 @@ open class HomeFragment : Fragment() {
                     R.id.action_navigation_home_to_doggoInformation,
                     bundle
                 )
-//                if(::homeViewModel.isInitialized)
-//                    homeViewModel.saveState()
-                //savePreference()
             }
         })
     }
@@ -348,8 +281,6 @@ open class HomeFragment : Fragment() {
             }
         }
         updateSearchCount()
-        //mUploads = searchList
-       // mAdapter.searchDataList(searchList)
     }
 
     private fun updateSearchCount(){
@@ -366,19 +297,6 @@ open class HomeFragment : Fragment() {
         super.onResume()
         // this stops the back button so that the user cant go back to the login screen
         requireView().isFocusableInTouchMode = true
-
-//        if (searchQuery != "") {
-//        binding.searchBar.isIconified = true
-//        binding.searchBar.onActionViewExpanded()
-//        binding.searchBar.post { binding.searchBar.setQuery(searchQuery, false) }
-//        //binding.searchBar.setQuery(searchQuery, true)
-//        binding.searchBar.isFocusable = false
-//        //search(searchQuery)
-//        }
-
-        //(mRecyclerView.layoutManager as LinearLayoutManager).scrollToPosition(lastFirstVisiblePosition)
-
-
         requireView().requestFocus()
         requireView().setOnKeyListener { _, keyCode, event ->
             event.action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK
