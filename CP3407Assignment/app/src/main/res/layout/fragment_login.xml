@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/UsernameLogin"
+            android:id="@+id/usernameInput"
             android:layout_width="240dp"
             android:layout_height="40dp"
             android:layout_marginTop="100dp"
@@ -22,7 +22,7 @@
             app:layout_constraintTop_toBottomOf="@+id/loginHeading" />
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/PasswordLogin"
+            android:id="@+id/passwordInput"
             android:layout_width="240dp"
             android:layout_height="40dp"
             android:layout_marginTop="30dp"
@@ -30,7 +30,7 @@
             android:inputType="textPassword"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/UsernameLogin" />
+            app:layout_constraintTop_toBottomOf="@+id/usernameInput" />
 
         <TextView
             android:id="@+id/loginHeading"
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="100dp"
-            android:text="@string/username"
+            android:text="@string/email"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/loginHeading" />
