@@ -141,6 +141,9 @@
         <action
             android:id="@+id/action_currently_Hiring_to_doggoInformation"
             app:destination="@id/doggoInformation" />
+        <action
+            android:id="@+id/action_currently_Hiring_to_navigation_dogs"
+            app:destination="@id/navigation_dogs" />
     </fragment>
     <fragment
         android:id="@+id/previously_hired"
@@ -150,6 +153,9 @@
         <action
             android:id="@+id/action_previously_hired_to_doggoInformation2"
             app:destination="@id/doggoInformation" />
+        <action
+            android:id="@+id/action_previously_hired_to_navigation_dogs"
+            app:destination="@id/navigation_dogs" />
     </fragment>
     <action
         android:id="@+id/action_previously_hired_to_doggoInformation"
