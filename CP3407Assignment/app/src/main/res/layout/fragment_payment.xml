@@ -7,12 +7,182 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/title"
+        android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Hello" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/payment_details"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:id="@+id/line1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:text="@string/credit_card_type" />
+
+            <EditText
+                android:id="@+id/card_type"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="60dp"
+                android:height="49dp"
+                android:autofillHints="MasterCard, Paypal"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="@string/placeholder_type"
+                android:inputType="text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:id="@+id/line2"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="54dp"
+                android:text="@string/credit_card_name" />
+
+            <EditText
+                android:id="@+id/card_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="60dp"
+                android:height="49dp"
+                android:autofillHints=""
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="@string/placeholder_name"
+                android:inputType="text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:id="@+id/line3"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="42dp"
+                android:text="@string/credit_card_number" />
+
+            <EditText
+                android:id="@+id/card_number"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="60dp"
+                android:height="49dp"
+                android:autofillHints="0000 0000 0000 0000"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="@string/placeholder_number"
+                android:inputType="numberPassword" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:id="@+id/line4"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/credit_card_cvv_number" />
+
+            <EditText
+                android:id="@+id/card_ccv_number"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="60dp"
+                android:height="49dp"
+                android:autofillHints="000"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="@string/placeholder_cvv_number"
+                android:inputType="number" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:id="@+id/line5"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/credit_card_expiry_month" />
+
+            <EditText
+                android:id="@+id/card_expiry_month"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="60dp"
+                android:height="49dp"
+                android:autofillHints="Jan"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="@string/placeholder_expiry_month"
+                android:inputType="text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:id="@+id/line6"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:text="@string/credit_card_expiry_year" />
+
+            <EditText
+                android:id="@+id/card_expiry_year"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="60dp"
+                android:height="49dp"
+                android:autofillHints="2023"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="@string/placeholder_expiry_year"
+                android:inputType="text" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
