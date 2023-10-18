@@ -1,17 +1,23 @@
 package com.example.cp3407_assignment.ui.Login
 
+import android.app.Activity.RESULT_OK
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentLoginBinding
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -19,25 +25,8 @@ import com.google.firebase.ktx.Firebase
 class Login : Fragment() {
 
     lateinit var binding: FragmentLoginBinding
-
+    private lateinit var firebaseAuth: FirebaseAuth
     private val db = Firebase.firestore
-//    private val binding get() = _binding!!
-
-//    lateinit var UsernameLogin: EditText
-//    lateinit var PasswordLogin: EditText
-//    lateinit var LoginButton: Button
-//    lateinit var Return_to_Sign_in_Button: Button
-
-
-    private val loginLauncher = registerForActivityResult(
-        FirebaseAuthUIActivityResultContract(),
-    ) { res ->
-        this.onSignInResult(res)
-    }
-
-    private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult?) {
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,72 +34,68 @@ class Login : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.login_page)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
-//        val root: View = binding.root
 
-//        binding.LoginButton.setOnClickListener {
-//            var Username = binding.UsernameLogin.text.toString()
-//            var Password = binding.PasswordLogin.text.toString()
-//            if (Username.isNotEmpty() && Password.isNotEmpty()) {
-//                db.collection("Users").document(Username).get()
-//                    .addOnSuccessListener { documentSnapshot ->
-//                        if (documentSnapshot.exists()) {
-//                            val username = documentSnapshot.getString(Username)
-//                            val password = documentSnapshot.getString(Password)
-//                            Toast.makeText(
-//                                context,
-//                                "Welcome Back " + binding.UsernameLogin.text.toString(),
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-//                            findNavController().navigate(R.id.action_login_to_navigation_home)
-//
-//                        } else {
-//                            Toast.makeText(
-//                                context,
-//                                "That doesn't look right, please try again",
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-//
-//                        }
-//                    }
-//                    .addOnFailureListener { e ->
-//                        Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
-//                        Log.d("Error finding User", e.toString())
-//                    }
-//            } else {
-//                Toast.makeText(
-//                    context,
-//                    "Please enter a username and password",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//        }
-
-
+        firebaseAuth = Firebase.auth
 
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
+            findNavController().navigate(R.id.action_login_to_navigation_home)
+        } else {
+            binding.LoginButton.setOnClickListener {
+                val email = binding.UsernameLogin.text.toString()
+                val password = binding.PasswordLogin.text.toString()
 
-    override fun onResume() {
-        super.onResume()
+                if (email.isNotEmpty() && password.isNotEmpty()) {
+                    FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                val currentUserData = firebaseAuth.currentUser
+                                val userUid = currentUserData?.uid
 
-        binding.LoginButton.setOnClickListener {
-
+                                if (userUid != null) {
+                                    db.collection("users").document(userUid).get()
+                                        .addOnSuccessListener { documentSnapshot ->
+                                            if (documentSnapshot.exists()) {
+                                                val username =
+                                                    documentSnapshot.getString("username")
+                                                if (username != null) { // Ensure username is not null
+                                                    Toast.makeText(
+                                                        context,
+                                                        "Welcome back $username",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                } else {
+                                                    // Handle the case where the username is not found
+                                                }
+                                            } else {
+                                                // Handle the case where the document doesn't exist
+                                            }
+                                        }
+                                    findNavController().navigate(R.id.action_login_to_navigation_home)
+                                } else {
+                                    // Handle the case where userUid is null
+                                    Toast.makeText(context, "User UID is null", Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            } else {
+                                Toast.makeText(context, "Sign-in failed", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                } else {
+                    Toast.makeText(
+                        context,
+                        "Please enter your email and password",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
-
-        binding.ReturnToSignInButton.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_login_to_signup
-            )
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-//        _binding = null
-//        binding.root
     }
 }

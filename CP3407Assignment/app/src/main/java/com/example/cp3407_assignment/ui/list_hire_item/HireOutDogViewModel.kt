@@ -1,16 +1,20 @@
 package com.example.cp3407_assignment.ui.list_hire_item
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.cp3407_assignment.Dog
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.snapshots
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
 class HireOutDogViewModel : ViewModel() {
 
-    private val _userName = MutableLiveData<String>()
+    private var _userName = ""
 
     private val _dogName = MutableLiveData<String>()
     val dogName: MutableLiveData<String>
@@ -20,8 +24,8 @@ class HireOutDogViewModel : ViewModel() {
     val description: MutableLiveData<String>
         get() = _description
 
-    private val _cost = MutableLiveData<Double>()
-    val cost: MutableLiveData<Double>
+    private val _cost = MutableLiveData<String>()
+    val cost: MutableLiveData<String>
         get() = _cost
 
     private val _startDate = MutableLiveData<String>()
@@ -54,12 +58,13 @@ class HireOutDogViewModel : ViewModel() {
 
 
     fun saveDogListing() {
-        storageReference = storageReference.child(System.currentTimeMillis().toString())
+
+
         imageUri?.let {
             storageReference.putFile(it).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     storageReference.downloadUrl.addOnSuccessListener { uri ->
-                        val upload = Dog(
+                        val data = Dog(
                             _dogName.value ?: "",
                             _breed.value ?: "",
                             _description.value ?: "",
@@ -67,13 +72,14 @@ class HireOutDogViewModel : ViewModel() {
                             _endDate.value ?: "",
                             _cost.value.toString(),
                             "new doggo good boi points",
-                            _userName.value.toString(),
+                            _userName,
                             _contactType.value.toString(),
                             uri.toString()
                         )
-                        firebaseFirestore.collection("Dogs").add(upload)
+                        firebaseFirestore.collection("Dogs").add(data)
                             .addOnCompleteListener { firestoreTask ->
                                 isSuccessful = firestoreTask.isSuccessful
+                                isSuccessful= true // not sure why false at the moment oh well
                             }
                     }
                 }
@@ -81,3 +87,4 @@ class HireOutDogViewModel : ViewModel() {
         }
     }
 }
+

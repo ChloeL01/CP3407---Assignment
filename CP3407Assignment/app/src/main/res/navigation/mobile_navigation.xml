@@ -59,6 +59,9 @@
         <action
             android:id="@+id/action_navigation_profile_to_changeEmail"
             app:destination="@id/changeEmail" />
+        <action
+            android:id="@+id/action_navigation_profile_to_login"
+            app:destination="@id/login" />
     </fragment>
     <fragment
         android:id="@+id/doggoInformation"
