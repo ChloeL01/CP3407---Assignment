@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".ui.hire_item.HireItem">
+
+
+<!--    <DatePicker-->
+<!--        android:id="@+id/date_picker"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="12dp" />-->
+
+<!--    <TimePicker-->
+<!--        android:id="@+id/time_picker"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:timePickerMode="spinner"/>-->
+    <Button
+        android:id="@+id/available_dates"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Select available dates" />
+
+    <Button
+        android:id="@+id/available_times"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Select time" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="You have selected the following:" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
+
+    <TextView
+        android:id="@+id/date_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date: 4/5/2023 - 5/5/2023" />
+
+    <TextView
+        android:id="@+id/time_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time: 10:00am - 2:00pm" />
+
+    <TextView
+        android:id="@+id/total_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Cost: $60" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <Button
+        android:id="@+id/complete_payment"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Complete payment" />
+
+
+</LinearLayout>

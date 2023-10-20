@@ -13,6 +13,7 @@
             android:layout_marginTop="100dp"
             android:layout_marginEnd="30dp"
             android:inputType="text"
+            android:text="jess.grimes6@gmail.com"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/loginHeading" />
@@ -24,6 +25,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="30dp"
             android:inputType="textPassword"
+            android:text="passw0rd!"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/UsernameLogin" />

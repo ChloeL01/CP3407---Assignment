@@ -33,12 +33,24 @@ class DoggoInformation : Fragment() {
             .error(R.drawable.ic_baseline_error_24)
             .centerCrop()
             .into(binding.imageView)
+
         (activity as AppCompatActivity).supportActionBar?.title = arguments?.getString("doggo_name")
         binding.textViewName.text = arguments?.getString("doggo_name")
         binding.textViewBreed.text = arguments?.getString("doggo_breed")
         binding.textViewDescription.text = arguments?.getString("description")
         binding.textViewReviews.text = arguments?.getString("reviews")
 
+        binding.selectAvailability.setOnClickListener {
+            val bundle =
+                bundleOf(
+                    "start_date" to arguments?.getString("start_date"),
+                    "end_date" to arguments?.getString("end_date"),
+                    "cost" to arguments?.getString("cost")
+                )
+            findNavController().navigate(
+                        R.id.action_doggoInformation_to_hireItem,
+                        bundle)
+        }
 
         val callback: OnBackPressedCallback =
             object : OnBackPressedCallback(true /* enabled by default */) {

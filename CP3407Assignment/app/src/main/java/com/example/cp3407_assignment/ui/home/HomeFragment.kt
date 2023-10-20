@@ -267,7 +267,8 @@ open class HomeFragment : Fragment() {
                         "reviews" to model.doggo_review,
                         "start_date" to model.hire_start_date,
                         "end_date" to model.hire_end_date,
-                        "search_query" to binding.searchBar.query.toString()
+                        "search_query" to binding.searchBar.query.toString(),
+                        "cost" to model.cost
                        // "doggos" to searchList
                     )
                 savePreference()
