@@ -5,9 +5,13 @@ import androidx.lifecycle.ViewModel
 
 class HireItemViewModel : ViewModel() {
 
-    private val _dateInfo = MutableLiveData<String>()
-    val dateInfo: MutableLiveData<String>
-        get() = _dateInfo
+    private val _startDateInfo = MutableLiveData<String>()
+    val startDateInfo: MutableLiveData<String>
+        get() = _startDateInfo
+
+    private val _endDateInfo = MutableLiveData<String>()
+    val endDateInfo: MutableLiveData<String>
+        get() = _endDateInfo
 
     private val _timeInfo = MutableLiveData<String>()
     val timeInfo: MutableLiveData<String>

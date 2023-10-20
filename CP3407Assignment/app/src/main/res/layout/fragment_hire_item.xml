@@ -7,23 +7,31 @@
     android:orientation="vertical"
     tools:context=".ui.hire_item.HireItem">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Date/s for rental"
+        android:textSize="22sp"
+        android:layout_marginTop="20dp"/>
 
-<!--    <DatePicker-->
-<!--        android:id="@+id/date_picker"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="12dp" />-->
-
-<!--    <TimePicker-->
-<!--        android:id="@+id/time_picker"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:timePickerMode="spinner"/>-->
     <Button
         android:id="@+id/available_dates"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Select available dates" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select start time for rental"
+        android:textSize="22sp"
+        android:layout_marginTop="30dp"/>
+
+    <TimePicker
+        android:id="@+id/time_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="131dp"
+        android:timePickerMode="spinner" />
 
     <Button
         android:id="@+id/available_times"
@@ -34,38 +42,46 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
+        android:textSize="22sp"
         android:text="You have selected the following:" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="30dp" />
-
-    <TextView
-        android:id="@+id/date_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date: 4/5/2023 - 5/5/2023" />
-
-    <TextView
-        android:id="@+id/time_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Time: 10:00am - 2:00pm" />
-
-    <TextView
-        android:id="@+id/total_cost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Total Cost: $60" />
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="20dp" />
 
+    <TextView
+        android:id="@+id/start_date_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="Please select start date" />
+
+    <TextView
+        android:id="@+id/end_date_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="Please select end date" />
+
+    <TextView
+        android:id="@+id/time_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="Please select a time" />
+
+    <TextView
+        android:id="@+id/total_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="Total Cost:" />
+
     <Button
         android:id="@+id/complete_payment"
         android:layout_width="300dp"
+        android:layout_marginTop="100dp"
         android:layout_height="wrap_content"
         android:text="Complete payment" />
 

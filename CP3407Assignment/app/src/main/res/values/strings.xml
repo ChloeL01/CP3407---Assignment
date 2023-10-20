@@ -114,7 +114,8 @@
     <string name="submit_woof_view">Submit woof-view!</string>
     <string name="rate_dog_bar">Rate dog bar</string>
 
-    <string name="hire_dates_info">Dates: %1$s - %2$s</string>
+    <string name="start_dates_info">Start Date: %1$s</string>
+    <string name="end_dates_info">End Date: %1$s</string>
     <string name="hire_cost_info">Total Cost: $%1$s</string>
 
 </resources>
