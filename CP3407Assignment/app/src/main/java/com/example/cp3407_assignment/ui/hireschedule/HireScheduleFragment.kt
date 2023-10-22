@@ -105,6 +105,10 @@ class HireScheduleFragment : Activity(), CalenderAdapter.OnItemListener {
         //TODO when button is clicked, assign selected dates to database
     }
 
+    fun onClickDateSelection(){
+        //TODO make items in recycler view clickable and associated dates stored within array
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onItemClick(position: Int, dayText: String) {
         if (dayText == "") {
