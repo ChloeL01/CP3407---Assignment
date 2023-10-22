@@ -11,6 +11,33 @@
             type="com.example.cp3407_assignment.ui.home.HomeViewModel" />
     </data>
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.home.HomeFragment">
+
+        <TextView
+            android:id="@+id/profile_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="18dp"
+            android:text="@string/home_title"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/profile_divider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:dividerInsetEnd="18dp"
+            app:dividerInsetStart="18dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_title" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -39,7 +66,7 @@
             android:layout_gravity="end"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:text="5 Doggos Found"
+            android:text="@string/doggos_search_counter"
             android:visibility="gone" />
 
         <LinearLayout
@@ -96,5 +123,6 @@
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
+    </LinearLayout>
     </LinearLayout>
 </layout>
