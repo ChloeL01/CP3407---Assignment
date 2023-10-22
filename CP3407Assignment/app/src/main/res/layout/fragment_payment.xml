@@ -6,12 +6,13 @@
     tools:context=".ui.payment.PaymentFragment">
 
     <LinearLayout
+        android:id="@+id/card_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/title"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
@@ -29,9 +30,9 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/line1"
             android:layout_width="match_parent"
             android:layout_height="49dp"
-            android:id="@+id/line1"
             android:orientation="horizontal">
 
             <TextView
@@ -55,9 +56,9 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/line2"
             android:layout_width="match_parent"
             android:layout_height="49dp"
-            android:id="@+id/line2"
             android:orientation="horizontal">
 
             <TextView
@@ -81,9 +82,9 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/line3"
             android:layout_width="match_parent"
             android:layout_height="49dp"
-            android:id="@+id/line3"
             android:orientation="horizontal">
 
             <TextView
@@ -107,9 +108,9 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/line4"
             android:layout_width="match_parent"
             android:layout_height="49dp"
-            android:id="@+id/line4"
             android:orientation="horizontal">
 
             <TextView
@@ -133,9 +134,9 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/line5"
             android:layout_width="match_parent"
             android:layout_height="49dp"
-            android:id="@+id/line5"
             android:orientation="horizontal">
 
             <TextView
@@ -159,9 +160,9 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/line6"
             android:layout_width="match_parent"
             android:layout_height="49dp"
-            android:id="@+id/line6"
             android:orientation="horizontal">
 
             <TextView
@@ -184,7 +185,21 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+        <com.braintreepayments.cardform.view.CardForm
+            android:id="@+id/cardForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
+        <Button
+            android:id="@+id/hire_payment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="13dp"
+            android:clickable="true"
+            android:paddingBottom="8dp"
+            android:text="@string/make_payment"
+            android:focusable="true" />
+
+    </LinearLayout>
 
 </layout>

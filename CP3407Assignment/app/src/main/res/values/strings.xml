@@ -28,4 +28,5 @@
     <string name="credit_card_expiry_month">Credit Card Expiry Month:</string>
     <string name="placeholder_expiry_year">Expiry Year</string>
     <string name="credit_card_expiry_year">Credit Card Expiry Year:</string>
+    <string name="make_payment">Make Payment</string>
 </resources>
