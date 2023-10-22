@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cp3407_assignment.Dog
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentHomeBinding
+import com.example.cp3407_assignment.ui.CreateDogBundle
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -65,13 +66,11 @@ open class HomeFragment : Fragment() {
         storageReference = FirebaseStorage.getInstance().reference.child("Storage")
         firebaseFirestore = FirebaseFirestore.getInstance()
 
-
         mRecyclerView = binding.recyclerView
         mRecyclerView.setHasFixedSize(true)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
 
         val sharedPref: SharedPreferences = requireActivity().getPreferences(MODE_PRIVATE)
-
 
         if (mUploads.isEmpty()) {
 //        if (search == "[]") {
@@ -103,7 +102,7 @@ open class HomeFragment : Fragment() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable("Layout manager", mRecyclerView.layoutManager?.onSaveInstanceState())
+        //outState.putParcelable("Layout manager", mRecyclerView.layoutManager?.onSaveInstanceState())
         savePreference()
         super.onSaveInstanceState(outState)
     }
@@ -125,7 +124,8 @@ open class HomeFragment : Fragment() {
         val gson = Gson()
         val json: String = gson.toJson(searchList)
         editor.putString("searchList", json)
-        editor.putString("searchText", binding.searchBar.query.toString())
+        editor.putString("searchText", searchQuery)
+
         editor.apply()
     }
 
@@ -258,19 +258,20 @@ open class HomeFragment : Fragment() {
 
         mAdapter.setOnClickListener(object : ImageAdapter.OnClickListener {
             override fun onClick(position: Int, model: Dog) {
-                val bundle =
-                    bundleOf(
-                        "doggo_name" to model.doggo_name,
-                        "doggo_breed" to model.doggo_breed,
-                        "imageUrl" to model.imageUrl,
-                        "description" to model.description,
-                        "reviews" to model.doggo_review,
-                        "start_date" to model.hire_start_date,
-                        "end_date" to model.hire_end_date,
-                        "search_query" to binding.searchBar.query.toString(),
-                        "cost" to model.cost
-                       // "doggos" to searchList
-                    )
+                val bundle = CreateDogBundle().createBundle(model)
+//                val bundle =
+//                    bundleOf(
+//                        "doggo_name" to model.doggo_name,
+//                        "doggo_breed" to model.doggo_breed,
+//                        "imageUrl" to model.imageUrl,
+//                        "description" to model.description,
+//                        "reviews" to model.doggo_review,
+//                        "start_date" to model.hire_start_date,
+//                        "end_date" to model.hire_end_date,
+//                        "search_query" to binding.searchBar.query.toString(),
+//                        "cost" to model.cost
+//                       // "doggos" to searchList
+//                    )
                 savePreference()
                 findNavController().navigate(
                     R.id.action_navigation_home_to_doggoInformation,

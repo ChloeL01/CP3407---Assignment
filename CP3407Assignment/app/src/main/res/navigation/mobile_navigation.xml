@@ -155,5 +155,9 @@
         android:id="@+id/hireItem"
         android:name="com.example.cp3407_assignment.ui.hire_item.HireItem"
         android:label="fragment_hire_item"
-        tools:layout="@layout/fragment_hire_item" />
+        tools:layout="@layout/fragment_hire_item" >
+        <action
+            android:id="@+id/action_hireItem_to_navigation_cart"
+            app:destination="@id/navigation_cart" />
+    </fragment>
 </navigation>

@@ -1,14 +1,17 @@
 package com.example.cp3407_assignment.ui.hire_item
 
-import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.DatePicker
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentHireItemBinding
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
@@ -23,7 +26,7 @@ import java.util.concurrent.TimeUnit
 class HireItem : Fragment() {
 
     private var _binding: FragmentHireItemBinding? = null
-    private lateinit var viewModel: HireItemViewModel
+    private var totalCost:  Long = 0
 
     private val binding get() = _binding!!
     private lateinit var hireItemViewModel: HireItemViewModel
@@ -64,20 +67,8 @@ class HireItem : Fragment() {
 
         val start_date = formatter.parse(hire_start_date)
         val end_date = formatter.parse(hire_end_date)
-
-        val mTimePicker: TimePickerDialog
         val mcurrentTime = Calendar.getInstance()
         mcurrentTime.time = start_date
-        val hour = mcurrentTime.get(Calendar.HOUR_OF_DAY)
-        val minute = mcurrentTime.get(Calendar.MINUTE)
-
-        mTimePicker = TimePickerDialog(context,
-            { _, hourOfDay, minuteOfDay ->
-                hireItemViewModel.timeInfo.value =
-                    String.format("Pickup time - %d : %d", hourOfDay, minuteOfDay)
-                //selectedTime.setText(String.format("%d : %d", hourOfDay, minute))
-            }, hour, minute, true
-        )
 
         binding.availableTimes.setOnClickListener {
             val hour = binding.timePicker.hour
@@ -86,45 +77,86 @@ class HireItem : Fragment() {
         }
 
         binding.availableDates.setOnClickListener {
-            val constraints = CalendarConstraints.Builder()
-                .setStart(start_date.time)
-                .setEnd(end_date.time)
-                .setValidator(DateValidatorPointBackward.before(end_date.time))
-                .setValidator(DateValidatorPointForward.from(start_date.time))
-                .build()
-
-            val materialDatePicker = MaterialDatePicker.Builder.dateRangePicker()
-                .setCalendarConstraints(constraints)
-                .setTitleText("Select date")
-                .setPositiveButtonText("Submit")
-                .build()
+            val constraints = calendarConstraints(start_date, end_date)
+            val materialDatePicker = materialDatePicker1(constraints)
 
             materialDatePicker.show(childFragmentManager, "DatePicker")
-
             materialDatePicker.addOnPositiveButtonClickListener {pair ->
-                Toast.makeText(context, "Submitted", Toast.LENGTH_SHORT).show()
-                val simpleDateFormat = SimpleDateFormat("EEEE, dd MMMM", Locale.getDefault())
-                val startDate = pair.first
-//                val startDate = Date(pair.first)
-                val formattedStartDate = simpleDateFormat.format(startDate)
-//                val endDate = Date(pair.second)
-                val endDate = pair.second
-                val difference = endDate - startDate
-                val daysDiff = TimeUnit.MILLISECONDS.toDays(difference)
-                val formattedEndDate = simpleDateFormat.format(endDate)
-                val totalCost = daysDiff * (cost?.toInt() ?: 0)
-
-                hireItemViewModel.startDateInfo.value = "Start date: $formattedStartDate"
-                hireItemViewModel.endDateInfo.value = "End date: $formattedEndDate"
-                hireItemViewModel.costInfo.value = "Total cost: $$totalCost"
+                materialDatePicker(pair, cost)
             }
         }
 
+        binding.completePayment.setOnClickListener {
+            if (checkAllEditTextsNotEmpty()) {
+                val bundle =
+                    bundleOf(
+                        "doggo_name" to arguments?.getString("doggo_name"),
+                        "doggo_breed" to arguments?.getString("doggo_breed"),
+                        "imageUrl" to arguments?.getString("imageUrl"),
+                        "description" to arguments?.getString("description"),
+                        "reviews" to arguments?.getString("reviews"),
+                        "start_date" to arguments?.getString("start_date"),
+                        "end_date" to arguments?.getString("end_date"),
+                        "cost" to arguments?.getString("cost"),
+                        "owner_id" to arguments?.getString("owner_id"),
+                        "owner_contact" to arguments?.getString("owner_contact")
+                    )
 
+                findNavController().navigate(
+                    R.id.action_hireItem_to_navigation_cart,
+                    bundle
+                )
+            }
+            }
 
         return root
     }
 
+    private fun materialDatePicker1(constraints: CalendarConstraints): MaterialDatePicker<Pair<Long, Long>> {
+        val materialDatePicker = MaterialDatePicker.Builder.dateRangePicker()
+            .setCalendarConstraints(constraints)
+            .setTitleText("Select date")
+            .setPositiveButtonText("Submit")
+            .build()
+        return materialDatePicker
+    }
+
+    private fun calendarConstraints(
+        start_date: Date,
+        end_date: Date
+    ): CalendarConstraints {
+        return CalendarConstraints.Builder()
+            .setStart(start_date.time)
+            .setEnd(end_date.time)
+            .setValidator(DateValidatorPointBackward.before(end_date.time))
+            .setValidator(DateValidatorPointForward.from(start_date.time))
+            .build()
+    }
+
+    private fun materialDatePicker(pair: Pair<Long, Long>, cost: String?) {
+        //                Toast.makeText(context, "Submitted", Toast.LENGTH_SHORT).show()
+        val simpleDateFormat = SimpleDateFormat("EEEE, dd MMMM", Locale.getDefault())
+        val startDate = pair.first
+//                val startDate = Date(pair.first)
+        val formattedStartDate = simpleDateFormat.format(startDate)
+//                val endDate = Date(pair.second)
+        val endDate = pair.second
+        val difference = endDate - startDate
+        val daysDiff = TimeUnit.MILLISECONDS.toDays(difference)
+        val formattedEndDate = simpleDateFormat.format(endDate)
+        totalCost = daysDiff * (cost?.toInt() ?: 0)
+
+        hireItemViewModel.startDateInfo.value = "Start date: $formattedStartDate"
+        hireItemViewModel.endDateInfo.value = "End date: $formattedEndDate"
+        hireItemViewModel.costInfo.value = "Total cost: $$totalCost"
+    }
+
+    private fun checkAllEditTextsNotEmpty(): Boolean {
+        return binding.endDateInfo.text.toString().isNotEmpty() && binding.startDateInfo.text.toString()
+            .isNotEmpty() &&
+                binding.timeInfo.text.toString().isNotEmpty() && binding.totalCost.text.toString()
+            .isNotEmpty()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

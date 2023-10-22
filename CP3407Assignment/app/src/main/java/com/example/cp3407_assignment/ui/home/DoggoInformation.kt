@@ -43,9 +43,16 @@ class DoggoInformation : Fragment() {
         binding.selectAvailability.setOnClickListener {
             val bundle =
                 bundleOf(
+                    "doggo_name" to arguments?.getString("doggo_name"),
+                    "doggo_breed" to arguments?.getString("doggo_breed"),
+                    "imageUrl" to arguments?.getString("imageUrl"),
+                    "description" to arguments?.getString("description"),
+                    "reviews" to arguments?.getString("reviews"),
                     "start_date" to arguments?.getString("start_date"),
                     "end_date" to arguments?.getString("end_date"),
-                    "cost" to arguments?.getString("cost")
+                    "cost" to arguments?.getString("cost"),
+                    "owner_id" to arguments?.getString("owner_id"),
+                    "owner_contact" to arguments?.getString("owner_contact")
                 )
             findNavController().navigate(
                         R.id.action_doggoInformation_to_hireItem,

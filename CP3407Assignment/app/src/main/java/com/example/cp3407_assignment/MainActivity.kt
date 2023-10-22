@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.cp3407_assignment.databinding.ActivityMainBinding
@@ -37,6 +38,12 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        // start from default position
+        navView.setOnItemSelectedListener { item ->
+            NavigationUI.onNavDestinationSelected(item, navController)
+            navController.popBackStack(item.itemId, inclusive = false)
+            true
+        }
 
         // Initialise firebase
         FirebaseApp.initializeApp(this)
