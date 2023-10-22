@@ -117,5 +117,6 @@
     <string name="start_dates_info">Start Date: %1$s</string>
     <string name="end_dates_info">End Date: %1$s</string>
     <string name="hire_cost_info">Total Cost: $%1$s</string>
+    <string name="select_date">Select Date</string>
 
 </resources>

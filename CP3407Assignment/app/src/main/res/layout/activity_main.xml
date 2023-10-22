@@ -15,6 +15,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 
+    <!--        app:itemIconTint="@drawable/bottom_navigation_selector"-->
+    <!--        app:itemTextColor="@drawable/bottom_navigation_selector"-->
 
     <fragment
         android:id="@+id/nav_host_fragment_activity_main"
