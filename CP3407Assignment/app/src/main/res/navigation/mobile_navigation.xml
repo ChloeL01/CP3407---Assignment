@@ -29,6 +29,10 @@
         <action
             android:id="@+id/action_navigation_to_previously_hired"
             app:destination="@id/previously_hired" />
+
+            android:id="@+id/action_navigation_dogs_to_dogReview"
+            app:destination="@id/dogReview" />
+
     </fragment>
 
     <fragment
@@ -57,14 +61,20 @@
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile" >
         <action
-            android:id="@+id/action_navigation_profile_to_userContactDetails"
-            app:destination="@id/userContactDetails" />
-        <action
             android:id="@+id/action_navigation_profile_to_changePassword"
             app:destination="@id/changePassword" />
         <action
             android:id="@+id/action_navigation_profile_to_changeEmail"
             app:destination="@id/changeEmail" />
+        <action
+
+            android:id="@+id/action_navigation_profile_to_login"
+            app:destination="@id/login" />
+
+         <action
+            android:id="@+id/action_navigation_profile_to_changePaymentDetails"
+            app:destination="@id/changePaymentDetails" />
+
     </fragment>
     <fragment
         android:id="@+id/doggoInformation"
@@ -90,6 +100,12 @@
             android:name="end_date"
             app:argType="string"
             android:defaultValue="end date" />
+        <action
+            android:id="@+id/action_doggoInformation_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_doggoInformation_to_hireItem"
+            app:destination="@id/hireItem" />
     </fragment>
     <fragment
         android:id="@+id/login"
@@ -113,10 +129,6 @@
             android:id="@+id/action_signup_to_login"
             app:destination="@id/login" />
     </fragment>
-    <fragment
-        android:id="@+id/userContactDetails"
-        android:name="com.example.cp3407_assignment.ui.profile.UserContactDetails"
-        android:label="UserContactDetails" />
     <fragment
         android:id="@+id/changePassword"
         android:name="com.example.cp3407_assignment.ui.settings.ChangePassword"
@@ -156,8 +168,30 @@
         <action
             android:id="@+id/action_previously_hired_to_navigation_dogs"
             app:destination="@id/navigation_dogs" />
+        <action
+          android:id="@+id/action_previously_hired_to_doggoInformation"
+          app:destination="@id/doggoInformation" />
     </fragment>
-    <action
-        android:id="@+id/action_previously_hired_to_doggoInformation"
-        app:destination="@id/doggoInformation" />
+    
+    <fragment>
+        android:id="@+id/changePaymentDetails"
+        android:name="com.example.cp3407_assignment.ui.settings.ChangePaymentDetails"
+        android:label="ChangePaymentDetails" >
+        <action
+            android:id="@+id/action_changePaymentDetails_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/dogReview"
+        android:name="com.example.cp3407_assignment.ui.dogs.DogReview"
+        android:label="DogReview" />
+    <fragment
+        android:id="@+id/hireItem"
+        android:name="com.example.cp3407_assignment.ui.hire_item.HireItem"
+        android:label="fragment_hire_item"
+        tools:layout="@layout/fragment_hire_item" >
+        <action
+            android:id="@+id/action_hireItem_to_navigation_cart"
+            app:destination="@id/navigation_cart" />
+    </fragment>
 </navigation>

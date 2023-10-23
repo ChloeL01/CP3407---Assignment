@@ -12,11 +12,6 @@
         android:title="@string/dogs" />
 
     <item
-        android:id="@+id/navigation_messages"
-        android:icon="@drawable/ic_message_icon"
-        android:title="@string/messages" />
-
-    <item
         android:id="@+id/navigation_cart"
         android:icon="@drawable/ic_shopping_cart"
         android:title="@string/cart" />

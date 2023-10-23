@@ -39,6 +39,9 @@ class DashboardFragment : Fragment() {
         }
         binding.PreviouslyHiredButton.setOnClickListener { view: View? ->
             view?.findNavController()?.navigate(R.id.action_navigation_to_previously_hired)
+        }    
+        binding.reviewBtn.setOnClickListener {view: View? ->
+            view?.findNavController()?.navigate(R.id.action_navigation_dogs_to_dogReview)
         }
     }
 
