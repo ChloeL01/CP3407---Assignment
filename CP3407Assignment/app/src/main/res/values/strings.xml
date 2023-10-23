@@ -124,4 +124,6 @@
     <string name="total">Total:</string>
     <string name="checkout">Checkout</string>
 
+    <string name="share_doggos_text">Look at this cute doggo! %1$s: Available from %2$s - %3$s. $%4$s </string>
+
 </resources>

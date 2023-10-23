@@ -18,6 +18,7 @@ class CreateDogBundle {
             "cost" to model.cost,
             "owner_id" to model.owner_id,
             "owner_contact" to model.owner_contact,
+            "hiree" to model.hiree
             )
     }
 

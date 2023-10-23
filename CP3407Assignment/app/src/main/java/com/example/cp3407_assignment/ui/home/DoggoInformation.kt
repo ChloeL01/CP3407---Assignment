@@ -1,5 +1,6 @@
 package com.example.cp3407_assignment.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -52,11 +53,16 @@ class DoggoInformation : Fragment() {
                     "end_date" to arguments?.getString("end_date"),
                     "cost" to arguments?.getString("cost"),
                     "owner_id" to arguments?.getString("owner_id"),
-                    "owner_contact" to arguments?.getString("owner_contact")
+                    "owner_contact" to arguments?.getString("owner_contact"),
+                    "hiree" to arguments?.getString("hiree")
                 )
             findNavController().navigate(
                         R.id.action_doggoInformation_to_hireItem,
                         bundle)
+        }
+
+        binding.fab.setOnClickListener{
+            shareSuccess()
         }
 
         val callback: OnBackPressedCallback =
@@ -76,6 +82,24 @@ class DoggoInformation : Fragment() {
             }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
         return root
+    }
+
+    private fun shareSuccess() {
+        startActivity(getShareIntent())
+    }
+
+    private fun getShareIntent(): Intent {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        val doggo_name = arguments?.getString("doggo_name")
+        val start_date = arguments?.getString("start_date")
+        val end_date = arguments?.getString("end_date")
+        val price = arguments?.getString("cost")
+        shareIntent.setType("text/plain")
+            .putExtra(
+                Intent.EXTRA_TEXT,
+                getString(R.string.share_doggos_text, doggo_name, start_date, end_date, price)
+            )
+        return shareIntent
     }
 
 
