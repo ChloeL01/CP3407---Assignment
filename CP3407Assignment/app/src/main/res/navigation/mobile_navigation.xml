@@ -80,9 +80,17 @@
         android:name="com.example.cp3407_assignment.ui.home.DoggoInformation"
         android:label="fragment_doggo_information"
         tools:layout="@layout/fragment_doggo_information" >
+
+        <action
+            android:id="@+id/action_doggoInformation_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_doggoInformation_to_hireItem"
+            app:destination="@id/hireItem" />
         <argument
             android:name="doggo_name"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue="name" />
         <argument
             android:name="description"
             app:argType="string"
@@ -98,13 +106,7 @@
         <argument
             android:name="end_date"
             app:argType="string"
-            android:defaultValue="end date" />
-        <action
-            android:id="@+id/action_doggoInformation_to_navigation_home"
-            app:destination="@id/navigation_home" />
-        <action
-            android:id="@+id/action_doggoInformation_to_hireItem"
-            app:destination="@id/hireItem" />
+            android:defaultValue="end_date" />
     </fragment>
     <fragment
         android:id="@+id/login"
