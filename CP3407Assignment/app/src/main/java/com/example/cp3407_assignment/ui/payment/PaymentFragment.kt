@@ -83,7 +83,7 @@ class PaymentFragment : AppCompatActivity() {
     }
 
     fun onClickPaymentConfirmation(cardInfoArray: Array<String>): MutableList<String> {
-    val cardInfoList = cardInfoArray.toMutableList()
+        val cardInfoList = cardInfoArray.toMutableList()
         cardInfoList.add(binding.cardName.toString())
         cardInfoList.add(binding.cardNumber.toString())
         cardInfoList.add(binding.cardCcvNumber.toString())
