@@ -15,6 +15,7 @@ class PaymentFragment : AppCompatActivity() {
 
     private lateinit var cardForm: CardForm
     private lateinit var binding: FragmentPaymentBinding
+    lateinit var cardInfoArray: MutableList<String>
 
     override fun onCreateView(
         name: String,
@@ -24,29 +25,10 @@ class PaymentFragment : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.fragment_payment)
         initialiseCardForm(binding)
         initialisePayment(binding)
-        return binding.root
-    }
 
-    private fun initialisePayment(binding: FragmentPaymentBinding) {
-        binding.hirePayment.setOnClickListener {
-            if (cardForm.isValid) {
-                Toast.makeText(
-                    this@PaymentFragment, "Card Number: ${cardForm.cardNumber} \n" +
-                            "Card expiry date: ${cardForm.expirationDateEditText} \n" +
-                            "Card CVV: ${cardForm.cvv} \n" +
-                            "Card holder name: ${cardForm.cardholderName} \n" +
-                            "Card postal code: ${cardForm.postalCode} \n" +
-                            "Card mobile number: ${cardForm.mobileNumber} \n",
-                    Toast.LENGTH_LONG
-                ).show()
-            } else {
-                Toast.makeText(
-                    this@PaymentFragment,
-                    "Please complete the payment form.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
+        //TODO add list contents to database
+
+        return binding.root
     }
 
     private fun initialiseCardForm(binding: FragmentPaymentBinding) {
@@ -65,5 +47,50 @@ class PaymentFragment : AppCompatActivity() {
             InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
     }
 
+
+    private fun initialisePayment(binding: FragmentPaymentBinding) {
+        val num = cardForm.cardNumber
+        val expireDate = cardForm.expirationDateEditText.toString()
+        val cvv = cardForm.cvv
+        val cardHolderName = cardForm.cardholderName
+        val postCode = cardForm.postalCode
+        val mobileNum = cardForm.mobileNumber
+        binding.hirePayment.setOnClickListener {
+            if (cardForm.isValid) {
+                Toast.makeText(
+                    this@PaymentFragment, "Card holder name: $cardHolderName \n" +
+                            "Card Number: $num \n" +
+                            "Card CVV: $cvv \n" +
+                            "Card expiry date: $expireDate \n" +
+                            "Card postal code: $postCode \n" +
+                            "Card mobile number: $mobileNum \n",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                Toast.makeText(
+                    this@PaymentFragment,
+                    "Please complete the payment form.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+        binding.cardName.setText(cardHolderName)
+        binding.cardNumber.setText(num)
+        binding.cardCcvNumber.setText(cvv)
+        binding.cardExpiryDate.setText(expireDate)
+        binding.cardPostCode.setText(postCode)
+        binding.cardMobileNumber.setText(mobileNum)
+    }
+
+    fun onClickPaymentConfirmation(cardInfoArray: Array<String>): MutableList<String> {
+    val cardInfoList = cardInfoArray.toMutableList()
+        cardInfoList.add(binding.cardName.toString())
+        cardInfoList.add(binding.cardNumber.toString())
+        cardInfoList.add(binding.cardCcvNumber.toString())
+        cardInfoList.add(binding.cardExpiryDate.toString())
+        cardInfoList.add(binding.cardPostCode.toString())
+        cardInfoList.add(binding.cardMobileNumber.toString())
+        return cardInfoList
+    }
 
 }

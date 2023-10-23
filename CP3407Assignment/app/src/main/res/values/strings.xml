@@ -24,9 +24,11 @@
     <string name="credit_card_number">Credit Card Number:</string>
     <string name="credit_card_cvv_number">Credit Card CVV Number:</string>
     <string name="placeholder_cvv_number">CVV Number</string>
-    <string name="placeholder_expiry_month">Expiry Month</string>
-    <string name="credit_card_expiry_month">Credit Card Expiry Month:</string>
-    <string name="placeholder_expiry_year">Expiry Year</string>
-    <string name="credit_card_expiry_year">Credit Card Expiry Year:</string>
+    <string name="placeholder_expiry_date">Expiry Date</string>
+    <string name="credit_card_expiry_date">Credit Card Expiry Date:</string>
+    <string name="placeholder_post_code">Post Code</string>
+    <string name="credit_card_post_code">Credit Card Post Code:</string>
     <string name="make_payment">Make Payment</string>
+    <string name="credit_card_mobile_number">"Credit Card Mbl Number:"</string>
+    <string name="placeholder_mobile_number">0000 0000</string>
 </resources>
