@@ -29,7 +29,7 @@
         <action
             android:id="@+id/action_navigation_to_previously_hired"
             app:destination="@id/previously_hired" />
-
+        <action
             android:id="@+id/action_navigation_dogs_to_dogReview"
             app:destination="@id/dogReview" />
 
@@ -74,7 +74,6 @@
          <action
             android:id="@+id/action_navigation_profile_to_changePaymentDetails"
             app:destination="@id/changePaymentDetails" />
-
     </fragment>
     <fragment
         android:id="@+id/doggoInformation"
@@ -173,7 +172,7 @@
           app:destination="@id/doggoInformation" />
     </fragment>
     
-    <fragment>
+    <fragment
         android:id="@+id/changePaymentDetails"
         android:name="com.example.cp3407_assignment.ui.settings.ChangePaymentDetails"
         android:label="ChangePaymentDetails" >
