@@ -108,7 +108,8 @@ class HireOutDogViewModel : ViewModel() {
                                 "new doggo good boi points",
                                 userUid,
                                 _contactType.value.toString(),
-                                uri.toString()
+                                uri.toString(),
+                                _hiree.value ?: ""
                             )
                             firebaseFirestore.collection("Dogs").add(data)
                                 .addOnCompleteListener { firestoreTask ->
