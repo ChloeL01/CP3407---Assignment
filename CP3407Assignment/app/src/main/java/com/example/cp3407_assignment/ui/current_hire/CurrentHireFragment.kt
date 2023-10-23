@@ -169,7 +169,7 @@ class CurrentHireFragment : Fragment() {
 
             }
             }
-
+/*
     override fun onStart(){
         super.onStart()
         firebaseAuth = Firebase.auth
@@ -187,7 +187,7 @@ class CurrentHireFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
         }
-    }
+    }*/
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
