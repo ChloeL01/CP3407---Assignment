@@ -11,6 +11,7 @@ class Dog {
     var owner_id: String? = null
     var owner_contact: String? = null
     var imageUrl: String? = null
+    var hiree: String? = null
 
     constructor() {
         //empty constructor needed by firebase
@@ -26,7 +27,8 @@ class Dog {
         review: String,
         owner_id: String,
         owner_contact: String,
-        imageUrl: String
+        imageUrl: String,
+        hiree: String
     ) {
         this.doggo_name = name
         this.doggo_breed = breed
@@ -38,5 +40,6 @@ class Dog {
         this.owner_id = owner_id
         this.owner_contact = owner_contact
         this.imageUrl = imageUrl
+        this.hiree = hiree
     }
 }

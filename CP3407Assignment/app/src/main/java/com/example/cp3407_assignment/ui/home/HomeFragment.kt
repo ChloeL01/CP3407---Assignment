@@ -382,7 +382,53 @@ open class HomeFragment : Fragment() {
         }
     }
 
-    override fun onPause() {
+   /* private fun uploadImage() { //TODO use this to upload a doggo to the database
+        // call this to upload the doggo to the server
+        storageReference = storageReference.child(System.currentTimeMillis().toString())
+        imageUri?.let {
+            storageReference.putFile(it).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    storageReference.downloadUrl.addOnSuccessListener { uri ->
+                        val upload = Dog( //TODO replace with user input
+                            "new doggo name",
+                            "new doggo breed",
+                            "new doggo description goes here",
+                            "new doggo hire date start",
+                            "new doggo hire date end",
+                            "new doggo cost",
+                            "new doggo good boi points",
+                            "owner id",
+                            "owner contact",
+                            "hiree",
+                            uri.toString()
+                        )
+                        firebaseFirestore.collection("Dogs").add(upload)
+                            .addOnCompleteListener { firestoreTask ->
+
+                                if (firestoreTask.isSuccessful) {
+                                    Toast.makeText(
+                                        context,
+                                        "Uploaded Successfully",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        firestoreTask.exception?.message,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                //binding.imageView.setImageResource(R.drawable.vector) TODO replace imageview with the doggo pic
+                            }
+                    }
+                } else {
+                    Toast.makeText(context, task.exception?.message, Toast.LENGTH_SHORT).show()
+                    //binding.imageView.setImageResource(R.drawable.vector) TODO replace imageview with a 'fail to upload' pic
+                }
+            }
+        }
+*/
+  override fun onPause() {
         super.onPause()
         recyclerListPosition =
             (mRecyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
