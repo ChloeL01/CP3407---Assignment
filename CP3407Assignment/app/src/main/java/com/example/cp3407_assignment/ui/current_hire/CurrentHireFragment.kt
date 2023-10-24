@@ -46,42 +46,6 @@ class CurrentHireFragment : Fragment() {
 
     ): View? {
 
-        /*
-                ///////////////////////////////////////////////////////////
-                val db = FirebaseFirestore.getInstance()
-                val currentUser = firebaseAuth.currentUser?.uid
-                val userRef = db.collection("Users").document(currentUser!!)
-                Toast.makeText(
-                    context,
-                    "Hello There "+currentUser,
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                userRef.addSnapshotListener { docSnapshot, firebaseFireStoreException ->
-                    if (firebaseFireStoreException != null) {
-                        Toast.makeText(
-                            context,
-                            "Not found",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
-                    if (docSnapshot != null && docSnapshot.exists()) {
-                        val userName = docSnapshot.getString("username")
-                        Toast.makeText(
-                            context,
-                            "Current user username: "+ userName,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "Current user username: null",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-        */
         val CurrentHireViewModel =
             ViewModelProvider(this).get(CurrentHireViewModel::class.java)
 
@@ -105,6 +69,7 @@ class CurrentHireFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         firebaseAuth = Firebase.auth
+
 
         val currentUser = firebaseAuth.currentUser
         if (currentUser == null) {
@@ -135,7 +100,9 @@ class CurrentHireFragment : Fragment() {
 
 
                     for (dog in mUploads) {
-                        if (dog.doggo_name == "Winston" || dog.doggo_name == "Bridget") {
+                        val currentUserData = firebaseAuth.currentUser
+                        val userUid = currentUserData?.uid
+                        if (dog.owner_id == userUid.toString()) {
                             Current_Doggos.add(dog)
 
                         }
