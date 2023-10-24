@@ -56,7 +56,6 @@ class CurrentHireFragment : Fragment() {
         firebaseFirestore = FirebaseFirestore.getInstance()
 
         return root
-
     }
 
     private val resultLauncher = registerForActivityResult(
@@ -69,7 +68,6 @@ class CurrentHireFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         firebaseAuth = Firebase.auth
-
 
         val currentUser = firebaseAuth.currentUser
         if (currentUser == null) {
@@ -86,8 +84,7 @@ class CurrentHireFragment : Fragment() {
             myRecyclerView.layoutManager = LinearLayoutManager(context)
 
             val mUploads = ArrayList<Dog>()
-            val Current_Doggos = ArrayList<Dog>()
-
+            val currentDoggos = ArrayList<Dog>()
 
             dogDBRef.get()
                 .addOnSuccessListener { queryDocumentSnapshots ->
@@ -97,17 +94,14 @@ class CurrentHireFragment : Fragment() {
                         mUploads.add(dog)
                     }
 
-
-
                     for (dog in mUploads) {
                         val currentUserData = firebaseAuth.currentUser
                         val userUid = currentUserData?.uid
                         if (dog.owner_id == userUid.toString()) {
-                            Current_Doggos.add(dog)
-
+                            currentDoggos.add(dog)
                         }
                     }
-                    if (Current_Doggos.size.toString() == "0"){
+                    if (currentDoggos.size.toString() == "0") {
                         Toast.makeText(
                             context,
                             "You are not currently hiring any dogs",
@@ -115,7 +109,7 @@ class CurrentHireFragment : Fragment() {
                         ).show()
                     }
                     val mAdapter =
-                        context?.let { CurrentlyHiringItemAdapter(it, Current_Doggos) }
+                        context?.let { CurrentlyHiringItemAdapter(it, currentDoggos) }
                     myRecyclerView.adapter = mAdapter
 
                     mAdapter?.setOnClickListener(object :
@@ -146,5 +140,4 @@ class CurrentHireFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }
