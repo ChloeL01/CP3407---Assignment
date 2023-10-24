@@ -46,57 +46,6 @@ class CurrentHireFragment : Fragment() {
 
     ): View? {
 
-        /*val currentUser = firebaseAuth.currentUser
-        if (currentUser != null) {
-            Toast.makeText(
-                context,
-                "How You doin'",
-                Toast.LENGTH_SHORT
-            ).show()
-        } else {
-            Toast.makeText(
-                context,
-                "No user here ",
-                Toast.LENGTH_SHORT
-            ).show()
-        }*/
-
-        /*
-                ///////////////////////////////////////////////////////////
-                val db = FirebaseFirestore.getInstance()
-                val currentUser = firebaseAuth.currentUser?.uid
-                val userRef = db.collection("Users").document(currentUser!!)
-                Toast.makeText(
-                    context,
-                    "Hello There "+currentUser,
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                userRef.addSnapshotListener { docSnapshot, firebaseFireStoreException ->
-                    if (firebaseFireStoreException != null) {
-                        Toast.makeText(
-                            context,
-                            "Not found",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
-                    if (docSnapshot != null && docSnapshot.exists()) {
-                        val userName = docSnapshot.getString("username")
-                        Toast.makeText(
-                            context,
-                            "Current user username: "+ userName,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "Current user username: null",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-        */
         val CurrentHireViewModel =
             ViewModelProvider(this).get(CurrentHireViewModel::class.java)
 
@@ -107,7 +56,6 @@ class CurrentHireFragment : Fragment() {
         firebaseFirestore = FirebaseFirestore.getInstance()
 
         return root
-
     }
 
     private val resultLauncher = registerForActivityResult(
@@ -119,60 +67,8 @@ class CurrentHireFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val myRecyclerView = binding.CurrentHireRecycle
-
-        myRecyclerView.setHasFixedSize(true)
-        myRecyclerView.layoutManager = LinearLayoutManager(context)
-
-        val mUploads = ArrayList<Dog>()
-
-        dogDBRef.get()
-            .addOnSuccessListener { queryDocumentSnapshots ->
-                for (documentSnapshot in queryDocumentSnapshots) {
-                    val dog = documentSnapshot.toObject<Dog>()
-                    mUploads.add(dog)
-                }
-                val mAdapter = context?.let { CurrentlyHiringItemAdapter(it, mUploads) }
-                myRecyclerView.adapter = mAdapter
-
-
-                //db.collection("Dogs").document(Hiree).get()
-                // .addOnSuccessListener { documentSnapshot ->
-                //  if (documentSnapshot.exists()) {
-                //     val hiree = documentSnapshot.getString(Hiree)
-                //   Toast.makeText(
-                //       context,
-                //       "Hello World",
-                //       Toast.LENGTH_SHORT
-                //   ).show()
-                //  }}
-
-                //if (hiree == "Keziah") {
-                mAdapter?.setOnClickListener(object :
-                    CurrentlyHiringItemAdapter.OnClickListener {
-                    override fun onClick(position: Int, model: Dog) {
-                        val bundle =
-                            bundleOf(
-                                "doggo_name" to model.doggo_name,
-                                "imageUrl" to model.imageUrl,
-                                "start_date" to model.hire_start_date,
-                                "end_date" to model.hire_end_date,
-                                "breed" to model.doggo_breed
-                            )
-                        findNavController().navigate(
-                            R.id.action_currently_Hiring_to_doggoInformation,
-                            bundle
-                        )
-                    }
-                })
-                // }
-
-            }
-            }
-/*
-    override fun onStart(){
-        super.onStart()
         firebaseAuth = Firebase.auth
+
         val currentUser = firebaseAuth.currentUser
         if (currentUser == null) {
             Toast.makeText(
@@ -181,16 +77,67 @@ class CurrentHireFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
         } else {
-            Toast.makeText(
-                context,
-                "Hello There ",
-                Toast.LENGTH_SHORT
-            ).show()
+
+            val myRecyclerView = binding.CurrentHireRecycle
+
+            myRecyclerView.setHasFixedSize(true)
+            myRecyclerView.layoutManager = LinearLayoutManager(context)
+
+            val mUploads = ArrayList<Dog>()
+            val currentDoggos = ArrayList<Dog>()
+
+            dogDBRef.get()
+                .addOnSuccessListener { queryDocumentSnapshots ->
+                    for (documentSnapshot in queryDocumentSnapshots) {
+
+                        val dog = documentSnapshot.toObject<Dog>()
+                        mUploads.add(dog)
+                    }
+
+                    for (dog in mUploads) {
+                        val currentUserData = firebaseAuth.currentUser
+                        val userUid = currentUserData?.uid
+                        if (dog.owner_id == userUid.toString()) {
+                            currentDoggos.add(dog)
+                        }
+                    }
+                    if (currentDoggos.size.toString() == "0") {
+                        Toast.makeText(
+                            context,
+                            "You are not currently hiring any dogs",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    val mAdapter =
+                        context?.let { CurrentlyHiringItemAdapter(it, currentDoggos) }
+                    myRecyclerView.adapter = mAdapter
+
+                    mAdapter?.setOnClickListener(object :
+                        CurrentlyHiringItemAdapter.OnClickListener {
+                        override fun onClick(position: Int, model: Dog) {
+
+                            val bundle =
+                                bundleOf(
+                                    "doggo_name" to model.doggo_name,
+                                    "imageUrl" to model.imageUrl,
+                                    "start_date" to model.hire_start_date,
+                                    "end_date" to model.hire_end_date,
+                                    "breed" to model.doggo_breed
+                                )
+                            findNavController().navigate(
+                                R.id.action_currently_Hiring_to_doggoInformation,
+                                bundle
+                            )
+                        }
+                    })
+
+                }
         }
-    }*/
+
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 }
