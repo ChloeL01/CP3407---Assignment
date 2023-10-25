@@ -37,6 +37,7 @@ import java.util.*
 open class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
+    var dogId = ""
 
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var storageReference: StorageReference
@@ -204,6 +205,36 @@ open class HomeFragment : Fragment() {
                 materialDatePicker(pair)
             }
         }
+
+        // update the recyclerview
+        dogDBRef.get()
+            .addOnSuccessListener { queryDocumentSnapshots ->
+                for (documentSnapshot in queryDocumentSnapshots) {
+                    val dog = documentSnapshot.toObject<Dog>()
+                    dogId = documentSnapshot.id
+                    mUploads.add(dog)
+                }
+                val mAdapter = context?.let { ImageAdapter(it, mUploads) }
+                mRecyclerView.adapter = mAdapter
+
+                mAdapter?.setOnClickListener(object : ImageAdapter.OnClickListener {
+                    override fun onClick(position: Int, model: Dog) {
+                        val bundle =
+                            bundleOf(
+                                "dogId" to model.id,
+                                "doggo_name" to model.doggo_name,
+                                "imageUrl" to model.imageUrl,
+                                "description" to model.description,
+                                "reviews" to model.doggo_review,
+                                "start_date" to model.hire_start_date,
+                                "end_date" to model.hire_end_date
+                            )
+                        findNavController().navigate(
+                            R.id.action_navigation_home_to_doggoInformation,
+                            bundle
+                        )
+                    }
+                })
 
     }
 

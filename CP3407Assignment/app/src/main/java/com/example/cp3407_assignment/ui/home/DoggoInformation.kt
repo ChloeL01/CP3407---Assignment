@@ -41,6 +41,16 @@ class DoggoInformation : Fragment() {
         binding.textViewDescription.text = arguments?.getString("description")
         binding.textViewReviews.text = arguments?.getString("reviews")
 
+
+        binding.submitReview.setOnClickListener {
+            val dogId = arguments?.getString("dogId")
+            val bundle = bundleOf("dogId" to dogId)
+            findNavController().navigate(R.id.action_doggoInformation_to_dogReview, bundle)
+        }
+        return root
+    }
+
+
         binding.selectAvailability.setOnClickListener {
             val bundle =
                 bundleOf(

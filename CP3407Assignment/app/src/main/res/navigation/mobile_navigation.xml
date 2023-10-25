@@ -23,6 +23,7 @@
         <action
             android:id="@+id/action_navigation_dogs_to_listHireItem"
             app:destination="@id/listHireItem" />
+
         <action
             android:id="@+id/action_navigation_to_currently_hiring"
             app:destination="@id/currently_Hiring" />
@@ -32,6 +33,7 @@
         <action
             android:id="@+id/action_navigation_dogs_to_dogReview"
             app:destination="@id/dogReview" />
+
 
     </fragment>
 
@@ -74,6 +76,10 @@
          <action
             android:id="@+id/action_navigation_profile_to_changePaymentDetails"
             app:destination="@id/changePaymentDetails" />
+        <action
+            android:id="@+id/action_navigation_profile_to_changeMobile"
+            app:destination="@id/changeMobile" />
+
     </fragment>
     <fragment
         android:id="@+id/doggoInformation"
@@ -106,7 +112,14 @@
         <argument
             android:name="end_date"
             app:argType="string"
+
+            android:defaultValue="end date" />
+        <action
+            android:id="@+id/action_doggoInformation_to_dogReview"
+            app:destination="@id/dogReview" />
+
             android:defaultValue="end_date" />
+
     </fragment>
     <fragment
         android:id="@+id/login"
@@ -185,6 +198,20 @@
     <fragment
         android:id="@+id/dogReview"
         android:name="com.example.cp3407_assignment.ui.dogs.DogReview"
+
+        android:label="DogReview" >
+        <action
+            android:id="@+id/action_dogReview_to_doggoInformation"
+            app:destination="@id/doggoInformation" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeMobile"
+        android:name="com.example.cp3407_assignment.ui.profile.ChangeMobile"
+        android:label="ChangeMobile" >
+        <action
+            android:id="@+id/action_changeMobile_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+
         android:label="DogReview" />
     <fragment
         android:id="@+id/hireItem"
@@ -194,5 +221,6 @@
         <action
             android:id="@+id/action_hireItem_to_navigation_cart"
             app:destination="@id/navigation_cart" />
+
     </fragment>
 </navigation>

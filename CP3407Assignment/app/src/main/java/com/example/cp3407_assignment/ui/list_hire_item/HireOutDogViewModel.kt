@@ -59,7 +59,7 @@ class HireOutDogViewModel : ViewModel() {
 
 
     var imageUri: Uri? = null
-    var isSuccessful: Boolean = false
+    var dataUploaded: Boolean = false
 
     /*
     Saves to database
@@ -114,10 +114,10 @@ class HireOutDogViewModel : ViewModel() {
                             firebaseFirestore.collection("Dogs").add(data)
                                 .addOnCompleteListener { firestoreTask ->
                                     if (firestoreTask.isSuccessful) {
-                                        isSuccessful = true
+                                        dataUploaded = true
                                         Log.d("Firestore", "Dog listing added successfully")
                                     } else {
-                                        isSuccessful = false
+                                        dataUploaded = false
                                         Log.e("Firestore", "Error adding dog listing")
                                     }
                                 }

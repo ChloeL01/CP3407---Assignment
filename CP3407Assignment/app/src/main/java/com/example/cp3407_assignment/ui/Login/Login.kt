@@ -48,8 +48,8 @@ class Login : Fragment() {
             findNavController().navigate(R.id.action_login_to_navigation_home)
         } else {
             binding.LoginButton.setOnClickListener {
-                val email = binding.UsernameLogin.text.toString()
-                val password = binding.PasswordLogin.text.toString()
+                val email = binding.usernameInput.text.toString()
+                val password = binding.passwordInput.text.toString()
 
                 binding.LoginButton.setOnClickListener {
 
@@ -76,9 +76,21 @@ class Login : Fragment() {
                                                         ).show()
                                                     } else {
                                                         // Handle the case where the username is not found
+                                                        Toast.makeText(
+                                                            context,
+                                                            "Invalid username",
+                                                            Toast.LENGTH_SHORT
+                                                        )
+                                                            .show()
                                                     }
                                                 } else {
                                                     // Handle the case where the document doesn't exist
+                                                    Toast.makeText(
+                                                        context,
+                                                        "Account not found",
+                                                        Toast.LENGTH_SHORT
+                                                    )
+                                                        .show()
                                                 }
                                             }
                                         findNavController().navigate(R.id.action_login_to_navigation_home)
@@ -111,6 +123,13 @@ class Login : Fragment() {
             binding.ReturnToSignInButton.setOnClickListener {
                 findNavController().navigate(R.id.action_login_to_signup)
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.signUpBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_login_to_signup)
         }
     }
 }

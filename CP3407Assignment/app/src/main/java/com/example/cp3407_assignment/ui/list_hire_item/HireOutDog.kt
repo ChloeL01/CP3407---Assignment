@@ -201,7 +201,7 @@ class HireOutDog : Fragment() {
         binding.listDogButton.setOnClickListener { view: View? ->
             listDogViewModel.saveDogListing()
 
-            if (listDogViewModel.isSuccessful) {
+            if (!listDogViewModel.dataUploaded) {
                 view?.findNavController()?.navigate(R.id.action_listHireItem_to_navigation_dogs4)
                 Toast.makeText(context, "Successful upload", Toast.LENGTH_SHORT).show()
             } else {

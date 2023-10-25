@@ -1,6 +1,8 @@
 package com.example.cp3407_assignment.ui.profile
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +15,9 @@ import com.example.cp3407_assignment.databinding.FragmentProfileBinding
 
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 
 
 class ProfileFragment : Fragment() {
@@ -27,11 +32,35 @@ class ProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
 
+        firebaseAuth = Firebase.auth
+
+        updateProfileName()
+
         return binding.root
+    }
+
+    private fun updateProfileName() {
+        val db = FirebaseFirestore.getInstance()
+        val currentUser = firebaseAuth.currentUser?.uid
+        val userRef = db.collection("Users").document(currentUser!!)
+
+        userRef.addSnapshotListener { docSnapshot, firebaseFireStoreException ->
+            if (firebaseFireStoreException != null) {
+                Log.w(TAG, "Listen failed.", firebaseFireStoreException)
+            }
+
+            if (docSnapshot != null && docSnapshot.exists()) {
+                binding.userName.text = docSnapshot["username"].toString()
+                Log.d(TAG, "Current user username: ${docSnapshot["username"]}")
+            } else {
+                Log.d(TAG, "Current user username: null")
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
+        updateProfileName()
 
         binding.changePasswordBtn.setOnClickListener { view: View? ->
             view?.findNavController()?.navigate(R.id.action_navigation_profile_to_changePassword)
@@ -39,6 +68,10 @@ class ProfileFragment : Fragment() {
 
         binding.emailAddress.setOnClickListener { view: View? ->
             view?.findNavController()?.navigate(R.id.action_navigation_profile_to_changeEmail)
+        }
+
+        binding.phoneNumber.setOnClickListener { view: View? ->
+            view?.findNavController()?.navigate(R.id.action_navigation_profile_to_changeMobile)
         }
 
 
@@ -51,7 +84,8 @@ class ProfileFragment : Fragment() {
         }
 
         binding.changePaymentDetailsBtn.setOnClickListener { view: View? ->
-            view?.findNavController()?.navigate(R.id.action_navigation_profile_to_changePaymentDetails)
+            view?.findNavController()
+                ?.navigate(R.id.action_navigation_profile_to_changePaymentDetails)
         }
     }
 }
