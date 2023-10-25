@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-//import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -35,7 +34,7 @@ class Previously_hired : Fragment() {
     private var imageUri: Uri? = null
 
     private val dogDBRef = db.collection("Dogs")
-
+    private val userDBRef = db.collection("Users")
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -82,6 +81,8 @@ class Previously_hired : Fragment() {
 
             val mUploads = ArrayList<Dog>()
             val previousDoggos = ArrayList<Dog>()
+            userDBRef.get()
+
 
             dogDBRef.get()
                 .addOnSuccessListener { queryDocumentSnapshots ->
@@ -93,52 +94,48 @@ class Previously_hired : Fragment() {
                     for (dog in mUploads) {
                         val currentUserData = firebaseAuth.currentUser
                         val userUid = currentUserData?.uid
-                        db.collection("users").document(userUid.toString())
-                            .get()
-                            .addOnSuccessListener { documentSnapshot ->
-                                if (documentSnapshot.exists()) {
-                                    val username =
-                                        documentSnapshot.getString("dogsHired")
-                                }
-                                if (dog.owner_id == userUid.toString()) {
-                                    previousDoggos.add(dog)
-                                }
-                            }
 
 
-                        val mAdapter =
-                            context?.let { PreviouslyHiredItemAdapter(it, previousDoggos) }
-                        myRecyclerView.adapter = mAdapter
-
-                        mAdapter?.setOnClickListener(object :
-                            PreviouslyHiredItemAdapter.OnClickListener {
-                            override fun onClick(position: Int, model: Dog) {
-                                val bundle =
-                                    bundleOf(
-                                        "doggo_name" to model.doggo_name,
-                                        "imageUrl" to model.imageUrl,
-                                        "start_date" to model.hire_start_date,
-                                        "end_date" to model.hire_end_date,
-                                        "breed" to model.doggo_breed
-                                    )
-                                findNavController().navigate(
-                                    R.id.action_previously_hired_to_doggoInformation,
-                                    bundle
-                                )
-                            }
-                        })
-
+                        if (dog.hiree == userUid.toString()) {
+                            previousDoggos.add(dog)
+                        }
                     }
                     if (previousDoggos.size.toString() == "0") {
                         Toast.makeText(
                             context,
-                            "You have not hired any dogs",
+                            "You are not currently hiring any dogs",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+
+                    val mAdapter =
+                        context?.let { PreviouslyHiredItemAdapter(it, previousDoggos) }
+                    myRecyclerView.adapter = mAdapter
+
+                    mAdapter?.setOnClickListener(object :
+                        PreviouslyHiredItemAdapter.OnClickListener {
+                        override fun onClick(position: Int, model: Dog) {
+                            val bundle =
+                                bundleOf(
+                                    "doggo_name" to model.doggo_name,
+                                    "imageUrl" to model.imageUrl,
+                                    "start_date" to model.hire_start_date,
+                                    "end_date" to model.hire_end_date,
+                                    "breed" to model.doggo_breed
+                                )
+                            findNavController().navigate(
+                                R.id.action_previously_hired_to_doggoInformation,
+                                bundle
+                            )
+                        }
+                    })
+
                 }
+
+
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
