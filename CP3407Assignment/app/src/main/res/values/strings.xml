@@ -3,7 +3,137 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="left_arrow"><![CDATA[<—]]></string>
+
+    <string name="sign_in">Sign-up</string>
+    <string name="email">Email:</string>
+    <string name="password">Password:</string>
+    <string name="email_address">Email Address:</string>
+    <string name="phone_number">Phone Number:</string>
+    <string name="confirm">Confirm</string>
+    <string name="already_have_an_account_log_in_now">Already have an account? Log in now</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="enter_email_address">Enter Email Address</string>
+    <string name="login">Login</string>
+    <string name="new_user_sign_up_now">New user? Sign up now</string>
+    <string name="name">Name</string>
+    <string name="description_hint">Describe your dog</string>
+    <string name="hire_dates">Hire Dates</string>
+    <string name="date">Availability dates</string>
+    <string name="end_date">End</string>
+    <string name="contact_type">Contact</string>
+    <string name="image_upload_description">Upload an image of your dog.</string>
+    <string name="list_item_button">Publish</string>
+    <string name="upload">Upload dog picture</string>
+    <string name="permission_required">Image gallery access is required to choose an image of your dog.</string>
+    <string name="permission_granted">Permission is granted. You would use the camera now.</string>
+    <string name="okay">OK</string>
+    <string name="breed">Breed</string>
+    <string name="dog_breed_selection">Dog breed selection</string>
+    <string name="enter_dog_name">Enter dog name</string>
+    <string name="price">Price</string>
+    <string name="choose_breed">Choose a breed</string>
+    <string name="enter_location">Enter location</string>
+    <string name="dogs">Dogs</string>
+    <string name="messages">Messages</string>
+    <string name="cart">Cart</string>
+    <string name="profile">Profile</string>
+
+    <string name="dog_picture">Dog picture</string>
+    <string name="_20_22_nov"><u>20 – 22 Nov</u></string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >6 characters</string>
+    <string name="login_failed">"Login failed"</string>
+
+    <string name="selected_item">Selected item:</string>
+    <string-array name="Filter_options">
+        <item>Price (Low to High)</item>
+        <item>Price (High to Low)</item>
+        <item>Breed (A-Z)</item>
+        <item>Breed (Z-A)</item>
+        <item>Most Popular</item>
+    </string-array>
+    <string name="search_results_number">%1$s Doggos Found</string>
+    <string name="good_boi_pic">Good boi pic</string>
+
+    <string name="hire_date">%1$s - %2$s</string>
+    <string name="hire_doggo_name">%1$s |</string>
+    <string name="hire_cost">$%1$s</string>
+    <string name="doggo_name_hire_page">Name</string>
+    <string name="good_boi_breed">Good boi breed</string>
+    <string name="start_date_end_date">Start date - End date</string>
+    <string name="cost">$$Cost</string>
+
+    <string name="user_name">User name placeholder</string>
+    <string name="settings">Settings</string>
+    <string name="user_contact">Contact details</string>
+    <string name="change_password">Change password</string>
+    <string name="log_out">Log out</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="contact_details">Contact Details</string>
+    <string name="email_address_icon">email address icon</string>
+    <string name="phone_number_icon">phone number icon</string>
+    <string name="password_rules">Your password must be at least six characters and should include a combination of numbers, letter and special characters (!$@%).</string>
+    <string name="current_password">Current password</string>
+    <string name="new_password">New password</string>
+    <string name="retype_new_password">Retype new password</string>
+    <string name="create_dog_listing">Create dog listing</string>
+    <string name="create_doggo_listing_icon">Create doggo listing icon</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="change_email_address">Change Email Address</string>
+    <string name="enter_new_email_address">Enter new email address</string>
+    <string name="re_enter_new_email_address">Re-enter new email address</string>
+    <string name="change_email">Change email</string>
+    <string name="enter_current_email_address">Enter current email address</string>
+    <string name="mobile_verification">Mobile Verification</string>
+    <string name="enter_mobile_phone_number">Enter mobile phone number</string>
+    <string name="change_mobile">Change mobile</string>
+    <string name="change_payment_details">Change payment details</string>
+    <string name="select_payment_type_to_change_to">Select payment type to change to:</string>
+    <string name="submit_changes">Submit changes</string>
+    <string name="card">Card</string>
+    <string name="paypal">Paypal</string>
+    <string name="google_pay">Google Pay</string>
+    <string name="select_availability">Select Availability</string>
+    <string name="doggo_name">Doggo Name</string>
+    <string name="doggo_breed">Doggo breed</string>
+    <string name="dog_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam consectetur nisl a nulla congue, vel lobortis risus faucibus. \n\nAliquam tincidunt justo vel aliquam vulputate. Nam ac lacus scelerisque, mollis dui ac, feugiat ligula. Proin tristique, magna at maximus euismod, leo velit mollis velit, ut porta erat elit ut nisl.</string>
+    <string name="good_boi_points">Good Boi Points</string>
+    <string name="text_review">Best boi ever! Would highly recommend\n\nSo cute! Would have again 5/5\n\n Makes me want a doggo, very well behaved</string>
+    <string name="howl_about_your_experience">Howl About Your Experience!</string>
+    <string name="review_message">Time to share some tail wagging feedback!</string>
+    <string name="title">What stood out about your experience?</string>
+    <string name="rate_that_good_pupper">Rate that good pupper!</string>
+    <string name="review_description_hint">Howl to the moon!\nTell us more about your experience</string>
+    <string name="submit_woof_view">Submit woof-view!</string>
+    <string name="rate_dog_bar">Rate dog bar</string>
+
+    <string name="display_name">Display name:</string>
+    <string name="confirm_password">Confirm password:</string>
+    <string name="change_email_address_label">Change email address</string>
+    <string name="change_phone_number">Change phone number</string>
+
+
+    <string name="start_dates_info">Start Date: %1$s</string>
+    <string name="end_dates_info">End Date: %1$s</string>
+    <string name="hire_cost_info">Total Cost: $%1$s</string>
+    <string name="select_date">Select Date</string>
+    <string name="cart_title">Cart</string>
+    <string name="home_title">Home</string>
+    <string name="doggos_search_counter">5 Doggos Found</string>
+    <string name="total">Total:</string>
+    <string name="checkout">Checkout</string>
+
+    <string name="share_doggos_text">Look at this cute doggo! %1$s: Available from %2$s - %3$s. $%4$s </string>
+
+<string name="left_arrow"><![CDATA[<—]]></string>
     <string name="month_year_text">Sep 2023</string>
     <string name="right_arrow"><![CDATA[—>]]></string>
     <string name="monday_text">MON</string>
@@ -31,4 +161,5 @@
     <string name="make_payment">Make Payment</string>
     <string name="credit_card_mobile_number">"Credit Card Mbl Number:"</string>
     <string name="placeholder_mobile_number">0000 0000</string>
+
 </resources>

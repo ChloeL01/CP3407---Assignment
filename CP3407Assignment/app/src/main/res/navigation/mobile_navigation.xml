@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/login">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -11,18 +11,220 @@
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_navigation_home_to_hireScheduleFragment"
-            app:destination="@id/hireScheduleFragment" />
+            android:id="@+id/action_navigation_home_to_doggoInformation"
+            app:destination="@id/doggoInformation" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.cp3407_assignment.ui.dashboard.DashboardFragment"
+        android:id="@+id/navigation_dogs"
+        android:name="com.example.cp3407_assignment.ui.dogs.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dogs" >
+        <action
+            android:id="@+id/action_navigation_dogs_to_listHireItem"
+            app:destination="@id/listHireItem" />
+
+        <action
+            android:id="@+id/action_navigation_to_currently_hiring"
+            app:destination="@id/currently_Hiring" />
+        <action
+            android:id="@+id/action_navigation_to_previously_hired"
+            app:destination="@id/previously_hired" />
+        <action
+            android:id="@+id/action_navigation_dogs_to_dogReview"
+            app:destination="@id/dogReview" />
+
+
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_messages"
+        android:name="com.example.cp3407_assignment.ui.messages.NotificationsFragment"
+        android:label="@string/title_notifications"/>
+<!--        tools:layout="@layout/fragment_notifications" />-->
+    <fragment
+        android:id="@+id/listHireItem"
+        android:name="com.example.cp3407_assignment.ui.list_hire_item.HireOutDog"
+        android:label="Tell us more about your pooch!"
+
+        tools:layout="@layout/fragment_messages" >
+        <action
+            android:id="@+id/action_listHireItem_to_navigation_dogs4"
+            app:destination="@id/navigation_dogs" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_cart"
+        android:name="com.example.cp3407_assignment.ui.cart.CartFragment"
+        android:label="@string/cart"
+        tools:layout="@layout/fragment_cart" />
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.cp3407_assignment.ui.profile.ProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_profile_to_changePassword"
+            app:destination="@id/changePassword" />
+        <action
+            android:id="@+id/action_navigation_profile_to_changeEmail"
+            app:destination="@id/changeEmail" />
+        <action
+
+            android:id="@+id/action_navigation_profile_to_login"
+            app:destination="@id/login" />
+
+         <action
+            android:id="@+id/action_navigation_profile_to_changePaymentDetails"
+            app:destination="@id/changePaymentDetails" />
+        <action
+            android:id="@+id/action_navigation_profile_to_changeMobile"
+            app:destination="@id/changeMobile" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/doggoInformation"
+        android:name="com.example.cp3407_assignment.ui.home.DoggoInformation"
+        android:label="fragment_doggo_information"
+        tools:layout="@layout/fragment_doggo_information" >
+
+        <action
+            android:id="@+id/action_doggoInformation_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_doggoInformation_to_hireItem"
+            app:destination="@id/hireItem" />
+        <argument
+            android:name="doggo_name"
+            app:argType="string"
+            android:defaultValue="name" />
+        <argument
+            android:name="description"
+            app:argType="string"
+            android:defaultValue="Description goes here" />
+        <argument
+            android:name="reviews"
+            app:argType="string"
+            android:defaultValue="reviews" />
+        <argument
+            android:name="start_date"
+            app:argType="string"
+            android:defaultValue="start_date" />
+        <argument
+            android:name="end_date"
+            app:argType="string"
+
+            android:defaultValue="end date" />
+        <action
+            android:id="@+id/action_doggoInformation_to_dogReview"
+            app:destination="@id/dogReview" />
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/login"
+        android:name="com.example.cp3407_assignment.ui.Login.Login"
+        android:label="Login" >
+        <action
+            android:id="@+id/action_login_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_login_to_signup"
+            app:destination="@id/signup" />
+    </fragment>
+    <fragment
+        android:id="@+id/signup"
+        android:name="com.example.cp3407_assignment.ui.Signup.Signup"
+        android:label="Signup" >
+        <action
+            android:id="@+id/action_signup_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_signup_to_login"
+            app:destination="@id/login" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePassword"
+        android:name="com.example.cp3407_assignment.ui.settings.ChangePassword"
+        android:label="ChangePassword" >
+        <action
+            android:id="@+id/action_changePassword_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeEmail"
+        android:name="com.example.cp3407_assignment.ui.profile.ChangeEmail"
+        android:label="ChangeEmail" >
+        <action
+            android:id="@+id/action_changeEmail_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/currently_Hiring"
+        android:name="com.example.cp3407_assignment.ui.current_hire.CurrentHireFragment"
+        android:label="fragment_current_hire"
+        tools:layout="@layout/fragment_current_hire" >
+        <action
+            android:id="@+id/action_currently_Hiring_to_doggoInformation"
+            app:destination="@id/doggoInformation" />
+        <action
+            android:id="@+id/action_currently_Hiring_to_navigation_dogs"
+            app:destination="@id/navigation_dogs" />
+    </fragment>
+    <fragment
+        android:id="@+id/previously_hired"
+        android:name="com.example.cp3407_assignment.ui.previously_hired.Previously_hired"
+        android:label="fragment_previously_hired"
+        tools:layout="@layout/fragment_previously_hired" >
+        <action
+            android:id="@+id/action_previously_hired_to_doggoInformation2"
+            app:destination="@id/doggoInformation" />
+        <action
+            android:id="@+id/action_previously_hired_to_navigation_dogs"
+            app:destination="@id/navigation_dogs" />
+        <action
+          android:id="@+id/action_previously_hired_to_doggoInformation"
+          app:destination="@id/doggoInformation" />
+    </fragment>
+    
+    <fragment
+        android:id="@+id/changePaymentDetails"
+        android:name="com.example.cp3407_assignment.ui.settings.ChangePaymentDetails"
+        android:label="ChangePaymentDetails" >
+        <action
+            android:id="@+id/action_changePaymentDetails_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/dogReview"
+        android:name="com.example.cp3407_assignment.ui.dogs.DogReview"
+
+        android:label="DogReview" >
+        <action
+            android:id="@+id/action_dogReview_to_doggoInformation"
+            app:destination="@id/doggoInformation" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeMobile"
+        android:name="com.example.cp3407_assignment.ui.profile.ChangeMobile"
+        android:label="ChangeMobile" >
+
+    </fragment>
+        <action
+            android:id="@+id/action_changeMobile_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+
+
+    <fragment
+        android:id="@+id/hireItem"
+        android:name="com.example.cp3407_assignment.ui.hire_item.HireItem"
+        android:label="fragment_hire_item"
+        tools:layout="@layout/fragment_hire_item" >
+        <action
+            android:id="@+id/action_hireItem_to_navigation_cart"
+            app:destination="@id/navigation_cart" />
+      
+      
+              android:id="@+id/navigation_notifications"
         android:name="com.example.cp3407_assignment.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
@@ -38,5 +240,6 @@
         <action
             android:id="@+id/action_hireScheduleFragment_to_paymentFragment"
             app:destination="@id/paymentFragment" />
+
     </fragment>
 </navigation>

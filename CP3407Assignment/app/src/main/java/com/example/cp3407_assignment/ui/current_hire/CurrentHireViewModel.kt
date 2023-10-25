@@ -1,13 +1,14 @@
-package com.example.cp3407_assignment.ui.dashboard
+package com.example.cp3407_assignment.ui.current_hire
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class DashboardViewModel : ViewModel() {
+class CurrentHireViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+        value = "This is Currently Hiring Fragment"
     }
     val text: LiveData<String> = _text
+
 }

@@ -1,4 +1,4 @@
-package com.example.cp3407_assignment.ui.notifications
+package com.example.cp3407_assignment.ui.messages
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
