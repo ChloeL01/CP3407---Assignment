@@ -129,7 +129,6 @@ class Signup : Fragment() {
                 ).show()
                 updatePasswordFields()
             } else {
-
                 firebaseAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { authResult ->
                         if (authResult.isSuccessful) {
@@ -167,35 +166,35 @@ class Signup : Fragment() {
                         }
                     }
             }
-                    }
-                }
-
-        }
-        val returnToLoginButton = binding.returnToLoginButton
-        returnToLoginButton.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_signup_to_login
-            )
         }
     }
 
-    private fun updatePasswordFields() {
-        binding.passwordInput.removeTextChangedListener(textWatcher)
-        binding.confirmPassword.removeTextChangedListener(textWatcher)
-        binding.passwordInput.text?.clear()
-        binding.confirmPassword.text?.clear()
-        binding.passwordInput.addTextChangedListener(textWatcher)
-        binding.confirmPassword.addTextChangedListener(textWatcher)
-    }
 
-    private fun handleKeyEvent(view: View, keyCode: Int): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_ENTER) {
-            // Hide keyboard
-            val inputMethodManager =
-                view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-            return true
-        }
-        return false
+//        val returnToLoginButton = binding.returnToLoginButton
+//        returnToLoginButton.setOnClickListener {
+//            findNavController().navigate(
+//                R.id.action_signup_to_login
+//            )
+//        }
+//    }
+
+private fun updatePasswordFields() {
+    binding.passwordInput.removeTextChangedListener(textWatcher)
+    binding.confirmPassword.removeTextChangedListener(textWatcher)
+    binding.passwordInput.text?.clear()
+    binding.confirmPassword.text?.clear()
+    binding.passwordInput.addTextChangedListener(textWatcher)
+    binding.confirmPassword.addTextChangedListener(textWatcher)
+}
+
+private fun handleKeyEvent(view: View, keyCode: Int): Boolean {
+    if (keyCode == KeyEvent.KEYCODE_ENTER) {
+        // Hide keyboard
+        val inputMethodManager =
+            view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+        return true
     }
+    return false
+}
 }

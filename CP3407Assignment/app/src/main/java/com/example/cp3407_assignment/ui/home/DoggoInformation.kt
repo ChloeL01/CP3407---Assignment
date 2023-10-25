@@ -47,9 +47,6 @@ class DoggoInformation : Fragment() {
             val bundle = bundleOf("dogId" to dogId)
             findNavController().navigate(R.id.action_doggoInformation_to_dogReview, bundle)
         }
-        return root
-    }
-
 
         binding.selectAvailability.setOnClickListener {
             val bundle =

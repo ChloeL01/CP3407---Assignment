@@ -37,7 +37,6 @@ import java.util.*
 open class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-    var dogId = ""
 
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var storageReference: StorageReference
@@ -205,36 +204,6 @@ open class HomeFragment : Fragment() {
                 materialDatePicker(pair)
             }
         }
-
-        // update the recyclerview
-        dogDBRef.get()
-            .addOnSuccessListener { queryDocumentSnapshots ->
-                for (documentSnapshot in queryDocumentSnapshots) {
-                    val dog = documentSnapshot.toObject<Dog>()
-                    dogId = documentSnapshot.id
-                    mUploads.add(dog)
-                }
-                val mAdapter = context?.let { ImageAdapter(it, mUploads) }
-                mRecyclerView.adapter = mAdapter
-
-                mAdapter?.setOnClickListener(object : ImageAdapter.OnClickListener {
-                    override fun onClick(position: Int, model: Dog) {
-                        val bundle =
-                            bundleOf(
-                                "dogId" to model.id,
-                                "doggo_name" to model.doggo_name,
-                                "imageUrl" to model.imageUrl,
-                                "description" to model.description,
-                                "reviews" to model.doggo_review,
-                                "start_date" to model.hire_start_date,
-                                "end_date" to model.hire_end_date
-                            )
-                        findNavController().navigate(
-                            R.id.action_navigation_home_to_doggoInformation,
-                            bundle
-                        )
-                    }
-                })
 
     }
 
@@ -413,53 +382,53 @@ open class HomeFragment : Fragment() {
         }
     }
 
-   /* private fun uploadImage() { //TODO use this to upload a doggo to the database
-        // call this to upload the doggo to the server
-        storageReference = storageReference.child(System.currentTimeMillis().toString())
-        imageUri?.let {
-            storageReference.putFile(it).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    storageReference.downloadUrl.addOnSuccessListener { uri ->
-                        val upload = Dog( //TODO replace with user input
-                            "new doggo name",
-                            "new doggo breed",
-                            "new doggo description goes here",
-                            "new doggo hire date start",
-                            "new doggo hire date end",
-                            "new doggo cost",
-                            "new doggo good boi points",
-                            "owner id",
-                            "owner contact",
-                            "hiree",
-                            uri.toString()
-                        )
-                        firebaseFirestore.collection("Dogs").add(upload)
-                            .addOnCompleteListener { firestoreTask ->
+    /* private fun uploadImage() { //TODO use this to upload a doggo to the database
+         // call this to upload the doggo to the server
+         storageReference = storageReference.child(System.currentTimeMillis().toString())
+         imageUri?.let {
+             storageReference.putFile(it).addOnCompleteListener { task ->
+                 if (task.isSuccessful) {
+                     storageReference.downloadUrl.addOnSuccessListener { uri ->
+                         val upload = Dog( //TODO replace with user input
+                             "new doggo name",
+                             "new doggo breed",
+                             "new doggo description goes here",
+                             "new doggo hire date start",
+                             "new doggo hire date end",
+                             "new doggo cost",
+                             "new doggo good boi points",
+                             "owner id",
+                             "owner contact",
+                             "hiree",
+                             uri.toString()
+                         )
+                         firebaseFirestore.collection("Dogs").add(upload)
+                             .addOnCompleteListener { firestoreTask ->
 
-                                if (firestoreTask.isSuccessful) {
-                                    Toast.makeText(
-                                        context,
-                                        "Uploaded Successfully",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                } else {
-                                    Toast.makeText(
-                                        context,
-                                        firestoreTask.exception?.message,
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                                //binding.imageView.setImageResource(R.drawable.vector) TODO replace imageview with the doggo pic
-                            }
-                    }
-                } else {
-                    Toast.makeText(context, task.exception?.message, Toast.LENGTH_SHORT).show()
-                    //binding.imageView.setImageResource(R.drawable.vector) TODO replace imageview with a 'fail to upload' pic
-                }
-            }
-        }
-*/
-  override fun onPause() {
+                                 if (firestoreTask.isSuccessful) {
+                                     Toast.makeText(
+                                         context,
+                                         "Uploaded Successfully",
+                                         Toast.LENGTH_SHORT
+                                     ).show()
+                                 } else {
+                                     Toast.makeText(
+                                         context,
+                                         firestoreTask.exception?.message,
+                                         Toast.LENGTH_SHORT
+                                     ).show()
+                                 }
+                                 //binding.imageView.setImageResource(R.drawable.vector) TODO replace imageview with the doggo pic
+                             }
+                     }
+                 } else {
+                     Toast.makeText(context, task.exception?.message, Toast.LENGTH_SHORT).show()
+                     //binding.imageView.setImageResource(R.drawable.vector) TODO replace imageview with a 'fail to upload' pic
+                 }
+             }
+         }
+ */
+    override fun onPause() {
         super.onPause()
         recyclerListPosition =
             (mRecyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()

@@ -120,7 +120,7 @@ class Login : Fragment() {
                     }
                 }
             }
-            binding.ReturnToSignInButton.setOnClickListener {
+            binding.signUpBtn.setOnClickListener {
                 findNavController().navigate(R.id.action_login_to_signup)
             }
         }

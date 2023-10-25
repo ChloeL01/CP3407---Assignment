@@ -118,7 +118,6 @@
             android:id="@+id/action_doggoInformation_to_dogReview"
             app:destination="@id/dogReview" />
 
-            android:defaultValue="end_date" />
 
     </fragment>
     <fragment
@@ -208,11 +207,13 @@
         android:id="@+id/changeMobile"
         android:name="com.example.cp3407_assignment.ui.profile.ChangeMobile"
         android:label="ChangeMobile" >
+
+    </fragment>
         <action
             android:id="@+id/action_changeMobile_to_navigation_profile"
             app:destination="@id/navigation_profile" />
 
-        android:label="DogReview" />
+
     <fragment
         android:id="@+id/hireItem"
         android:name="com.example.cp3407_assignment.ui.hire_item.HireItem"
