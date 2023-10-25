@@ -3,8 +3,8 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="sign_in">Sign-in</string>
-    <string name="username">Username:</string>
+    <string name="sign_in">Sign-up</string>
+    <string name="email">Email:</string>
     <string name="password">Password:</string>
     <string name="email_address">Email Address:</string>
     <string name="phone_number">Phone Number:</string>
@@ -113,6 +113,12 @@
     <string name="review_description_hint">Howl to the moon!\nTell us more about your experience</string>
     <string name="submit_woof_view">Submit woof-view!</string>
     <string name="rate_dog_bar">Rate dog bar</string>
+
+    <string name="display_name">Display name:</string>
+    <string name="confirm_password">Confirm password:</string>
+    <string name="change_email_address_label">Change email address</string>
+    <string name="change_phone_number">Change phone number</string>
+
 
     <string name="start_dates_info">Start Date: %1$s</string>
     <string name="end_dates_info">End Date: %1$s</string>
