@@ -106,6 +106,7 @@ class Signup : Fragment() {
             // if all good upload to authentication -> email and password
             // upload details to user collection
 
+
             val userName = binding.userNameInput.text.toString()
             val phoneNumber = binding.phoneNumberInput.text.toString()
 
@@ -166,6 +167,15 @@ class Signup : Fragment() {
                         }
                     }
             }
+                    }
+                }
+
+        }
+        val returnToLoginButton = binding.returnToLoginButton
+        returnToLoginButton.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_signup_to_login
+            )
         }
     }
 

@@ -40,6 +40,10 @@ class HireOutDogViewModel : ViewModel() {
     val breed: MutableLiveData<String>
         get() = _breed
 
+    private val _hiree = MutableLiveData<String>()
+    val hiree: MutableLiveData<String>
+        get() = _hiree
+
     private val _contactType = MutableLiveData<String>()
     val contactType: MutableLiveData<String>
         get() = _contactType
@@ -61,6 +65,29 @@ class HireOutDogViewModel : ViewModel() {
     Saves to database
      */
     fun saveDogListing() {
+      /*  storageReference = storageReference.child(System.currentTimeMillis().toString())
+        imageUri?.let {
+            storageReference.putFile(it).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    storageReference.downloadUrl.addOnSuccessListener { uri ->
+                        val upload = Dog(
+                            _dogName.value ?: "",
+                            _breed.value ?: "",
+                            _description.value ?: "",
+                            _startDate.value ?: "",
+                            _endDate.value ?: "",
+                            _cost.value.toString(),
+                            "new doggo good boi points",
+                            _userName.value.toString(),
+                            _contactType.value.toString(),
+                            _hiree.value ?: "",
+                            uri.toString()
+                        )
+                        firebaseFirestore.collection("Dogs").add(upload)
+                            .addOnCompleteListener { firestoreTask ->
+                                isSuccessful = firestoreTask.isSuccessful
+                            }*/
+
         firebaseAuth = Firebase.auth
 
         val currentUser = firebaseAuth.currentUser
@@ -81,7 +108,8 @@ class HireOutDogViewModel : ViewModel() {
                                 "new doggo good boi points",
                                 userUid,
                                 _contactType.value.toString(),
-                                uri.toString()
+                                uri.toString(),
+                                _hiree.value ?: ""
                             )
                             firebaseFirestore.collection("Dogs").add(data)
                                 .addOnCompleteListener { firestoreTask ->
