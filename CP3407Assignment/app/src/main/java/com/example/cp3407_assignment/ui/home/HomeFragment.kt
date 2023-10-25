@@ -105,7 +105,6 @@ class HomeFragment : Fragment() {
                             bundle
                         )
                     }
-
                 })
             }
     }
