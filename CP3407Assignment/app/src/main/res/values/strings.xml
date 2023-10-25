@@ -15,7 +15,7 @@
     <string name="sunday_text">SUN</string>
     <string name="block_text">1</string>
     <string name="confirm_dates">Confirm Date/s</string>
-    <string name="payment_details">Payment Details</string>
+    <string name="payment_details">Payment Details:</string>
     <string name="credit_card_type">Credit Card Type:</string>
     <string name="placeholder_type">Placeholder Type</string>
     <string name="placeholder_name">Placeholder Name</string>

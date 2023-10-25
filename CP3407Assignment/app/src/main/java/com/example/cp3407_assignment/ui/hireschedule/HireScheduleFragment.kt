@@ -1,6 +1,5 @@
 package com.example.cp3407_assignment.ui.hireschedule
 
-import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cp3407_assignment.R
@@ -17,9 +18,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
-class HireScheduleFragment : Activity(), CalenderAdapter.OnItemListener {
-//    private var _binding: FragmentHireScheduleBinding? = null
-//    private val binding get() = _binding!!
+class HireScheduleFragment : Fragment(), CalenderAdapter.OnItemListener {
 
     private var calenderRecyclerView: RecyclerView? = null
     private lateinit var dateSelection: LocalDate
@@ -31,14 +30,12 @@ class HireScheduleFragment : Activity(), CalenderAdapter.OnItemListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-//        _binding = FragmentHireScheduleBinding.inflate(inflater, container, false)
-        val binding: FragmentHireScheduleBinding =
-            DataBindingUtil.setContentView(this, R.layout.fragment_hire_schedule)
-
-//        binding =
-//            DataBindingUtil.inflate(inflater, R.layout.fragment_hire_schedule, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_hire_schedule, container, false)
+        binding.confirmButton.setOnClickListener{
+            findNavController().navigate(R.id.action_hireScheduleFragment_to_paymentFragment)
+        }
         initialiseWidgets()
-        //TODO: implement recyclerView using binding
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             dateSelection = LocalDate.now()
         }
@@ -52,7 +49,7 @@ class HireScheduleFragment : Activity(), CalenderAdapter.OnItemListener {
             binding.textMonthYear.text = dateForMonthYear(dateSelection)
         }
         val daysInMonth: ArrayList<String> = daysInMonthArray(dateSelection)
-        calenderRecyclerView?.layoutManager = GridLayoutManager(applicationContext, 7)
+        calenderRecyclerView?.layoutManager = GridLayoutManager(context, 7)
         calenderRecyclerView?.adapter = CalenderAdapter(daysInMonth, this)
     }
 
@@ -99,13 +96,13 @@ class HireScheduleFragment : Activity(), CalenderAdapter.OnItemListener {
         selectMonthView()
     }
 
-    fun onClickDateConfirmation(){
+    fun onClickDateConfirmation() {
         //TODO attempt to make dates in recyclerview clickable and assignable for recording on database
 
         //TODO when button is clicked, assign selected dates to database
     }
 
-    fun onClickDateSelection(){
+    fun onClickDateSelection() {
         //TODO make items in recycler view clickable and associated dates stored within array
     }
 
@@ -114,7 +111,7 @@ class HireScheduleFragment : Activity(), CalenderAdapter.OnItemListener {
         if (dayText == "") {
             val message: String =
                 "This date has been selected: " + dayText + " " + dateForMonthYear(dateSelection)
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+            Toast.makeText(requireActivity(), message, Toast.LENGTH_LONG).show()
         }
     }
 

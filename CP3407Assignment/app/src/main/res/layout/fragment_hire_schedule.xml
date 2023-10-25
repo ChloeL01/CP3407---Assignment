@@ -38,7 +38,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@null"
-                android:onClick="@{() -> previousMonth.onClickPreviousMonth()}"
                 android:text="@string/left_arrow"
                 android:textColor="@color/red"
                 android:textSize="25sp"
@@ -154,11 +153,9 @@
                 android:id="@+id/confirm_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@null"
-                android:onClick="@{() -> dateConfirmation.onClickDateConfirmation()}"
                 android:text="@string/confirm_dates"
-                android:textColor="@color/black"
                 android:textSize="23sp" />
+<!--            android:onClick="@{() -> dateConfirmation.onClickDateConfirmation()}"-->
 
         </LinearLayout>
 

@@ -1,32 +1,38 @@
 package com.example.cp3407_assignment.ui.payment
 
-import android.content.Context
+import android.os.Bundle
 import android.text.InputType
-import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.braintreepayments.cardform.view.CardForm
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentPaymentBinding
 
-class PaymentFragment : AppCompatActivity() {
+class PaymentFragment : Fragment() {
 
     private lateinit var cardForm: CardForm
     private lateinit var binding: FragmentPaymentBinding
-    lateinit var cardInfoArray: MutableList<String>
+    private lateinit var cardInfoArray: Array<String>
 
     override fun onCreateView(
-        name: String,
-        context: Context,
-        attrs: AttributeSet
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.setContentView(this, R.layout.fragment_payment)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_payment, container, false)
+        binding.hirePayment.setOnClickListener {
+            onClickPaymentConfirmation(cardInfoArray)
+        }
         initialiseCardForm(binding)
         initialisePayment(binding)
 
         //TODO add list contents to database
+
 
         return binding.root
     }
@@ -41,7 +47,7 @@ class PaymentFragment : AppCompatActivity() {
             .mobileNumberRequired(true)
             .mobileNumberExplanation("Mobile Number required for SMS verification")
             .actionLabel("Pay for Hire")
-            .setup(this@PaymentFragment)
+            .setup(requireActivity())
 
         cardForm.cvvEditText.inputType =
             InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
@@ -58,7 +64,7 @@ class PaymentFragment : AppCompatActivity() {
         binding.hirePayment.setOnClickListener {
             if (cardForm.isValid) {
                 Toast.makeText(
-                    this@PaymentFragment, "Card holder name: $cardHolderName \n" +
+                    requireActivity(), "Card holder name: $cardHolderName \n" +
                             "Card Number: $num \n" +
                             "Card CVV: $cvv \n" +
                             "Card expiry date: $expireDate \n" +
@@ -68,7 +74,7 @@ class PaymentFragment : AppCompatActivity() {
                 ).show()
             } else {
                 Toast.makeText(
-                    this@PaymentFragment,
+                    requireActivity(),
                     "Please complete the payment form.",
                     Toast.LENGTH_SHORT
                 ).show()
@@ -82,7 +88,7 @@ class PaymentFragment : AppCompatActivity() {
         binding.cardMobileNumber.setText(mobileNum)
     }
 
-    fun onClickPaymentConfirmation(cardInfoArray: Array<String>): MutableList<String> {
+    private fun onClickPaymentConfirmation(cardInfoArray: Array<String>): MutableList<String> {
         val cardInfoList = cardInfoArray.toMutableList()
         cardInfoList.add(binding.cardName.toString())
         cardInfoList.add(binding.cardNumber.toString())
