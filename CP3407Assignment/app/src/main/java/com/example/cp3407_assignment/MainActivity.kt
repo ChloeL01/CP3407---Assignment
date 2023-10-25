@@ -1,7 +1,6 @@
 package com.example.cp3407_assignment
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
@@ -22,9 +21,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //remove that back button from the top left corner
-
-
         val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
@@ -40,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         )
 //        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
         // start from default position
         navView.setOnItemSelectedListener { item ->
             NavigationUI.onNavDestinationSelected(item, navController)

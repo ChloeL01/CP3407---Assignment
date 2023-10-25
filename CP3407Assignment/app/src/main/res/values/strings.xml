@@ -3,6 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
     <string name="sign_in">Sign-up</string>
     <string name="email">Email:</string>
     <string name="password">Password:</string>
@@ -131,5 +132,34 @@
     <string name="checkout">Checkout</string>
 
     <string name="share_doggos_text">Look at this cute doggo! %1$s: Available from %2$s - %3$s. $%4$s </string>
+
+<string name="left_arrow"><![CDATA[<—]]></string>
+    <string name="month_year_text">Sep 2023</string>
+    <string name="right_arrow"><![CDATA[—>]]></string>
+    <string name="monday_text">MON</string>
+    <string name="tuesday_text">TUE</string>
+    <string name="wednesday_text">WED</string>
+    <string name="thursday_text">THU</string>
+    <string name="friday_text">FRI</string>
+    <string name="saturday_text">SAT</string>
+    <string name="sunday_text">SUN</string>
+    <string name="block_text">1</string>
+    <string name="confirm_dates">Confirm Date/s</string>
+    <string name="payment_details">Payment Details:</string>
+    <string name="credit_card_type">Credit Card Type:</string>
+    <string name="placeholder_type">Placeholder Type</string>
+    <string name="placeholder_name">Placeholder Name</string>
+    <string name="credit_card_name">Credit Card Name:</string>
+    <string name="placeholder_number">Placeholder Number</string>
+    <string name="credit_card_number">Credit Card Number:</string>
+    <string name="credit_card_cvv_number">Credit Card CVV Number:</string>
+    <string name="placeholder_cvv_number">CVV Number</string>
+    <string name="placeholder_expiry_date">Expiry Date</string>
+    <string name="credit_card_expiry_date">Credit Card Expiry Date:</string>
+    <string name="placeholder_post_code">Post Code</string>
+    <string name="credit_card_post_code">Credit Card Post Code:</string>
+    <string name="make_payment">Make Payment</string>
+    <string name="credit_card_mobile_number">"Credit Card Mbl Number:"</string>
+    <string name="placeholder_mobile_number">0000 0000</string>
 
 </resources>

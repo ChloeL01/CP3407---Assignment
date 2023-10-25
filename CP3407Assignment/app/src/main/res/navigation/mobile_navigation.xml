@@ -222,6 +222,24 @@
         <action
             android:id="@+id/action_hireItem_to_navigation_cart"
             app:destination="@id/navigation_cart" />
+      
+      
+              android:id="@+id/navigation_notifications"
+        android:name="com.example.cp3407_assignment.ui.notifications.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.example.cp3407_assignment.ui.payment.PaymentFragment"
+        android:label="fragment_payment"
+        tools:layout="@layout/fragment_payment" />
+    <fragment
+        android:id="@+id/hireScheduleFragment"
+        android:name="com.example.cp3407_assignment.ui.hireschedule.HireScheduleFragment"
+        android:label="HireScheduleFragment" >
+        <action
+            android:id="@+id/action_hireScheduleFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
 
     </fragment>
 </navigation>
