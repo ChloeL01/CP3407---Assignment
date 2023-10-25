@@ -104,13 +104,7 @@ class Previously_hired : Fragment() {
                                     previousDoggos.add(dog)
                                 }
                             }
-                        if (previousDoggos.size.toString() == "0") {
-                            Toast.makeText(
-                                context,
-                                "You have not hired any dogs",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+
 
                         val mAdapter =
                             context?.let { PreviouslyHiredItemAdapter(it, previousDoggos) }
@@ -134,6 +128,13 @@ class Previously_hired : Fragment() {
                             }
                         })
 
+                    }
+                    if (previousDoggos.size.toString() == "0") {
+                        Toast.makeText(
+                            context,
+                            "You have not hired any dogs",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
         }
