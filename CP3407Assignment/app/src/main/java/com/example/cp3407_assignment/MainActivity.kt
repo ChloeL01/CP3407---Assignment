@@ -1,6 +1,7 @@
 package com.example.cp3407_assignment
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination: NavDestination, _ ->
             if (destination.id == R.id.listHireItem || destination.id == R.id.doggoInformation
                 || destination.id == R.id.login || destination.id == R.id.signup || destination.id == R.id.hireItem
+                || destination.id == R.id.hireScheduleFragment
             ) {
                 navView.visibility = View.INVISIBLE
             } else {

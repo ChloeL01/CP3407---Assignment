@@ -12,14 +12,6 @@
         android:layout_height="match_parent"
         tools:context=".ui.dogs.DashboardFragment">
 
-        <!--    Display current dogs out for hire-->
-
-
-        <!--    Dog hire wishlist-->
-
-
-        <!--    Hire a dog out-->
-
         <TextView
             android:id="@+id/doggo_title"
             android:layout_width="wrap_content"
@@ -42,34 +34,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/doggo_title" />
 
-        <ImageView
-            android:id="@+id/create_ic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_marginTop="20dp"
-            android:contentDescription="@string/create_doggo_listing_icon"
-            app:layout_constraintStart_toStartOf="@+id/doggo_title"
-
-            app:layout_constraintTop_toBottomOf="@+id/doggo_title"
-            app:srcCompat="@drawable/create_ic" />
+        <!--        <ImageView-->
+        <!--            android:id="@+id/create_ic"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="20dp"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/contact_title_divider"-->
+        <!--            android:contentDescription="@string/create_doggo_listing_icon"-->
+        <!--            app:layout_constraintEnd_toStartOf="@+id/create_listing"-->
+        <!--            app:srcCompat="@drawable/create_ic" />-->
 
         <Button
             android:id="@+id/create_listing"
-            android:layout_width="wrap_content"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="108dp"
+            android:layout_marginTop="20dp"
             android:text="@string/create_dog_listing"
-            app:layout_constraintBottom_toBottomOf="@+id/create_ic"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/contact_title_divider"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_title_divider" />
 
         <Button
             android:id="@+id/Currently_Hiring_Button"
-            android:layout_width="wrap_content"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="50dp"
             android:text="View Currently Hired Dogs"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,23 +66,13 @@
 
         <Button
             android:id="@+id/Previously_Hired_Button"
-            android:layout_width="wrap_content"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:text="VIEW PREVIOUSLY HIRED DOGS"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Currently_Hiring_Button" />
-
-<!--        <Button-->
-<!--            android:id="@+id/review_btn"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="10dp"-->
-<!--            android:text="Leave a review"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/create_ic"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/create_listing" />-->
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

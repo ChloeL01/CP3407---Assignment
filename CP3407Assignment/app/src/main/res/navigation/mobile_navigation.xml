@@ -12,7 +12,15 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_navigation_home_to_doggoInformation"
-            app:destination="@id/doggoInformation" />
+            app:destination="@id/doggoInformation" >
+            <argument
+                android:name="doggo_name" />
+            <argument
+                android:name="reviews"
+                app:argType="string"
+                app:nullable="true"
+                android:defaultValue="&quot;&quot;" />
+        </action>
     </fragment>
 
     <fragment
@@ -56,7 +64,11 @@
         android:id="@+id/navigation_cart"
         android:name="com.example.cp3407_assignment.ui.cart.CartFragment"
         android:label="@string/cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_navigation_cart_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.example.cp3407_assignment.ui.profile.ProfileFragment"
@@ -90,9 +102,6 @@
         <action
             android:id="@+id/action_doggoInformation_to_navigation_home"
             app:destination="@id/navigation_home" />
-        <action
-            android:id="@+id/action_doggoInformation_to_hireItem"
-            app:destination="@id/hireItem" />
         <argument
             android:name="doggo_name"
             app:argType="string"
@@ -117,6 +126,9 @@
         <action
             android:id="@+id/action_doggoInformation_to_dogReview"
             app:destination="@id/dogReview" />
+        <action
+            android:id="@+id/action_doggoInformation_to_hireScheduleFragment"
+            app:destination="@id/hireScheduleFragment" />
 
 
     </fragment>
@@ -218,16 +230,8 @@
         android:id="@+id/hireItem"
         android:name="com.example.cp3407_assignment.ui.hire_item.HireItem"
         android:label="fragment_hire_item"
-        tools:layout="@layout/fragment_hire_item" >
-        <action
-            android:id="@+id/action_hireItem_to_navigation_cart"
-            app:destination="@id/navigation_cart" />
-      
-      
-              android:id="@+id/navigation_notifications"
-        android:name="com.example.cp3407_assignment.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_hire_item" />
+
     <fragment
         android:id="@+id/paymentFragment"
         android:name="com.example.cp3407_assignment.ui.payment.PaymentFragment"
@@ -238,8 +242,7 @@
         android:name="com.example.cp3407_assignment.ui.hireschedule.HireScheduleFragment"
         android:label="HireScheduleFragment" >
         <action
-            android:id="@+id/action_hireScheduleFragment_to_paymentFragment"
-            app:destination="@id/paymentFragment" />
-
+            android:id="@+id/action_hireScheduleFragment_to_navigation_cart"
+            app:destination="@id/navigation_cart" />
     </fragment>
 </navigation>

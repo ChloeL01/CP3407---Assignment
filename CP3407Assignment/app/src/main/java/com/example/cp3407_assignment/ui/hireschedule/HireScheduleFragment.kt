@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -14,13 +15,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cp3407_assignment.R
 import com.example.cp3407_assignment.databinding.FragmentHireScheduleBinding
+import com.example.cp3407_assignment.ui.home.ImageAdapter
+import com.google.android.play.integrity.internal.z
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
 class HireScheduleFragment : Fragment(), CalenderAdapter.OnItemListener {
 
-    private var calenderRecyclerView: RecyclerView? = null
+    private lateinit var calenderRecyclerView: RecyclerView
     private lateinit var dateSelection: LocalDate
     private lateinit var binding: FragmentHireScheduleBinding
 
@@ -32,9 +35,25 @@ class HireScheduleFragment : Fragment(), CalenderAdapter.OnItemListener {
     ): View {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_hire_schedule, container, false)
+
         binding.confirmButton.setOnClickListener{
-            findNavController().navigate(R.id.action_hireScheduleFragment_to_paymentFragment)
+            val bundle =
+                bundleOf(
+                    "doggo_name" to arguments?.getString("doggo_name"),
+                    "doggo_breed" to arguments?.getString("doggo_breed"),
+                    "imageUrl" to arguments?.getString("imageUrl"),
+                    "description" to arguments?.getString("description"),
+                    "reviews" to arguments?.getString("reviews"),
+                    "start_date" to arguments?.getString("start_date"),
+                    "end_date" to arguments?.getString("end_date"),
+                    "cost" to arguments?.getString("cost"),
+                    "owner_id" to arguments?.getString("owner_id"),
+                    "owner_contact" to arguments?.getString("owner_contact"),
+                    "hiree" to arguments?.getString("hiree")
+                )
+            findNavController().navigate(R.id.action_hireScheduleFragment_to_navigation_cart, bundle)
         }
+        calenderRecyclerView = binding.calenderRecyclerView
         initialiseWidgets()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             dateSelection = LocalDate.now()
@@ -49,8 +68,9 @@ class HireScheduleFragment : Fragment(), CalenderAdapter.OnItemListener {
             binding.textMonthYear.text = dateForMonthYear(dateSelection)
         }
         val daysInMonth: ArrayList<String> = daysInMonthArray(dateSelection)
-        calenderRecyclerView?.layoutManager = GridLayoutManager(context, 7)
-        calenderRecyclerView?.adapter = CalenderAdapter(daysInMonth, this)
+        calenderRecyclerView.layoutManager = GridLayoutManager(context, 7)
+        calenderRecyclerView.adapter = CalenderAdapter(daysInMonth, this)
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

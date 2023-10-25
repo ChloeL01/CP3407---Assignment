@@ -35,11 +35,11 @@ class DoggoInformation : Fragment() {
             .centerCrop()
             .into(binding.imageView)
 
-        (activity as AppCompatActivity).supportActionBar?.title = arguments?.getString("doggo_name")
-        binding.textViewName.text = arguments?.getString("doggo_name")
-        binding.textViewBreed.text = arguments?.getString("doggo_breed")
-        binding.textViewDescription.text = arguments?.getString("description")
-        binding.textViewReviews.text = arguments?.getString("reviews")
+        (activity as AppCompatActivity).supportActionBar?.title = arguments?.getString("doggo_name", "")
+        binding.textViewName.text = arguments?.getString("doggo_name", "")
+        binding.textViewBreed.text = arguments?.getString("doggo_breed", "")
+        binding.textViewDescription.text = arguments?.getString("description", "")
+        binding.textViewReviews.text = arguments?.getString("reviews", "")
 
 
         binding.submitReview.setOnClickListener {
@@ -64,7 +64,7 @@ class DoggoInformation : Fragment() {
                     "hiree" to arguments?.getString("hiree")
                 )
             findNavController().navigate(
-                        R.id.action_doggoInformation_to_hireItem,
+                        R.id.action_doggoInformation_to_hireScheduleFragment,
                         bundle)
         }
 

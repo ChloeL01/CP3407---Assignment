@@ -55,21 +55,16 @@ class PaymentFragment : Fragment() {
 
 
     private fun initialisePayment(binding: FragmentPaymentBinding) {
-        val num = cardForm.cardNumber
-        val expireDate = cardForm.expirationDateEditText.toString()
-        val cvv = cardForm.cvv
-        val cardHolderName = cardForm.cardholderName
-        val postCode = cardForm.postalCode
-        val mobileNum = cardForm.mobileNumber
+//        val num = cardForm.cardNumber
+//        val expireDate = cardForm.expirationDateEditText.toString()
+//        val cvv = cardForm.cvv
+//        val cardHolderName = cardForm.cardholderName
+//        val postCode = cardForm.postalCode
+//        val mobileNum = cardForm.mobileNumber
         binding.hirePayment.setOnClickListener {
             if (cardForm.isValid) {
                 Toast.makeText(
-                    requireActivity(), "Card holder name: $cardHolderName \n" +
-                            "Card Number: $num \n" +
-                            "Card CVV: $cvv \n" +
-                            "Card expiry date: $expireDate \n" +
-                            "Card postal code: $postCode \n" +
-                            "Card mobile number: $mobileNum \n",
+                    requireActivity(), "Payment Successful!",
                     Toast.LENGTH_LONG
                 ).show()
             } else {
@@ -80,22 +75,22 @@ class PaymentFragment : Fragment() {
                 ).show()
             }
         }
-        binding.cardName.setText(cardHolderName)
-        binding.cardNumber.setText(num)
-        binding.cardCcvNumber.setText(cvv)
-        binding.cardExpiryDate.setText(expireDate)
-        binding.cardPostCode.setText(postCode)
-        binding.cardMobileNumber.setText(mobileNum)
+//        binding.cardName.setText(cardHolderName)
+//        binding.cardNumber.setText(num)
+//        binding.cardCcvNumber.setText(cvv)
+//        binding.cardExpiryDate.setText(expireDate)
+//        binding.cardPostCode.setText(postCode)
+//        binding.cardMobileNumber.setText(mobileNum)
     }
 
     private fun onClickPaymentConfirmation(cardInfoArray: Array<String>): MutableList<String> {
         val cardInfoList = cardInfoArray.toMutableList()
-        cardInfoList.add(binding.cardName.toString())
-        cardInfoList.add(binding.cardNumber.toString())
-        cardInfoList.add(binding.cardCcvNumber.toString())
-        cardInfoList.add(binding.cardExpiryDate.toString())
-        cardInfoList.add(binding.cardPostCode.toString())
-        cardInfoList.add(binding.cardMobileNumber.toString())
+//        cardInfoList.add(binding.cardName.toString())
+//        cardInfoList.add(binding.cardNumber.toString())
+//        cardInfoList.add(binding.cardCcvNumber.toString())
+//        cardInfoList.add(binding.cardExpiryDate.toString())
+//        cardInfoList.add(binding.cardPostCode.toString())
+//        cardInfoList.add(binding.cardMobileNumber.toString())
         return cardInfoList
     }
 
