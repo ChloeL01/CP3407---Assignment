@@ -68,12 +68,9 @@ class HireScheduleFragment : Fragment(), CalenderAdapter.OnItemListener {
             binding.textMonthYear.text = dateForMonthYear(dateSelection)
         }
         val daysInMonth: ArrayList<String> = daysInMonthArray(dateSelection)
-//        val daysInMonth: ArrayList<String> = arrayListOf("1", "2", "3")
         calenderRecyclerView.layoutManager = GridLayoutManager(context, 7)
-//        calenderRecyclerView?.adapter = CalenderAdapter(daysInMonth, this)
+        calenderRecyclerView.adapter = CalenderAdapter(daysInMonth, this)
 
-        val adapter = context?.let { CalenderAdapter(daysInMonth, this) }!!
-        calenderRecyclerView.adapter = adapter
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

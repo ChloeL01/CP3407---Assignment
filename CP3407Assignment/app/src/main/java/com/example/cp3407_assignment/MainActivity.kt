@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination: NavDestination, _ ->
             if (destination.id == R.id.listHireItem || destination.id == R.id.doggoInformation
                 || destination.id == R.id.login || destination.id == R.id.signup || destination.id == R.id.hireItem
+                || destination.id == R.id.hireScheduleFragment
             ) {
                 navView.visibility = View.INVISIBLE
             } else {
