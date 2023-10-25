@@ -62,14 +62,14 @@
             app:layout_constraintStart_toEndOf="@+id/create_ic"
             app:layout_constraintTop_toTopOf="@+id/create_ic" />
 
-        <Button
-            android:id="@+id/review_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="Leave a review"
-            app:layout_constraintStart_toEndOf="@+id/create_ic"
-            app:layout_constraintTop_toBottomOf="@+id/create_listing" />
+<!--        <Button-->
+<!--            android:id="@+id/review_btn"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="10dp"-->
+<!--            android:text="Leave a review"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/create_ic"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/create_listing" />-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,7 +11,7 @@ class Dog {
     var owner_id: String? = null
     var owner_contact: String? = null
     var imageUrl: String? = null
-
+    var id: String? = null
     constructor() {
         //empty constructor needed by firebase
     }

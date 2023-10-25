@@ -26,6 +26,7 @@ import com.google.firebase.storage.StorageReference
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
+    var dogId = ""
 
     //private val TAG = "MainActivity"
     private lateinit var firebaseFirestore: FirebaseFirestore
@@ -81,6 +82,7 @@ class HomeFragment : Fragment() {
             .addOnSuccessListener { queryDocumentSnapshots ->
                 for (documentSnapshot in queryDocumentSnapshots) {
                     val dog = documentSnapshot.toObject<Dog>()
+                    dogId = documentSnapshot.id
                     mUploads.add(dog)
                 }
                 val mAdapter = context?.let { ImageAdapter(it, mUploads) }
@@ -90,6 +92,7 @@ class HomeFragment : Fragment() {
                     override fun onClick(position: Int, model: Dog) {
                         val bundle =
                             bundleOf(
+                                "dogId" to model.id,
                                 "doggo_name" to model.doggo_name,
                                 "imageUrl" to model.imageUrl,
                                 "description" to model.description,

@@ -23,9 +23,6 @@
         <action
             android:id="@+id/action_navigation_dogs_to_listHireItem"
             app:destination="@id/listHireItem" />
-        <action
-            android:id="@+id/action_navigation_dogs_to_dogReview"
-            app:destination="@id/dogReview" />
     </fragment>
 
     <fragment
@@ -99,6 +96,9 @@
             android:name="end_date"
             app:argType="string"
             android:defaultValue="end date" />
+        <action
+            android:id="@+id/action_doggoInformation_to_dogReview"
+            app:destination="@id/dogReview" />
     </fragment>
     <fragment
         android:id="@+id/login"
@@ -153,7 +153,11 @@
     <fragment
         android:id="@+id/dogReview"
         android:name="com.example.cp3407_assignment.ui.dogs.DogReview"
-        android:label="DogReview" />
+        android:label="DogReview" >
+        <action
+            android:id="@+id/action_dogReview_to_doggoInformation"
+            app:destination="@id/doggoInformation" />
+    </fragment>
     <fragment
         android:id="@+id/changeMobile"
         android:name="com.example.cp3407_assignment.ui.profile.ChangeMobile"
