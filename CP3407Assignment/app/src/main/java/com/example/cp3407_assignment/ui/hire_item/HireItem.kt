@@ -43,9 +43,9 @@ class HireItem : Fragment() {
 
         (activity as AppCompatActivity).supportActionBar?.title = "Hire details"
 
-        val hire_start_date = arguments?.getString("start_date")
-        val hire_end_date = arguments?.getString("end_date")
-        val cost = arguments?.getString("cost")
+        val hire_start_date = requireArguments().getString("start_date", "")
+        val hire_end_date = requireArguments().getString("end_date", "")
+        val cost = requireArguments().getString("cost", "")
 
         hireItemViewModel.startDateInfo.observe(viewLifecycleOwner) {
             binding.startDateInfo.text = hireItemViewModel.startDateInfo.value
@@ -102,10 +102,10 @@ class HireItem : Fragment() {
                         "owner_contact" to arguments?.getString("owner_contact")
                     )
 
-                findNavController().navigate(
-                    R.id.action_hireItem_to_navigation_cart,
-                    bundle
-                )
+//                findNavController().navigate(
+//                    R.id.action_hireItem_to_navigation_cart,
+//                    bundle
+//                )
             }
             }
 
