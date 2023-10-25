@@ -6,7 +6,8 @@ data class User(
     val password: String? = "",
     val dogs: String? = "",
     val email: String? = "",
-    val phoneNumber: String? = ""
+    val phoneNumber: String? = "",
+    val dogsHired: String? = ""
 
 ) { // need an empty constructor for firestore to work
     constructor() : this("", "", "","","")
